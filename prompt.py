@@ -1,66 +1,76 @@
 SPEAKING_SENTENCE_PROMPT = """
 ## Instruction
 
-You are generating an English speaking sentence unit for a Korean learner.
+You generate high-frequency English speaking sentence units for a Korean learner.
 
-The goal is:
-- To help the learner speak naturally in real conversations.
-- To build short, reusable sentence units.
-- To improve active speaking, not passive vocabulary knowledge.
-- To prioritize sentences the learner is likely to actually say.
-- To make each sentence feel connected to a real-life situation.
-- To avoid textbook-like, stiff, overly formal, or unnatural sentences.
+This is STAGE 1 of a 3-stage pipeline:
+1. Generate only high-frequency spoken sentence units.
+2. Add social/scenario metadata.
+3. Build the webtoon/sitcom scene.
 
-The output should feel like:
-- something a native speaker might actually say,
-- something useful in daily conversation,
-- something useful in workplace conversation,
-- something the learner can say within 3 seconds,
-- something reusable with small changes.
+In this stage, do NOT optimize for sitcom story, character casting, or jokes.
+Your only job is to choose sentences the learner will hear and need repeatedly.
 
 ---
 
 ## Target Learner
 
 - Native language: Korean
-- English level: B1–B2
+- English level: B1-B2
 - Goal: daily conversation and workplace conversation
 - Current priority: speaking fluency over vocabulary depth
 
 ---
 
-## Definition of Sentence Unit
-
-A sentence unit is NOT:
-- an isolated word,
-- a collocation by itself,
-- a grammar explanation,
-- a long written-style sentence,
-- a memorized textbook phrase with limited use.
+## Sentence Unit Definition
 
 A sentence unit MUST be:
 - a complete natural English sentence,
 - short enough to say out loud easily,
 - useful in realistic conversation,
 - reusable through a simple pattern,
-- connected to a clear speaking intention.
+- connected to one clear speaking intention,
+- common enough that a normal English speaker might say it many times in a month.
 
-Good examples:
+A sentence unit is NOT:
+- an isolated word,
+- a collocation by itself,
+- a grammar explanation,
+- a long written-style sentence,
+- a rare joke line,
+- a scene-specific one-off sentence.
+
+---
+
+## Good Examples
+
 - I haven’t decided yet.
 - I’m not sure how to explain it.
 - Can I get back to you on that?
 - I didn’t mean it that way.
-- I was going to, but I changed my mind.
 - That makes sense.
 - I see what you mean.
 - I’m still working on it.
+- I’ll check and let you know.
+- Do you have a minute?
+- Sorry, I missed that.
+- What do you mean?
+- That works for me.
+- I’m running a little late.
+- Let me think about it.
+- It depends.
+- I’ll take care of it.
+- I didn’t catch that.
 
-Bad examples:
+## Bad Examples
+
 - Decision.
 - Make a decision.
-- I would like to hereby express my uncertainty regarding the matter.
 - The manager made an important decision at the meeting.
-- If I had known that this would happen, I would have prepared more thoroughly for the situation.
+- It is what it is, bro.
+- The quarterly compliance roadmap requires cross-functional alignment.
+- I would be honored to accompany you to the dining establishment.
+- The photocopier represents my emotional state.
 
 ---
 
@@ -76,37 +86,81 @@ If the avoid list is empty, generate fresh entries.
 
 ---
 
-## Generation Principles
+## Frequency Priority
 
-1. Focus on SENTENCE UNITS, not collocations.
-2. Each sentence must be something the learner can actually say in conversation.
-3. Prefer short, natural spoken English.
-4. Prefer first-person and second-person sentences.
-5. Each sentence should express one clear speaking intention.
-6. Avoid long, complex, written-style sentences.
-7. Avoid rare idioms, slang-heavy expressions, and overly formal phrases.
-8. Avoid sentences that are grammatically correct but unlikely in real conversation.
-9. Avoid generic textbook subjects like "The manager", "The company", or "The committee".
-10. Do NOT force collocations.
-11. Collocations may appear only if they naturally belong in the sentence.
-12. Do NOT over-explain grammar.
-13. Do NOT generate near-duplicate sentences.
-14. Do NOT artificially balance daily and workplace contexts.
-15. Choose the most natural context for each sentence.
-16. Give each sentence enough social/story metadata for a sitcom scene.
-17. Do not leave the relationship/context fields generic. Make clear who would say it, to whom,
-    under what pressure, and what story job the sentence performs.
+Before choosing a sentence, silently ask:
+"Would a normal English speaker plausibly say this sentence many times in a month?"
+
+Prefer these high-frequency speaking jobs:
+- asking for time or attention
+- asking for clarification
+- delaying an answer
+- giving status
+- agreeing or reacting
+- soft disagreement
+- making small requests
+- setting boundaries
+- offering help
+- apologizing lightly
+- confirming plans
+- checking availability
+- changing or confirming decisions
+
+Avoid sentences that are:
+- funny but rare,
+- too scene-specific,
+- too corporate,
+- too dramatic,
+- mainly useful for reading/writing, not speaking,
+- natural once, but not reusable.
 
 ---
 
-## Register
+## Output Format
 
-Register must be ONE of:
-- informal
-- standard
-- formal
+Return a JSON array only.
+Do not wrap it in Markdown.
+Do not include comments or extra text.
 
-Most sentences should be "standard" unless the sentence is clearly casual or clearly formal.
+Every object must contain exactly these fields:
+
+- sentence_unit: string
+  A complete natural English sentence. Short and easy to say out loud.
+
+- korean_trigger: string
+  A natural Korean sentence that would make the learner want to say this English sentence.
+  This should not be a literal translation only.
+
+- speaking_intent: string
+  A short English label for the speaking job, e.g. "ask for clarification", "set a boundary".
+
+- frequency_reason: string
+  One short English reason why this sentence is common and reusable.
+
+Generate EXACTLY {n} objects.
+"""
+
+
+SPEAKING_METADATA_PROMPT = """
+## Instruction
+
+You add social/scenario metadata to already-selected high-frequency English speaking sentences.
+
+This is STAGE 2 of a 3-stage pipeline:
+1. Sentence units were already selected for frequency and usefulness.
+2. You add metadata that helps a later webtoon/sitcom scene use the sentence naturally.
+3. Another prompt will write the actual scene.
+
+Do NOT replace the sentence_unit.
+Do NOT make the sentence funnier or rarer.
+Do NOT optimize for a punchline.
+Your job is to identify who might say this sentence, to whom, under what social pressure.
+
+---
+
+## Input Sentence Units
+
+{items}
 
 ---
 
@@ -118,22 +172,51 @@ Allowed domains:
 - academic
 - customer/service
 
+For this learner, prefer:
+- daily and workplace for most sentences,
+- customer/service only when the sentence naturally fits short service interactions,
+- academic only when the sentence naturally fits school/classroom flashback situations.
+
 primary_used_in must be exactly ONE allowed domain.
 used_in must be an array containing one or more allowed domains.
-used_in can contain multiple domains, but primary_used_in must be exactly one.
+
+---
+
+## Register
+
+Register must be ONE of:
+- informal
+- standard
+- formal
+
+Most sentences should be "standard" unless clearly casual or clearly formal.
+
+---
+
+## Character Fit
+
+character_fit is only a weak downstream hint.
+Choose likely characters from:
+- hanyoil: effortful, approval-seeking, over-prepares, wants to handle things well
+- ru-ha: dry one-liner, deflects tension with jokes, quietly helps
+- hanyuyeon: team lead, controls through planning, high standards
+- so-ae: detail-oriented, corrects small errors, over-explains when interested
+- hyo-jeong: off-angle sincere friend, service-job hopper, reacts oddly to the current object/situation
+
+Do not force sitcom casting. If unsure, choose 1-2 plausible characters.
 
 ---
 
 ## Required JSON Fields
 
+Return a JSON array with the SAME number and order as the input.
 Every object must contain exactly these fields:
 
 - sentence_unit: string
-  A complete natural English sentence. Short and easy to say out loud.
+  Copy the exact input sentence_unit.
 
 - korean_trigger: string
-  A natural Korean sentence that would make the learner want to say the English sentence.
-  This should NOT be a literal translation only.
+  Copy or lightly improve the input korean_trigger.
 
 - register: "informal" | "standard" | "formal"
 
@@ -169,6 +252,7 @@ Every object must contain exactly these fields:
 - politeness: "direct" | "softened" | "polite" | "very_polite"
 
 - micro_situation: Korean string
+  A concrete Korean speaking situation. Keep it ordinary and reusable.
 
 - story_function: one of:
   "starts_conflict",
@@ -189,14 +273,15 @@ Every object must contain exactly these fields:
 
 ## Metadata Principles
 
+- Match relationship and power_dynamic logically.
+- employee_to_boss usually means upward.
+- boss_to_employee usually means downward.
+- staff_to_customer usually means service_to_customer.
+- customer_to_staff usually means customer_to_service.
 - Do not make every workplace sentence formal.
 - Do not force all service sentences to be staff_to_customer; include customer_to_staff too.
-- Match relationship and power_dynamic logically:
-  employee_to_boss usually means upward.
-  boss_to_employee usually means downward.
-  staff_to_customer usually means service_to_customer.
-  customer_to_staff usually means customer_to_service.
-- character_fit should reflect character personality, not just domain.
+- story_function should describe how the sentence naturally works in a tiny scene.
+- character_fit should reflect sentence/social fit, not domain quota.
 - avoid_with should be an empty array when there is no meaningful warning.
 
 ---
@@ -206,8 +291,4 @@ Every object must contain exactly these fields:
 Return a JSON array only.
 Do not wrap it in Markdown.
 Do not include comments or extra text.
-
----
-
-Generate EXACTLY {n} objects.
 """

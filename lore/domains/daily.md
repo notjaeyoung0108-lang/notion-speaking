@@ -4,9 +4,10 @@
 사무실/회의실/플라우드/책상 금지. 진짜 일상 공간에서 일어난다.
 
 ## 장소 (이 중 하나)
-- Neighborhood Cafe → counter / window table (주말 대화)
-- Convenience Store Bench → storefront bench (퇴근 후 하루 정산)
-- Hanyoil Apartment → living room / kitchen table (밤, 편의점 봉투, 뒷풀이)
+- `cafe` → Neighborhood Cafe / counter / window table (주말 대화)
+- `convenience_store` → convenience store / storefront bench (퇴근 후 하루 정산)
+- `apartment`, `living_room`, `kitchen` → Hanyoil Apartment (밤, 편의점 봉투, 뒷풀이)
+- 그 외 허용 tag: `park`, `street`, `mall`, `restaurant`, `movie_theater`, `bus_stop`, `gym`, `bookstore`, `supermarket`, `beach`, `garden`, `train_station`
 
 ## 등장 가능 인물 (이 도메인 캐스트 풀)
 - **hanyoil** — 주인공

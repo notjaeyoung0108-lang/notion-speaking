@@ -20,6 +20,8 @@ def sanitize_character_bible(text: str) -> str:
     local role functions instead of Friends character names.
     """
     out = text or ""
+    out = re.sub(r"\bPhoebe\s*[- ]?style\b", "off-angle sincere reaction", out, flags=re.I)
+    out = re.sub(r"\bPhoebe식\b", "off-angle sincere", out, flags=re.I)
     for archetype, role_function in _ARCHETYPE_ROLE_FUNCTIONS.items():
         out = re.sub(
             rf"\barchetype\s+\*\*{re.escape(archetype)}\*\*",

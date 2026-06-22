@@ -1,77 +1,102 @@
-# ─────────────────────────────────────────────────────────
-# poses.yaml — 포즈(자세) 메뉴
+# poses.yaml
 #
-# 4컷 생성 시 GPT(Visual Director)가 각 패널 대사에 맞춰 아래 key 중 하나를 고른다.
-# 코드가 key → tags 로 변환해 프롬프트에 넣는다. (expressions.yaml 과 동일 구조)
-#
-#   tags     : SDXL/Danbooru 포즈 태그 (실제로 프롬프트에 들어감, 공백 표기)
-#   use_when : 이 포즈를 언제 쓰는지 (GPT 선택 가이드)
-#
-# ⚠️ 여기에는 **몸 자세만** 둔다. 표정어(smile, frown, smirk, naughty …)는 절대 넣지 말 것
-#    — 표정은 expressions.yaml 한 곳에서만 관리한다(이중 태깅 방지).
-# ⚠️ "holding" 류는 단독이면 약하므로 사물을 붙인다(holding cup / phone / paper).
-#
-# 새 포즈는 key + tags + use_when 만 적으면 GPT 선택지에 자동 포함된다.
-# ─────────────────────────────────────────────────────────
+# Illustrious/Danbooru-friendly motion menu.
+# Visual generation chooses exactly one body_pose and at most one gesture.
+# The code combines them into the legacy "action" tag string for SD prompts.
 
+body_poses:
+  standing:
+    tags: standing
+    use_when: neutral standing pose, default for most conversation panels
+  sitting:
+    tags: sitting
+    use_when: seated at a desk, cafe table, classroom, or waiting area
+  leaning_forward:
+    tags: leaning forward
+    use_when: focused explanation, urgency, asking, pressure, leaning into a conversation
+  walking:
+    tags: walking
+    use_when: moving through a hall, store aisle, street, or workplace
+  crouching:
+    tags: crouching
+    use_when: looking for something low, checking a shelf, picking something up
+
+gestures:
+  none:
+    tags: ""
+    use_when: body pose alone is clearer; avoid unnecessary hand conflict
+  arms_crossed:
+    tags: crossed arms
+    use_when: guarded, skeptical, stubborn, waiting, mildly defensive
+  hands_on_hips:
+    tags: hands on hips
+    use_when: confident, impatient, supervisor-like, mock authority
+  pointing:
+    tags: pointing
+    use_when: indicating a person, object, board, receipt, or visible mistake
+  pointing_at_screen:
+    tags: pointing at screen
+    use_when: explaining something on a monitor, phone, kiosk, or displayed document
+  hand_on_chin:
+    tags: hand on own chin
+    use_when: thinking, reconsidering, trying to understand
+  hand_on_forehead:
+    tags: hand on own forehead
+    use_when: overwhelmed, embarrassed, light regret
+  facepalm:
+    tags: facepalm
+    use_when: obvious mistake, comic regret, disbelief
+  head_in_hands:
+    tags: head down, hands on own head
+    use_when: overwhelmed or mentally collapsing
+  shrug:
+    tags: shrug
+    use_when: unsure, helpless, casual deflection
+  hand_raised:
+    tags: hand up
+    use_when: asking a question, volunteering, interrupting politely
+  waving:
+    tags: waving
+    use_when: greeting, getting attention, calling someone over
+  hands_clasped:
+    tags: own hands together
+    use_when: pleading, hopeful request, nervous politeness
+  holding_cup:
+    tags: holding cup
+    use_when: cafe, break room, casual talk, waiting
+  holding_phone:
+    tags: holding phone
+    use_when: call, text, schedule, message, notification
+  holding_paper:
+    tags: holding paper
+    use_when: notes, receipt, report, form, printed agenda
+  holding_laptop:
+    tags: holding laptop
+    use_when: showing work, carrying a laptop, checking a task
+  typing:
+    tags: typing
+    use_when: working at a computer or laptop
+
+# Legacy combined menu kept for backward compatibility with older tools.
 poses:
   standing:
     tags: standing
-    use_when: 중립/기본 — 특별한 동작 없음
-  arms_crossed:
-    tags: crossed arms
-    use_when: 단호함, 방어, 못마땅함, 고집
-  hands_on_hips:
-    tags: hands on hips
-    use_when: 자신감, 추궁, 짐짓 으스댐
-  pointing:
-    tags: pointing
-    use_when: 지적, 제안 강조, 무언가를 가리킴
-  pointing_at_screen:
-    tags: pointing at screen, looking at another
-    use_when: 모니터/문서를 가리키며 설명
-  leaning_desk:
-    tags: leaning forward, hand on table
-    use_when: 사무실에서 들여다보거나 몰입한 대화
-  thinking:
-    tags: hand on own chin
-    use_when: 고민, 제안 직전, 따져보는 중
-  hand_on_forehead:
-    tags: hand on own forehead
-    use_when: 골치 아픔, 피곤, 가벼운 좌절
-  facepalm:
-    tags: facepalm
-    use_when: 어이없음, 한심함, 좌절의 정점
-  head_in_hands:
-    tags: head down, hands on own head
-    use_when: 멘붕, 마감 압박, 무너짐
-  shrug:
-    tags: shrug
-    use_when: 모르겠다, 체념, 어쩔 수 없음
-  holding_mug:
-    tags: holding cup
-    use_when: 커피/탕비실/여유로운 한마디
-  holding_phone:
-    tags: holding phone
-    use_when: 통화, 대기, 메시지 확인
-  holding_paper:
-    tags: holding paper
-    use_when: 문서/보고서/서류 검토
-  holding_laptop:
-    tags: holding laptop
-    use_when: 노트북 들고 보여주거나 확인
-  typing:
-    tags: typing, sitting
-    use_when: 책상에서 업무 중
+    use_when: neutral standing pose
   sitting:
     tags: sitting
-    use_when: 앉아서 대화/회의
-  hand_raised:
-    tags: hand up
-    use_when: 발언/제안/손들기
-  waving:
-    tags: waving
-    use_when: 인사, 부름
-  hands_clasped:
-    tags: own hands together
-    use_when: 부탁, 사정, 조심스러운 제안
+    use_when: seated conversation
+  leaning_forward:
+    tags: leaning forward
+    use_when: focused or urgent conversation
+  arms_crossed:
+    tags: crossed arms
+    use_when: guarded or skeptical gesture
+  hands_on_hips:
+    tags: hands on hips
+    use_when: confident or impatient gesture
+  pointing:
+    tags: pointing
+    use_when: indicating something visible
+  holding_paper:
+    tags: holding paper
+    use_when: notes, report, receipt, agenda

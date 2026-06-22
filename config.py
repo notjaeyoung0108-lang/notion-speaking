@@ -43,9 +43,10 @@ FINAL_AAC_ENG = AAC_DAY_DIR / f"{YY_MM_DD}_speaking_영어.aac"
 
 DEFAULT_THEME = os.getenv(
     "SPEAKING_THEME",
-    "daily and workplace situations a Korean B1-B2 learner is likely to speak in",
+    "high-frequency daily and workplace sentences people actually say all the time",
 )
 DEFAULT_COUNT = int(os.getenv("SPEAKING_COUNT", "20"))
 
 MODAL_DISABLED = os.getenv("MODAL_DISABLED") == "1"
 BUILD_AAC = os.getenv("BUILD_AAC") == "1"
+OPENAI_SSL_VERIFY = os.getenv("OPENAI_SSL_VERIFY", "1") != "0"

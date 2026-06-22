@@ -19,5 +19,6 @@ data/comic_out/
 data/TTS/
 data/AAC/
 comic/render_out*/
+comic/output/
 
 # ── keep curated source: lore/, comic/data/*.yaml, data/sentences/, data/state/ ──

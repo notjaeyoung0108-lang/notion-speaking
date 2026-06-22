@@ -20,6 +20,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+import httpx
 import yaml
 from openai import OpenAI
 
@@ -30,11 +31,13 @@ if __package__:
     from .config_loader import (
         build_expression_menu,
         build_location_menu,
+        build_motion_menu,
         build_pose_menu,
         load_characters,
         load_expressions,
         load_location_domains,
         resolve_expression,
+        resolve_motion,
         resolve_location,
         resolve_location_outfit_setting,
     )
@@ -57,11 +60,13 @@ else:
     from notion_speaking.comic.config_loader import (
         build_expression_menu,
         build_location_menu,
+        build_motion_menu,
         build_pose_menu,
         load_characters,
         load_expressions,
         load_location_domains,
         resolve_expression,
+        resolve_motion,
         resolve_location,
         resolve_location_outfit_setting,
     )
@@ -168,8 +173,8 @@ _DOMAIN_FILE = {
 # 도메인별 등장 가능 캐스트 풀 (관계쌍 후보 필터 + 캐릭터 bible 슬라이스에 사용)
 _DOMAIN_CAST = {
     "workplace":        {"hanyoil", "ru-ha", "hanyuyeon", "so-ae"},
-    "daily":            {"hanyoil", "ru-ha", "so-ae", "hyo-jeong"},
-    "customer/service": {"hanyoil", "ru-ha", "so-ae", "hyo-jeong"},
+    "daily":            {"hanyoil", "so-ae", "hyo-jeong"},
+    "customer/service": {"hanyoil", "so-ae", "hyo-jeong"},
     "academic":         {"hanyoil", "so-ae", "hyo-jeong"},
 }
 _KNOWN_CHARS = {"hanyoil", "ru-ha", "so-ae", "hanyuyeon", "hyo-jeong"}
@@ -540,26 +545,31 @@ def _pick_char_outfit(char: str, setting: str, seed: int = 0) -> str:
 
 def _sentence_match_text(text: str) -> str:
     text = (text or "").lower()
+    text = text.replace("’", "'").replace("‘", "'").replace("`", "'")
+    text = re.sub(r"(?<=[a-z])\?(?=[a-z])", "'", text)
     text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
-    text = re.sub(r"[.!?]+", "", text)
+    text = re.sub(r"[^a-z0-9']+", " ", text)
     return " ".join(text.split())
+
+
+def _is_narration_bubble(text: str) -> bool:
+    return bool(re.match(r"^\s*(?:\((?:narration|caption|timecard)\)|\[(?:narration|caption|timecard)\])\s*", text or "", re.I))
 
 
 def _contains_exact_sentence(text: str, target_sentence: str) -> bool:
     target = _sentence_match_text(target_sentence)
     if not target:
         return False
-    candidates = [text]
-    candidates.extend(re.split(r"[.!?]+", text or ""))
-    return any(_sentence_match_text(candidate) == target for candidate in candidates)
+    haystack = f" {_sentence_match_text(text)} "
+    return f" {target} " in haystack
 
 
 def _exact_sentence_count(text: str, target_sentence: str) -> int:
     target = _sentence_match_text(target_sentence)
     if not target:
         return 0
-    candidates = re.split(r"[.!?]+", text or "")
-    return sum(1 for candidate in candidates if _sentence_match_text(candidate) == target)
+    haystack = f" {_sentence_match_text(text)} "
+    return haystack.count(f" {target} ")
 
 
 def _extract_example(panels: list[dict], collocation: str) -> tuple[str, str, str]:
@@ -682,23 +692,14 @@ def _plan_validation_issues(plan: dict, word: dict | None, selected_pair: str = 
             issues.append(f"target_listener must be service {relationship} listener '{service_roles['target_listener']}'")
 
     targets = _target_beats(plan)
+    beat_count = len(plan.get("beats") or [])
+    if beat_count != 6:
+        issues.append(f"plan must have exactly 6 beats, got {beat_count}")
     if len(targets) != 1:
         issues.append(f"exactly one beat must have has_collocation=true, got {len(targets)}")
     elif (str(targets[0][1].get("panel_type") or "").strip().lower() == "object"
           or not str(targets[0][1].get("speaker") or "").strip()):
         issues.append("has_collocation beat must be a character panel with a speaker")
-
-    prev_speaker = ""
-    for beat in plan.get("beats") or []:
-        if str(beat.get("panel_type") or "").strip().lower() == "object":
-            continue
-        speaker = _canonical_known_char(beat.get("speaker"))
-        if not speaker:
-            continue
-        if prev_speaker and speaker == prev_speaker:
-            issues.append(f"plan has same speaker twice in a row before script stage: {speaker}")
-            break
-        prev_speaker = speaker
 
     proof = plan.get("visible_proof_panel")
     if proof not in (None, "", "null"):
@@ -721,7 +722,12 @@ def _plan_validation_issues(plan: dict, word: dict | None, selected_pair: str = 
 def _script_validation_issues(script_panels: list[dict], plan: dict, word: dict | None) -> list[str]:
     issues: list[str] = []
     beats = plan.get("beats") or []
-    target = (word or {}).get("collocation unit", "")
+    target = (
+        (word or {}).get("collocation unit")
+        or (word or {}).get("sentence_unit")
+        or (word or {}).get("sentence unit")
+        or ""
+    )
     if len(script_panels) != len(beats):
         issues.append(f"script panel count {len(script_panels)} != plan beats {len(beats)}")
 
@@ -734,7 +740,6 @@ def _script_validation_issues(script_panels: list[dict], plan: dict, word: dict 
 
     found_indices = []
     target_count = 0
-    prev_char = ""
     for i, panel in enumerate(script_panels):
         beat = beats[i] if i < len(beats) else {}
         char = str(panel.get("char") or "").strip()
@@ -742,14 +747,9 @@ def _script_validation_issues(script_panels: list[dict], plan: dict, word: dict 
         bubble_kr = str(panel.get("bubble_kr") or "").strip()
         is_object = str(beat.get("panel_type") or "").strip().lower() == "object" or not str(beat.get("speaker") or "").strip()
 
-        if is_object and (char or bubble or bubble_kr):
+        object_has_allowed_narration = is_object and not char and _is_narration_bubble(bubble) and not bubble_kr
+        if is_object and (char or bubble or bubble_kr) and not object_has_allowed_narration:
             issues.append(f"panel {i + 1}: object panel must have empty char/bubble/bubble_kr")
-        if char:
-            canon = _canonical_known_char(char)
-            if prev_char and canon == prev_char:
-                issues.append(f"panel {i + 1}: same character speaks twice in a row ({canon})")
-            prev_char = canon
-
         count_here = _exact_sentence_count(bubble, target) if target else 0
         if count_here:
             found_indices.append(i)
@@ -760,8 +760,8 @@ def _script_validation_issues(script_panels: list[dict], plan: dict, word: dict 
             # 한 버블 = 한 비트가 목표지만, 짧고 자연스러운 되묻기/감탄
             # ("Really? A penguin?", "Oh no! I'm late.")은 학습자에게도 부담이 아니다.
             # 진짜 문제는 (a) 긴 줄, (b) 두 문장 '이상'을 욱여넣은 경우뿐.
-            too_long = len(words) > 14
-            crammed = len(splits) >= 2 and len(words) > 8
+            too_long = len(words) > 16
+            crammed = len(splits) >= 3 and len(words) > 12
             if too_long or crammed:
                 issues.append(f"panel {i + 1}: bubble too complex ({len(words)} words, {len(splits)} punctuation splits)")
             if _BANNED_JARGON_RE.search(bubble):
@@ -788,7 +788,8 @@ def _visual_validation_issues(visual_panels: list[dict], script_panels: list[dic
     for i, sp in enumerate(script_panels[:len(visual_panels)]):
         vp = visual_panels[i]
         is_object = not str(sp.get("char") or "").strip()
-        if not str(vp.get("action") or "").strip():
+        has_motion = str(vp.get("action") or "").strip() or str(vp.get("body_pose") or "").strip()
+        if not has_motion:
             issues.append(f"visual panel {i + 1}: missing action")
         if not is_object and not str(vp.get("expression") or "").strip():
             issues.append(f"visual panel {i + 1}: missing expression for character panel")
@@ -1073,7 +1074,7 @@ def _base_candidate_pairs(primary_domain: str, relationship: str) -> dict:
     pool = set(_DOMAIN_CAST.get(dom, _KNOWN_CHARS))
     rel = (relationship or "").strip()
 
-    if rel == "friend_to_friend":
+    if rel == "friend_to_friend" and not dom:
         pool |= {"hanyoil", "ru-ha", "hyo-jeong", "so-ae"}
     if rel in {"staff_to_customer", "customer_to_staff"}:
         pool |= {"hyo-jeong", "hanyoil", "so-ae"}
@@ -1166,6 +1167,8 @@ def _filter_relationship_candidates(
                 return any(names == pair_names and names & character_fit for pair_names in preferred)
             return names in preferred
         if relationship == "friend_to_friend":
+            if character_fit:
+                return bool(names & character_fit)
             return bool(names & {"hyo-jeong", "ru-ha"})
         if relationship in {"student_to_professor", "professor_to_student"}:
             return "so-ae" in names or "hyo-jeong" in names
@@ -1266,6 +1269,8 @@ def _apply_cast_quota(
     fit 을 완화해 균형 잡힌 대체 후보를 찾는다. 그래도 없으면 원래 후보를 그대로 둔다(정합성 우선)."""
     from collections import Counter
     if not total or not cands:
+        return cands, reason_map
+    if total < 10:
         return cands, reason_map
     cap_char = int(0.45 * total)   # 이 수 '이상'이면 포화 → 다음 픽 차단 (count==cap 까진 허용)
     cap_pair = int(0.35 * total)
@@ -1787,7 +1792,10 @@ def _build_cast_directive(anchor: dict | None) -> str:
 
 def _gpt_json(system_prompt: str, user_msg: str, model: str = MODEL_PLAN) -> dict:
     """단일 호출 → JSON. model 로 단계별 티어 지정."""
-    resp = OpenAI(timeout=OPENAI_TIMEOUT).chat.completions.create(
+    client_kwargs = {"timeout": OPENAI_TIMEOUT}
+    if not config.OPENAI_SSL_VERIFY:
+        client_kwargs["http_client"] = httpx.Client(verify=False, timeout=OPENAI_TIMEOUT)
+    resp = OpenAI(**client_kwargs).chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": system_prompt},
@@ -2044,6 +2052,11 @@ def _sanitize_visual_actions(visual_panels: list[dict], script_panels: list[dict
         is_object_panel = not ((script_panels[i].get("char") if i < len(script_panels) else "") or "").strip()
         action = (p.get("action") or "").strip()
         subject = (p.get("subject") or "").strip()
+        if not is_object_panel:
+            body_pose = (p.get("body_pose") or "").strip()
+            gesture = (p.get("gesture") or "").strip()
+            if body_pose:
+                action = resolve_motion(body_pose, gesture)
         for bad, good in _ACTION_REWRITE_MAP:
             if is_object_panel and re.search(r"\b" + re.escape(bad) + r"\b", subject, flags=re.I):
                 action = good
@@ -2106,6 +2119,7 @@ def write_visuals(plan, script_panels) -> list[dict]:
     prompt = build_visual_prompt(
         plan.get("situation", ""), sp,
         expression_menu=build_expression_menu(),
+        pose_menu=build_motion_menu(),
         char_demeanor=_char_demeanor(script_panels),
         planner_context=planner_context,
     )
@@ -2326,12 +2340,17 @@ def _generate_core(
             else:
                 outfit = outfit_cache.get(char) or _pick_char_outfit(char, outfit_setting, seed)
                 outfit_cache[char] = outfit
+        raw_bubble = sp.get("bubble", "")
+        raw_bubble_kr = sp.get("bubble_kr", "")
+        keep_object_bubble = is_object_panel and _is_narration_bubble(raw_bubble)
         p = {
             "panel_type": "object" if is_object_panel else "character",
             "char":       char,
             "outfit":     outfit,
             # action 은 GPT 가 danbooru 태그 직접 출력 → 그대로. expression 은 메뉴 key → tags 변환.
             "action":     (vp.get("action") or "standing").strip(),
+            "body_pose":  (vp.get("body_pose") or ("none" if is_object_panel else "standing")).strip(),
+            "gesture":    (vp.get("gesture") or "none").strip(),
             "subject":    (vp.get("subject") or "").strip(),
             "expression": "" if is_object_panel else resolve_expression(_safe_expression_key(vp.get("expression", "serious"))),
             "face_state": "" if is_object_panel else vp.get("face_state", "looking at viewer"),
@@ -2339,8 +2358,8 @@ def _generate_core(
             "location": plan.get("location", ""),
             "used_in": get_primary_domain(word),
             "target_sentence": (word or {}).get("collocation unit", ""),
-            "bubble":     "" if is_object_panel else sp.get("bubble", ""),
-            "bubble_kr":  "" if is_object_panel else sp.get("bubble_kr", ""),
+            "bubble":     raw_bubble if (not is_object_panel or keep_object_bubble) else "",
+            "bubble_kr":  "" if keep_object_bubble else ("" if is_object_panel else raw_bubble_kr),
             "seed_offset": SEED_OFFSETS[i] if i < len(SEED_OFFSETS) else i * 7,
         }
         if hair_ov:
@@ -2693,7 +2712,12 @@ def _counter_dict(counter) -> dict:
 
 
 def _diagnose_panels(word: dict, plan: dict, panels: list[dict]) -> dict:
-    target = word.get("collocation unit", "")
+    target = (
+        word.get("collocation unit")
+        or word.get("sentence_unit")
+        or word.get("sentence unit")
+        or ""
+    )
     beats = plan.get("beats") or []
     target_beats = _target_beats(plan)
     marked_idx = target_beats[0][0] if len(target_beats) == 1 else -1

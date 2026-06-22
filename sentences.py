@@ -5,13 +5,17 @@ import json
 import re
 import time
 
+import httpx
 import openai
 import pandas as pd
 
 from . import config
-from .prompt import SPEAKING_SENTENCE_PROMPT
+from .prompt import SPEAKING_METADATA_PROMPT, SPEAKING_SENTENCE_PROMPT
 
-_client = openai.OpenAI(api_key=config.OPENAI_API_KEY)
+_client_kwargs = {"api_key": config.OPENAI_API_KEY}
+if not config.OPENAI_SSL_VERIFY:
+    _client_kwargs["http_client"] = httpx.Client(verify=False)
+_client = openai.OpenAI(**_client_kwargs)
 
 COLUMNS = [
     "sentence_unit",
@@ -95,6 +99,21 @@ VALID_STORY_FUNCTIONS = {
     "sets_up_punchline",
 }
 VALID_CHARACTERS = {"hanyoil", "ru-ha", "hanyuyeon", "so-ae", "hyo-jeong"}
+_CHARACTER_ALIASES = {
+    "ruha": "ru-ha",
+    "ru_ha": "ru-ha",
+    "ru ha": "ru-ha",
+    "soae": "so-ae",
+    "so_ae": "so-ae",
+    "so ae": "so-ae",
+    "hyojeong": "hyo-jeong",
+    "hyo_jeong": "hyo-jeong",
+    "hyo jeong": "hyo-jeong",
+    "hannyueon": "hanyuyeon",
+    "hanyueon": "hanyuyeon",
+    "han yuyeon": "hanyuyeon",
+    "han_yuyeon": "hanyuyeon",
+}
 _PROMPT_AVOID_MAX = 800
 
 _HEADER_ALIASES = {
@@ -371,6 +390,21 @@ def _coerce_domain_consistency(rows: list[list[str]]) -> None:
             row[used_idx] = json.dumps(used, ensure_ascii=False)
 
 
+def _coerce_character_fit(rows: list[list[str]]) -> None:
+    idx = COLUMNS.index("character_fit")
+    for i, row in enumerate(rows, 1):
+        values = _list_cell(row[idx])
+        fixed = []
+        for value in values:
+            key = value.strip().lower()
+            mapped = _CHARACTER_ALIASES.get(key, key)
+            if mapped in VALID_CHARACTERS and mapped not in fixed:
+                if mapped != value:
+                    print(f"  🧹 row {i}: character_fit '{value}' → '{mapped}'")
+                fixed.append(mapped)
+        row[idx] = json.dumps(fixed, ensure_ascii=False)
+
+
 def _validate_rows(rows: list[list[str]]) -> None:
     checks = {
         "register": VALID_REGISTERS,
@@ -409,7 +443,7 @@ def _validate_rows(rows: list[list[str]]) -> None:
                 print(f"  ⚠️ row {i}: {col} 비어 있음")
 
 
-def _ask_gpt(theme: str, n: int, avoid: list[str]) -> str | None:
+def _ask_sentence_seeds(theme: str, n: int, avoid: list[str]) -> str | None:
     avoid_block = "\n".join(f"- {item}" for item in avoid[-_PROMPT_AVOID_MAX:]) or "(none yet)"
     try:
         resp = _client.chat.completions.create(
@@ -417,7 +451,7 @@ def _ask_gpt(theme: str, n: int, avoid: list[str]) -> str | None:
             messages=[
                 {
                     "role": "system",
-                    "content": "You generate concise structured English speaking practice material.",
+                    "content": "You generate high-frequency English speaking sentence units.",
                 },
                 {
                     "role": "user",
@@ -437,6 +471,52 @@ def _ask_gpt(theme: str, n: int, avoid: list[str]) -> str | None:
         return None
 
 
+def _ask_metadata(items: list[dict]) -> str | None:
+    try:
+        resp = _client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You add structured social metadata to English speaking practice sentences.",
+                },
+                {
+                    "role": "user",
+                    "content": SPEAKING_METADATA_PROMPT.format(
+                        items=json.dumps(items, ensure_ascii=False, indent=2),
+                    ),
+                },
+            ],
+        )
+        return resp.choices[0].message.content
+    except (openai.AuthenticationError, openai.PermissionDeniedError):
+        raise
+    except Exception as exc:
+        print(f"⚠️ OpenAI error (speaking metadata): {exc}")
+        return None
+
+
+def _parse_seed_items(text: str) -> list[dict]:
+    data = _extract_json_array(text)
+    if data is None:
+        return []
+    items = []
+    for item in data:
+        if not isinstance(item, dict):
+            continue
+        sentence = str(item.get("sentence_unit") or "").strip()
+        trigger = str(item.get("korean_trigger") or "").strip()
+        if not sentence or not trigger:
+            continue
+        items.append({
+            "sentence_unit": sentence,
+            "korean_trigger": trigger,
+            "speaking_intent": str(item.get("speaking_intent") or "").strip(),
+            "frequency_reason": str(item.get("frequency_reason") or "").strip(),
+        })
+    return items
+
+
 def generate_set(
     n: int = config.DEFAULT_COUNT,
     theme: str = config.DEFAULT_THEME,
@@ -445,35 +525,55 @@ def generate_set(
     history = load_history()
     seen = {_norm(item) for item in history}
     sentence_idx = COLUMNS.index("sentence_unit")
-    collected: list[list[str]] = []
+    seed_items: list[dict] = []
 
     for rnd in range(1, max_rounds + 1):
-        need = n - len(collected)
+        need = n - len(seed_items)
         if need <= 0:
             break
-        print(f"  🔸 speaking 생성 라운드 {rnd}: {need}개 요청 (누적 {len(collected)}/{n})")
-        text = _ask_gpt(theme, need, history + [row[sentence_idx] for row in collected])
+        print(f"  🔸 sentence seed 라운드 {rnd}: {need}개 요청 (누적 {len(seed_items)}/{n})")
+        text = _ask_sentence_seeds(theme, need, history + [item["sentence_unit"] for item in seed_items])
         if not text:
             time.sleep(1)
             continue
-        for row in _parse_output(text):
-            sentence = _norm(row[sentence_idx])
+        for item in _parse_seed_items(text):
+            sentence = _norm(item["sentence_unit"])
             if not sentence or sentence in seen:
                 continue
             seen.add(sentence)
-            collected.append(row)
-            if len(collected) >= n:
+            seed_items.append(item)
+            if len(seed_items) >= n:
                 break
         time.sleep(1)
 
-    if not collected:
+    if not seed_items:
         print("❌ 생성 실패: 새 speaking sentence를 얻지 못했습니다.")
         return False
-    if len(collected) < n:
-        print(f"  ⚠️ {n}개 목표 중 {len(collected)}개만 확보 — 최선본으로 진행")
+    if len(seed_items) < n:
+        print(f"  ⚠️ {n}개 목표 중 {len(seed_items)}개만 확보 — 최선본으로 진행")
+
+    print(f"  🔹 metadata 부여: {len(seed_items)}개")
+    metadata_text = _ask_metadata(seed_items)
+    if not metadata_text:
+        print("❌ metadata 생성 실패")
+        return False
+    collected = _parse_output(metadata_text)
+    if not collected:
+        print("❌ metadata 파싱 실패")
+        return False
+    if len(collected) != len(seed_items):
+        print(f"  ⚠️ metadata 개수 불일치: seed {len(seed_items)}개, metadata {len(collected)}개")
+
+    # Stage 2 must preserve the selected sentence units. Restore them by order
+    # when counts match, so metadata enrichment cannot accidentally rewrite them.
+    if len(collected) == len(seed_items):
+        for row, item in zip(collected, seed_items):
+            row[COLUMNS.index("sentence_unit")] = item["sentence_unit"]
+            row[COLUMNS.index("korean_trigger")] = item["korean_trigger"]
 
     _coerce_enum_rows(collected)
     _coerce_domain_consistency(collected)
+    _coerce_character_fit(collected)
     _validate_rows(collected)
     pd.DataFrame(collected, columns=COLUMNS).to_csv(
         config.STRUCTURED_CSV,

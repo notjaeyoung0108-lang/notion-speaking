@@ -4,9 +4,9 @@
 이 도메인의 핵심은 업무 그 자체가 아니라, 같은 일에 부딪히는 사람들의 반응 차이다.
 
 ## 장소 (이 중 하나)
-- Plaoud Office → office floor / HR desks
-- Meeting Room → conference table / presentation screen
-- Rooftop → lunch table / railing (점심·고민상담)
+- `office` → Plaoud Office / HR desks
+- `meeting_room` → conference table / presentation screen
+- `rooftop` → lunch table / railing (점심·고민상담)
 
 ## 등장 가능 인물 (이 도메인 캐스트 풀)
 - **hanyoil** — 사원 (주인공)

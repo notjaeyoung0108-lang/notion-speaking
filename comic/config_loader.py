@@ -102,6 +102,14 @@ def load_poses() -> dict:
     return _load("poses.yaml").get("poses", {})
 
 
+def load_body_poses() -> dict:
+    return _load("poses.yaml").get("body_poses", {})
+
+
+def load_gestures() -> dict:
+    return _load("poses.yaml").get("gestures", {})
+
+
 def resolve_pose(key: str | None) -> str:
     """포즈 key → SDXL/Danbooru tags. (resolve_expression 과 동일 동작)
 
@@ -124,6 +132,26 @@ def resolve_pose(key: str | None) -> str:
     return ", ".join(dict.fromkeys(out)) or "standing"
 
 
+def _resolve_motion_key(menu: dict, key: str | None) -> str:
+    raw = (key or "").strip()
+    if not raw:
+        return ""
+    norm = raw.lower().replace(" ", "_").replace("-", "_")
+    if norm in menu:
+        return (menu[norm].get("tags") or "").strip()
+    return raw
+
+
+def resolve_motion(body_pose: str | None, gesture: str | None) -> str:
+    """Combine one body pose and one gesture into Danbooru action tags."""
+    body = _resolve_motion_key(load_body_poses(), body_pose) or "standing"
+    gesture_tags = _resolve_motion_key(load_gestures(), gesture)
+    parts = [body]
+    if gesture_tags:
+        parts.append(gesture_tags)
+    return ", ".join(dict.fromkeys(p for p in parts if p))
+
+
 def build_pose_menu() -> str:
     """poses.yaml → GPT 프롬프트용 선택 메뉴 문자열."""
     lines = []
@@ -131,6 +159,16 @@ def build_pose_menu() -> str:
         use_when = (info or {}).get("use_when", "")
         lines.append(f"- {key}: {use_when}")
     return "\n".join(lines)
+
+
+def build_motion_menu() -> str:
+    body_lines = ["BODY_POSES (choose exactly one key):"]
+    for key, info in load_body_poses().items():
+        body_lines.append(f"- {key}: {(info or {}).get('use_when', '')}")
+    gesture_lines = ["GESTURES (choose exactly one key; use none when unclear):"]
+    for key, info in load_gestures().items():
+        gesture_lines.append(f"- {key}: {(info or {}).get('use_when', '')}")
+    return "\n".join(body_lines + [""] + gesture_lines)
 
 
 # ── 참고용 어휘 (현재 GPT 자동 선택 안 함) ──────────────────

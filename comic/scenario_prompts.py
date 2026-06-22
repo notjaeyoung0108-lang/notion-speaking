@@ -63,10 +63,12 @@ The relationship metadata is the source of truth. Do not contradict speaker_role
 
 def build_word_rule(collocation: str) -> str:
     return (
-        f'- The exact target sentence "{collocation}" MUST appear verbatim in one spoken English bubble\n'
+        f'- The exact target sentence "{collocation}" MUST appear verbatim inside one spoken English bubble\n'
+        f'- Natural short spoken wrappers are allowed around it when they make the line sound real '
+        f'(e.g. "Yeah,", "Honestly,", "I mean,", "Yes, but", "Okay, so")\n'
         f'- The sentence must be spoken by a character, never placed in an object/caption panel\n'
         f'- Choose the episode conflict so this exact sentence is something that character would genuinely say\n'
-        f'- Do NOT paraphrase, shorten, split, or grammatically alter the sentence\n'
+        f'- Do NOT paraphrase, shorten, split, or grammatically alter the target sentence words\n'
         f'- Do NOT directly explain the sentence\n'
         f'- Avoid textbook-style delivery\n'
         f'- Write natural spoken dialogue only'
@@ -208,6 +210,33 @@ and lead are PRE-SELECTED (see RELATIONSHIP note below); build the episode on th
 only the domain's cast and locations from the domain world above.
 
 Make the plan do this — and keep room to be creative within it:
+- DESIGN FOR SPEAKING MEMORY, not lore display. The viewer should remember:
+  "Oh, this is exactly when I can say the target sentence." The scene can be
+  funny, but the funny part must make the speaking moment easier to recall.
+- Build a tiny social trap, not a generic example. Use one concrete pressure
+  that a learner recognizes immediately: a late reply, a wrong order, a friend
+  waiting, a boss asking twice, a receipt mistake, a phone dying, a calendar
+  conflict, a small favor becoming awkward.
+- Keep the situation ordinary first, characterful second. The learner should
+  think "I have been in this situation," before noticing the joke. Do not invent
+  random trivia, fantasy facts, surreal lore, or wacky side topics unless the
+  target micro_situation is explicitly about that topic.
+- Think like a webtoon director with a small toolbox, not like a rule-follower.
+  You may freely use any ONE or TWO devices that fit the target sentence:
+  internal thought bubble, silent object cutaway, visible contradiction, object
+  pile-up, over-helpful action, tiny role-play break, deadpan reaction, awkward
+  politeness, before/after object state, or a character doing the literal version
+  of a normal phrase. Do not use a device just because it is listed.
+- The best device is the one that makes the target sentence easier to remember.
+  If the sentence says "quick", the scene may make "quick" visibly not quick.
+  If it asks for more time, the visible time pressure may grow. If it asks for
+  clarification, the missed detail should become practical and immediate. If it
+  promises an update, the thing-to-update may multiply.
+- After the target sentence, prefer one visible comic consequence over extra
+  explanation. The consequence should be drawable in a single panel and should
+  come from the character's personality or relationship pressure.
+- A thought bubble is allowed, but only as a reaction to something already visible.
+  Do not use thought bubbles to explain a joke that the picture did not earn.
 - SEED THE SCENE FROM THE TARGET SENTENCE'S micro_situation (the "situation" field above). That real-life
   moment is the SPINE — the concrete reason a real person would say THIS exact sentence. Build the episode AS
   a vivid, specific realization of that moment, then layer the selected character's trait ON TOP: the comedy
@@ -223,21 +252,66 @@ Make the plan do this — and keep room to be creative within it:
   · story function = where the target sentence belongs in the sitcom beat chain
 - If a metadata field is blank because an older CSV is used, infer the missing value once and keep it consistent.
 - Pick the clearest delivery_mode (character | object | action | setting | mixed) for the character conflict.
-- 4–8 panels. Map the character-conflict beats onto a COMEDY shape (SREP), not a lesson-shaped scene:
+- Use EXACTLY 6 panels for high-frequency speaking practice:
+  panel 1-2 establish the ordinary object/task/place, panel 3 raises the social pressure,
+  panel 4 or 5 contains the target sentence, and panel 6 is a grounded character button.
+  Avoid slow setups. Every panel should change the social pressure. This is a
+  flexible rhythm, not a fixed formula: choose the beat placement that makes the
+  target sentence feel most natural.
+- Map the character-conflict beats onto a COMEDY shape (SREP), not a lesson-shaped scene:
     · situation  = SET-UP    (establish the micro_situation concretely + who's who)
     · pressure   = REVEAL    (the selected character's trait WARPS that situation — the GAME appears as a
                               heightening OF the micro_situation, never a new topic)
-    · expression = LAND      (the EXACT TARGET SENTENCE is said here because the situation now DEMANDS it —
+    · expression = LAND      (the EXACT TARGET SENTENCE appears verbatim here because the situation now DEMANDS it —
                               it performs its own speech_act naturally: a request asks, a refusal refuses, a
                               reassurance reassures. It may be the driver's line OR the other character's
                               line — whichever the speech_act + speaker_role require. Do NOT force it to be an
-                              "exasperated reaction" when its speech_act is not a reaction.)
+                              "exasperated reaction" when its speech_act is not a reaction. A short spoken wrapper
+                              is allowed if it makes the line more conversational.)
     · confirmation = PAYOFF  (the next honest consequence of the driver facet — resolve, dodge,
                               escalate, undercut, or leave awkward residue)
   Extra panels = more escalation, never a new topic.
-- THE GAME OF THE SCENE: pick ONE character whose facet drives an absurd, SPECIFIC premise, and
+- THE GAME OF THE SCENE: pick ONE character whose facet drives a slightly heightened,
+  ORDINARY premise, and
   have them DOUBLE DOWN — each beat a bigger variation of the SAME premise — while the other
   reacts/condemns/tries to stop it. Comedy comes from heightening one thing, not many jokes.
+- Before choosing the facet, read that character's emotional engine. Pick the hidden need,
+  defense, soft spot, or contradiction that makes the target sentence feel like a human choice.
+  The facet is the visible behavior; the emotional engine is why they choose that behavior now.
+- Keep the premise low-stakes and drawable. A good premise fits in one image:
+  three reminder notes on a phone, a receipt longer than the table, two identical
+  coffee cups with opposite moods, a snack shelf slowly emptying, a meeting note
+  with one circled mistake. If it needs explanation, it is too abstract.
+- Use the available webtoon/image features freely when they help:
+  character panel, silent object panel, short speech bubble, short internal
+  thought bubble, visible prop, repeated prop getting worse, pose change,
+  expression change, same location with a changed object state. The output image
+  model can draw objects, poses, expressions, backgrounds, and speech bubbles;
+  it cannot draw a joke that exists only as abstract narration.
+- The target sentence must be the useful spoken move, not the punchline by
+  itself. The punchline is the visible consequence after it: someone complies
+  too literally, quietly relapses, reveals a small contradiction, or softens in
+  a character-specific way.
+- For high-frequency everyday sentences, prefer mundane triggers:
+  noisy cafe, missed detail, unclear plan, too many choices, calendar mismatch,
+  someone asking at a bad time, a task handoff, a tiny mistake on a receipt or
+  message. Avoid premise-first scenes where the target sentence could be removed
+  without changing the episode.
+- Phoebe-style reactions are welcome when hyo-jeong appears, but they must be
+  reactions to the current speaking pressure. Her oddness should attach to the
+  ordinary object or pressure already in the scene (receipt, snack, phone,
+  schedule, order, price, shelf, appointment), never open an unrelated tangent.
+  Do not use fake history, animal trivia, random science facts, surreal world
+  claims, or any premise that only exists so a quirky character can be quirky.
+- In customer/service episodes with hyo-jeong, remember the relationship:
+  the staff member and customer already know each other. The comedy should come
+  from friend familiarity colliding with staff/customer role-play, while the
+  actual service pressure stays clear (order, price, stock, reservation,
+  receipt, wait time, wrong item).
+- For clarification sentences like "Sorry, I didn't catch that" or "What do you
+  mean?", the missed information must be practical and immediate: a name, time,
+  order, instruction, address, price, plan, or task detail. Do not make the
+  confusing content a joke topic.
 - Do not plan by desired line type or scene-ending category.
   Plan the psychological cause: what does THIS character want, protect, avoid, or over-control
   in this exact moment? The target sentence should be the most character-plausible move available.
@@ -250,8 +324,9 @@ Make the plan do this — and keep room to be creative within it:
   word metadata unless you explicitly explain a safe correction in "metadata_correction".
 - target_speaker must be one of selected_pair's two characters.
 - target_listener should be the other selected_pair character unless the scene is clearly monologue/action-led.
-- BE SPECIFIC, not generic: a weird exact object/number/claim is funnier than a vague one
-  ("Grandma's 1973 kimchi jar", "soda and a potato peeler" — not "something fragile", "some tool").
+- BE SPECIFIC, not generic: a concrete everyday object, number, or visible state is more memorable
+  ("three unread messages", "a receipt for two coffees", "a 3:15 meeting", "one missing file" —
+  not "something important", "some problem").
 - Make the visible_learning_moment something a viewer literally SEES. Use an object/caption panel
   (speaker "") only when a screen/receipt/before-after state shows the character conflict faster than dialogue.
 - The "situation" you invent must be a fresh, specific realization OF the micro_situation — not a stock
@@ -320,14 +395,18 @@ Before returning, check:
 "sitcom_conflict": "one sentence: the tiny warm character conflict that makes the target sentence necessary",
 
 "comedic_game": {{
-"driver": "the ONE character who drives the absurd premise",
-"premise": "the single specific/absurd thing they insist on or keep doing (be concrete and weird)",
+"driver": "the ONE character who drives the slightly heightened everyday pressure",
+"premise": "the single specific ordinary thing they insist on or keep doing (be concrete and useful for the target sentence)",
 "escalation": "how it gets BIGGER beat by beat (variations of the SAME premise, not new jokes)",
 "button": "the final line or image as the next honest move from the driver's facet. It may resolve, dodge, escalate, undercut, or leave awkward residue, but it must come from character causality, not scene-closing convenience."
 }},
 
 "character_filter_collision": [
-{{"character": "name", "facet": "the habit/fear/standard this problem activates", "collision": "how it bumps against the other character/object/setting"}}
+{{"character": "name", "facet": "copy one exact facet label from that character's bible when possible; otherwise name the activated habit/fear/standard", "collision": "how it bumps against the other character/object/setting"}}
+],
+
+"emotional_engine": [
+{{"character": "name", "hidden_need": "what they want here", "defense": "how they protect themselves", "soft_spot_or_contradiction": "what makes this more than a one-note joke"}}
 ],
 
 "visible_learning_moment": "the concrete visible before/after, decision, object state, or reaction that makes the target sentence feel inevitable without defining it",
@@ -335,6 +414,7 @@ Before returning, check:
 
 "characters": ["0 to 3 names from the domain cast pool"],
 "problem": "the single problem that drives the episode",
+"beat_count": 6,
 
 "beats": [
 {{
@@ -377,6 +457,22 @@ beat, in that speaker order; object beats stay silent).
   ("bridge", "fancam", dance-move names), not obscure slang. A superfan/expert speaks in
   PLAIN words ("my favorite singer's old performance", NOT "the 2019 bridge").
 - Short, clear sentences. One beat per bubble (no cramming greeting+situation+feeling).
+- Make the scene useful to speak aloud. Each bubble should sound like something a
+  learner could repeat in a real conversation, not a narration of the plot.
+- Prefer direct social pressure over explanation. Let objects/actions show the
+  setup; let dialogue reveal what the character wants right now.
+- The dialogue should still work if it happened to the learner tomorrow. Avoid
+  random facts, trivia, fantasy details, or bits that are funny but not useful
+  for remembering the target sentence.
+- For everyday target sentences, never introduce fake history, animal trivia,
+  random science facts, or unrelated "did you know" topics. If hyo-jeong needs a
+  Phoebe-style line, make it an off-angle reaction to a practical missed detail,
+  schedule, order, task, receipt, phone, message, shelf, appointment, or plan.
+  If the brief contains an unrelated tangent, replace it while keeping the same
+  beat structure.
+- In customer/service scenes, keep the friend relationship audible in a small
+  way: one line may acknowledge "you work here now?" or "customer mode," but it
+  must immediately return to the service task.
 
 {_revision_block(feedback)}Follow the brief:
 - PANEL 1 must establish the situation from the dialogue alone — the reader sees only
@@ -387,18 +483,45 @@ beat, in that speaker order; object beats stay silent).
 - Each line REPLIES to the line before it. Stay on the ONE topic.
 - Preserve the brief's beat order and roles: situation → pressure → expression → confirmation
   (extra panels deepen the same character pressure, never a new topic).
+- Give each bubble a job:
+  panel 1 names the immediate problem in ordinary words,
+  pressure panels make the problem more awkward or more visible,
+  the target panel performs the needed social move,
+  the final panel gives a small consequence, reversal, or character button.
 - The exact target sentence lands on the beat marked "<<< the target sentence lands HERE", spoken by
   THAT beat's character — naturally. NEVER write a line whose only job is to display the
   sentence; it must fall out of a real exchange. Do NOT move it to another character.
-- Copy the target sentence verbatim, including contractions and word order. Do NOT paraphrase,
-  shorten, split, tense-shift, or add words inside it.
+- Copy the target sentence verbatim inside that bubble, including contractions and word order.
+  Do NOT paraphrase, shorten, split, tense-shift, or add words inside the target sentence words.
+  You MAY add a short natural spoken wrapper before or after it when it sounds more real:
+  "Yeah,", "Honestly,", "I mean,", "Yes, but", "Okay, so", "for now", "please".
+  Good: "Okay, so I need a little more time." Bad: "I might need more time."
 - Character voice must make the sentence feel motivated by this specific character's personality
   and relationship, not by a generic learning scenario.
 - For object-led panels, do not write captions. Let the object/state carry the meaning.
-- The exact target sentence must appear in a character's spoken dialogue, not in an object panel.
+- The exact target sentence must appear verbatim in a character's spoken dialogue, not in an object panel.
 - Final panel = the next honest character beat after the target sentence, legible at a glance.
   It may resolve, dodge, escalate, undercut, or leave small awkward residue. Choose the move THIS
   character would actually make.
+- You have webtoon devices available, but none are mandatory:
+  short internal thought bubble, silent object cutaway, visible contradiction,
+  prop pile-up, over-helpful action, deadpan reaction, awkward politeness, tiny
+  role-play break, before/after object state. Pick only what helps this exact
+  scene. Leave them unused when plain dialogue is stronger.
+- If you use an internal thought bubble, make it short and reactive. It should
+  respond to a visible action or object, not explain the joke. Good shape:
+  visible action first, thought reaction second.
+  Mark the English bubble with "(internally)" at the start so the renderer uses
+  the thought-bubble asset. Do not add this marker to bubble_kr.
+- If you need a brief narration/time-card box such as "15 minutes later", mark
+  the English bubble with "(narration)" at the start. Use this sparingly for
+  time jumps or simple scene context, not to explain the joke.
+  It can appear in the same script output as dialogue: set the panel's bubble to
+  "(narration) ..." and keep it short. Use it only when a time jump or quick
+  context card makes the next spoken line clearer.
+  Narration may be used on a silent object/caption panel; in that case keep
+  "char" empty and "bubble_kr" empty, and put only the English narration marker
+  in "bubble".
 - Characters use their behavior patterns (see bible) ONLY where it fits — never force a catchphrase.
 - Each speaking character's chosen facet from character_filter_collision MUST appear at least
   once in what they say or how they respond. The facet can be subtle, but it must affect an
@@ -416,26 +539,45 @@ beat, in that speaker order; object beats stay silent).
 ⭐ CHARACTER CAUSALITY — choose lines by inner pressure, not by ending shape:
 - For every bubble, silently answer: What does this character want here? What are they protecting
   or avoiding? How does the other person or setting pressure that defense?
+- Use the brief's emotional_engine field if present. Let the line reveal a hidden need,
+  defense, soft spot, or contradiction through ordinary dialogue, not through explanation.
 - Do not choose a line because it neatly ends the scene, teaches the lesson, or feels like the
   "right" closing answer. Any line is fine only when it is the most plausible thing this character
   would say under this pressure.
 - If a bubble sounds like any character could say it, rewrite it from the chosen facet.
 
 ⭐ FUNNY — play THE GAME from the brief (this is what makes it worth reading):
-- The driver keeps doubling down on the SAME absurd premise; each of their lines is a BIGGER,
+- The driver keeps doubling down on the SAME everyday pressure; each of their lines is a slightly stronger,
   more specific version, while the other reacts/condemns/tries to stop it. Don't resolve early.
-- BE SPECIFIC: a weird exact detail is funny; a vague one is not. "Grandma's 1973 kimchi jar"
-  not "something old"; "I saw it on a cooking show at 3am" not "I heard somewhere".
-- The TARGET SENTENCE often lands as the straight character's exasperated reaction to the
-  escalation (e.g. "Can we just deal with the problem the normal way?").
+- BE SPECIFIC: a concrete everyday detail is memorable; a vague one is not. "the 3:15 meeting"
+  not "the meeting"; "two unread texts" not "some messages".
+- Keep the joke conversational. No one should announce that something is funny,
+  weird, ironic, or a lesson. The comedy should come from the mismatch between
+  what one person is trying to do and what the other person can see.
+- Do not let a joke become the topic. If the target sentence is about missed
+  information, the scene is about missed information; if it is about being busy,
+  the scene is about pressure on time. The character bit can color the scene,
+  but it cannot replace the real speaking situation.
+- The TARGET SENTENCE should land as the useful spoken move the character needs right now.
+  It can be direct, softened, or wrapped in a tiny conversational lead-in, depending on the
+  relationship and pressure.
+- After the TARGET SENTENCE, if the brief supports it, show one visible comic
+  consequence of the sentence's ordinary meaning. Do not force this, but prefer
+  it over explanatory dialogue. Examples of shape, not wording: a "quick"
+  question creates a too-large whiteboard setup; "a little more time" makes the
+  clock/line/message count visibly worse; "I didn't catch that" reveals the
+  missed name/order/time right in front of them.
 - END ON A CHARACTER BUTTON: the last beat is whatever this character's facet naturally does next:
   a twist, deadpan topper, relapse, over-explanation, correction, dodge, reluctant softening, or
   small unresolved residue. Warmth is the frame; the character engine decides the line.
+- A strong final bubble is short and slightly turns the scene. Examples of the
+  shape, not wording: "I already made a backup." / "That was my simple version."
+  / "I chose both." / "Please don't make a chart."
 - Comedy comes from heightening ONE thing, not stacking random jokes. No memes, no puns for
   their own sake.
 
 Before returning the script, self-check:
-- Does the exact target sentence appear verbatim on the marked beat, spoken by that beat's character?
+- Does the exact target sentence appear verbatim inside the marked beat, spoken by that beat's character?
 - Did every "[SILENT OBJECT]" beat stay silent (empty char/bubble/bubble_kr)?
 - Does each character's reaction (from "WHO'S IN IT") visibly shape their lines?
 - Can you explain every bubble through that character's want + defense + relationship pressure?
@@ -473,8 +615,8 @@ def build_visual_prompt(
     char_demeanor="",
     planner_context="",
 ) -> str:
-    # action/expression 을 Danbooru 태그로 직접 출력시킨다(GPT 프롬프팅).
-    # (expression_menu/pose_menu 인자는 하위호환용으로 남기지만 쓰지 않는다.)
+    # expression/body_pose/gesture are menu-key selections. The renderer still
+    # receives a legacy combined action string for compatibility.
     return f"""You are the VISUAL DIRECTOR for a webtoon, generating Danbooru tags for an anime
 image model (Illustrious / NoobAI / Pony). For each panel, output image tags only — NO dialogue.
 
@@ -494,6 +636,13 @@ Danbooru tag rules (apply to action / expression / face_state / background):
   "calendar deadline"
 
 Per field:
+- For character panels, choose motion by menu keys first:
+  body_pose = exactly ONE key from BODY_POSES.
+  gesture = exactly ONE key from GESTURES; use "none" when unclear.
+  Do not invent body_pose or gesture keys. Do not stack multiple hand/arm/prop
+  gestures. The renderer will combine body_pose + gesture into action tags.
+  Use "none" sparingly: pressure, explanation, visible consequence, and reaction
+  panels usually need one concrete gesture unless it would conflict with the body pose.
 - action: the character's BODY POSE / gesture as Danbooru tags ONLY (e.g. "crossed arms",
   "leaning forward, hands on table", "pointing", "head scratch", "hand on hip", "arm support").
   Body/hands only — NO facial/emotional tags here. NO subject count (1girl), hair, eyes,
@@ -537,6 +686,9 @@ Per field:
 === EXPRESSION MENU (choose the "expression" value from these keys ONLY) ===
 {expression_menu}
 
+=== MOTION MENU ===
+{pose_menu}
+
 For object/caption panels (char is empty):
 - Do NOT invent a person. No character, no face, no body, no clothing.
 - Use "subject" to name the visible object/state/action clearly (e.g. "stack of receipts",
@@ -547,6 +699,7 @@ For object/caption panels (char is empty):
   (e.g. "placed on desk", "screen lit up", "scattered", "stacked", "displayed on screen").
 - background must be the same non-empty set/room background used by the character panels.
 - expression must be "none"; face_state must be "none".
+- body_pose must be "none"; gesture must be "none".
 
 Panels in order (char + their line):
 {script_panels_json}
@@ -562,10 +715,12 @@ Before returning, self-check:
 
 Return ONLY this JSON (SAME number and order as the panels above).
 "subject" = object/state for object panels, empty for character panels.
+"body_pose" = ONE key from BODY_POSES for character panels, "none" for object panels.
+"gesture" = ONE key from GESTURES for character panels, "none" for object panels.
 "action" = Danbooru pose tags for character panels OR object-state tags for object panels.
 "expression" = ONE key from the EXPRESSION MENU for character panels, "none" for object panels.
 face_state/background = Danbooru tags:
-{{ "panels": [ {{"subject": "", "action": "pose or object-state tags", "expression": "menu_key_or_none", "face_state": "gaze tag or none", "background": "scene tags"}} ] }}"""
+{{ "panels": [ {{"subject": "", "body_pose": "body_pose_key_or_none", "gesture": "gesture_key_or_none", "action": "pose or object-state tags", "expression": "menu_key_or_none", "face_state": "gaze tag or none", "background": "scene tags"}} ] }}"""
 
 
 # ── ④ Review Card (SDXL) — 표현별 단일 인출 단서 카드 ──────────────
