@@ -1,0 +1,49 @@
+# SDXL + ControlNet 파이프라인 (Mac M-series MPS / CUDA 둘 다 동작)
+# 설치: pip install -r requirements.txt
+#
+# Mac (Apple Silicon):
+#   - PyTorch 는 MPS 백엔드 자동 사용. CUDA 빌드 받지 말 것.
+#   - rembg 는 onnxruntime-silicon 권장 (아래 onnxruntime 줄을 onnxruntime-silicon 으로 교체).
+# Linux/Windows + NVIDIA (RunPod 등):
+#   - torch 는 CUDA 빌드 (https://pytorch.org/get-started/locally/)
+#     RunPod pytorch 이미지면 torch 이미 설치돼 있음 — 그대로 두면 OK
+#   - onnxruntime 대신 onnxruntime-gpu 권장 (아래 줄 교체)
+
+# torch 2.4.x (RunPod 기본 이미지) 호환 라인으로 상한 핀
+# transformers v5 / safetensors 0.8 / huggingface-hub 1.x / diffusers 0.32+ 는 torch 2.5+ 요구해서 깨짐
+# diffusers 0.38 의 Flash Attention 3 hook 가 PEP 604 union 을 써서 torch 2.4 infer_schema 가 못 읽음
+torch>=2.1.0
+torchvision
+diffusers>=0.30,<0.32
+transformers>=4.46,<5.0
+huggingface-hub>=0.24,<1.0
+accelerate>=0.30,<2.0
+safetensors>=0.4,<0.5
+peft>=0.7.0,<0.18
+
+# 이미지/배경 제거
+Pillow>=10.0.0
+numpy<2.0
+rembg>=2.0.50
+# Mac: onnxruntime-silicon / Linux+CUDA: onnxruntime-gpu / 기본(CPU): onnxruntime
+onnxruntime
+
+# ControlNet 보조 (Midas depth 등)
+controlnet-aux>=0.0.7
+timm
+
+# 얼굴 검출
+ultralytics>=8.0.0
+
+# GPT 시나리오 생성
+openai>=1.30.0
+python-dotenv
+
+# 노션 (선택)
+requests
+
+# SSL/네트워크
+certifi
+
+# YAML 설정 (characters/expressions/outfits 등)
+pyyaml

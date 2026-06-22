@@ -1,0 +1,276 @@
+# ─────────────────────────────────────────────────────────
+# characters.yaml — 캐릭터 정의 (prompts.py CHARS 의 단일 소스)
+#
+# 각 캐릭터:
+#   lora            : LoRA 경로
+#   appearance_tags : 트리거워드 외 외형 태그 (눈 등 — 머리는 hair 로 분리)
+#   hair            : 머리 (색+스타일)
+#   body_tags       : 체형/피부 태그
+#   action          : 기본 포즈 (씬별로 GPT가 덮어씀)
+#   face_state      : 기본 시선 (씬별로 GPT가 덮어씀)
+#   expression      : 기본 표정 (단독 이미지/폴백용. 4컷은 GPT가 expressions.yaml 에서 선택)
+#   outfits         : 의상 세트 (캐릭터별로 다름)
+#       outfit        : 옷 (고정)
+#       state         : 노출/맨살 상태 태그 (cleavage, navel, midriff …)
+#       props         : 소품
+#       hair_override : 이 의상에 어울리는 머리 (기본 머리 대신)
+#   비어 있는 state/props/hair_override 는 생략된다.
+#
+# ── 의상 key = setting 접두어 + 번호 (selection 코드가 접두어로 필터) ──
+#   workplace_N        : 사무실 (정장/사무실 캐주얼 …)
+#   daily_home_N       : 집 안 (집옷)
+#   daily_convenience_N: 편의점·근처 외출용 가벼운 복장
+#   daily_sport_N      : 운동
+#   daily_outing_N     : 일상 외출 (카페/약속)
+#   daily_dressup_N    : 꾸미고 가는 외출 (데이트/모임)
+#   academic_N         : 학원 회상 (교복) — config_loader.FLASHBACK_OUTFITS
+#   ⚠️ 의상 key 1개가 그 화 전원에게 적용된다. 등장 캐릭터 전원이 공통으로 가진
+#      key 중 setting 접두어로 시작하는 것에서 고른다(없으면 daily_outing 폴백).
+#      → 모든 캐릭터가 가진 접두어_1 은 항상 쓰이고, 한 명만 가진 _2 는 그 캐릭터 단독 씬에서만.
+# ─────────────────────────────────────────────────────────
+
+hanyoil:
+  lora:                                          # 다중 LoRA 블렌딩 (path + weight)
+    - path: /models/models/lora/hanyoil_01.safetensors
+      weight: 0.8
+    - path: /models/models/lora/hanyoil_02.safetensors
+      weight: 0.3
+  appearance_tags: 1girl, solo, light blush, black eyes
+  hair: black hair, long hair
+  body_tags: slim body, slim thighs, round breasts, medium breasts, close-set breasts, narrow waist, light skin
+  action: standing
+  face_state: looking at viewer, eye-level shot
+  expression: smile
+  outfits:
+    workplace_1:
+      outfit: dress shirt, white shirt, black pencil skirt, black pantyhose
+      state: cleavage
+      props: lanyard
+      hair_override: ponytail
+    workplace_2:
+      outfit: dress shirt, skyblue shirt, sleeveless shirt, gray dress pants
+      state: cleavage
+      props: lanyard
+    workplace_3:
+      outfit: white turtleneck, sleeveless shirt , dress pants, black pants, high-waist pants
+      props: lanyard
+    workplace_4:
+      outfit: dress shirt, skyblue shirt, sleeveless shirt,gray pencil skirt, no stockings
+      state: cleavage
+      props: lanyard
+    workplace_5:
+      outfit: white turtleneck, sleeveless shirt , black pencil skirt, no stockings
+      props: lanyard
+    workplace_6:
+      outfit: dress shirt, white shirt, sleeveless shirt,black pencil skirt, long skirt, no stockings
+      state: cleavage
+      props: lanyard
+    workplace_7:
+      outfit: skyblue turtleneck, sleeveless shirt , gray pencil skirt, no stockings
+      props: lanyard
+    workplace_8:
+      outfit: red turtleneck, sleeveless shirt , dress pants, black pants, high-waist pants
+      props: lanyard
+    daily_home_1:
+      outfit: white camisole, dolphin shorts, black shorts
+      state: cleavage
+    daily_home_2:
+      outfit: pink negligee, see-through negligee
+      state: cleavage
+    daily_home_3:
+      outfit: white nightgown, see-through nightgown
+      state: cleavage
+    daily_home_4:
+      outfit: white camisole, gray dolphin shorts
+      state: cleavage
+    daily_home_5:
+      outfit: black negligee, see-through negligee
+      state: cleavage
+    daily_sport_1:
+      outfit: white tanktop, crop_top, lowleg pants, black leggings
+      state: navel, midriff, cleavage
+    daily_sport_2:
+      outfit: white shirt, long sleeves, compression shirt, gray pants, track pants
+      state: cleavage
+    daily_convenience_1:
+      outfit: gray dress,long dress, white cardigan, cropped cardigan
+      state: cleavage, single bare shoulder
+    daily_convenience_2:
+      outfit: plaid shirt, open shirt, navy shirt, black tanktop, gray sweatpants, lowleg pants
+      state: navel, midriff, cleavage
+      props: black cap
+      hair_override: black hair, ponytail
+    daily_convenience_3:
+      outfit: white shirt, long sleeves, compression shirt, gray pants, track pants
+      state: cleavage
+    daily_convenience_4:
+      outfit: gray camisole, white cardigan, cropped_cardigan, see-through cardigan, denim shorts, blue shorts, high-waist shorts
+      state: cleavage, bare shoulders
+    daily_convenience_5:
+      outfit: black tanktop, blue jeans, high-waist jeans
+      state: cleavage
+      hair_override: black hair, ponytail
+    daily_outing_1:
+      outfit: turtleneck, black sweater, crop_top, denim shorts, black shorts
+      state: navel, midriff
+    daily_outing_2:
+      outfit: gray tanktop, lowleg pants, cargo pants, black panties, highleg_panties
+      state: pantyshot, cleavage, collarbone
+    daily_outing_3:
+      outfit: white T-shirt, compression_shirt, blue jeans
+      state: cleavage
+    daily_outing_4:
+      outfit: white camisole, white cardigan, cropped_cardigan, pleated_skirt, black skirt, mini skirt
+      state: cleavage, collarbone, single bare shoulder
+    daily_outing_5:
+      outfit: black turtleneck, short sleeves, crop_top, blue jeans, lowleg jeans
+      state: navel, midriff
+      hair_override: black hair, ponytail
+    daily_outing_6:
+      outfit: white turtleneck, sleeveless turtleneck, crop_top, blue jeans
+      state: navel, midriff
+    daily_outing_7:
+      outfit: red turtleneck, sleeveless turtleneck, crop_top,black jeans, torn jeans, lowleg jeans
+      state: navel, midriff
+    daily_outing_8:
+      outfit: white halterneck, crop_top, denim skirt, blue skirt
+      state: navel, midriff
+    daily_outing_9:
+      outfit: black halterneck, crop_top, denim shorts, black shorts
+      state: navel, midriff
+    daily_outing_10:
+      outfit: black sweater, off-shoulder sweater, long sleeves, denim shorts, black shorts, torn shorts
+      state: cleavage, off shoulder
+    daily_dressup_1:
+      outfit: short dress, black dress, lace sleeves, long sleeves, see-through cutout
+      props: earrings, black handbag
+    daily_dressup_2:
+      outfit: short dress, black dress, white cardigan, see-through jacket, open jacket, cropped jacket, sleeveless dress
+      state: cleavage, collarbone, single bare shoulders
+      props: earrings, black handbag
+    academic_1:
+      outfit: white collared shirt, gray pencil skirt, mini skirt, red tie, no stockings
+    special_1:
+      outfit: black turtleneck, short sleeves, crop_top,  bra_visible_through_clothes, black bras, white jeans
+      state: navel, midriff
+
+
+ru-ha:
+  lora: /models/models/lora/ru-ha.safetensors
+  appearance_tags: 1girl, solo, red eyes
+  hair: grey hair, long hair, curtained hair, straight hair
+  body_tags: slim body, slim thighs, pale skin, small breasts
+  action: standing
+  face_state: looking at viewer, eye-level shot
+  expression: expressionless
+  outfits:
+    workplace_1:
+      outfit: white collared shirt,  gray pencil skirt, black pantyhose
+    workplace_2:
+      outfit: black turtleneck, long skirt, gray pencil skirt
+      props: lanyard
+    daily_home_1:
+      outfit: white shirt, oversized shirt, gray shorts, dolphin shorts
+    daily_convenience_1:
+      outfit: oversized grey hoodie, black short shorts, slippers
+    daily_sport_1:
+      outfit: black sports bra, black leggings, cropped tank top
+      state: midriff
+    daily_outing_1:
+      outfit: black turtleneck, long sleeve, blue jeans
+    daily_dressup_1:
+      outfit: black dress, white cardigan,
+      state: collarbone
+      props: earrings, small bag
+    academic_1:
+      outfit: white collared shirt, navy pencil skirt, mini skirt, navy tie, no stockings
+      hair_override: black hair, long hair, curtained hair, straight hair
+
+so-ae:
+  lora: /models/models/lora/so-ae.safetensors
+  appearance_tags: 1girl, solo, brown eyes
+  hair: black hair, medium hair, bangs
+  body_tags: slim body, slim thighs, medium breasts
+  action: standing
+  face_state: looking at viewer, eye-level shot
+  expression: shy smile
+  outfits:
+    workplace_1:
+      outfit: white collared shirt, beige cardigan, pleated_skirt, beige skirt, black pantyhose
+      props: lanyard
+    workplace_2:
+      outfit: white collared shirt, black pencil skirt, black pantyhose
+    daily_home_1:
+      outfit: white tanktop, pink shorts, dolphin shorts
+    daily_convenience_1:
+      outfit: oversized knit sweater, black leggings
+    daily_sport_1:
+      outfit: white T-shirt, black leggings
+    daily_outing_1:
+      outfit: white blouse, puff sleeve, long skirt, denim skirt
+    daily_dressup_1:
+      outfit: floral midi dress, cardigan
+      props: small handbag
+    academic_1:
+      outfit: white collared shirt, gray pencil skirt, mini skirt, red tie, no stockings
+
+hanyuyeon:
+  lora: /models/models/lora/hanyuyeon.safetensors
+  appearance_tags: 1girl, solo, black eyes
+  hair: short hair, black hair
+  body_tags: medium breasts
+  action: standing
+  face_state: looking at viewer, eye-level shot
+  expression: soft smile
+  outfits:
+    workplace_1:
+      outfit: black blazer, blue collared shirt, black pencil skirt, black pantyhose
+    workplace_2:
+      outfit: blue collared shirt, black pencil skirt, no stockings
+    daily_home_1:
+      outfit: white T-shirt, compression T-shirt, crop_top, lowleg pants, gray pants, sweatpants
+      state: navel, midriff, cleavage
+    daily_convenience_1:
+      outfit: oversized hoodie, gray sweatpants
+    daily_sport_1:
+      outfit: gray sports bra, gray leggings, light jacket
+      state: midriff
+    daily_outing_1:
+      outfit: black T-shirt, compression T-shirt, blue jeans
+    daily_dressup_1:
+      outfit: knit dress, long coat
+    academic_1:
+      outfit: blue turtleneck, long sleeve, black pencil skirt, black pantyhose
+
+hyo-jeong:
+  lora: /models/models/lora/hyo_jeong.safetensors
+  appearance_tags: 1girl, solo, black eyes
+  hair: red hair, long hair, hair between eyes, low side ponytail, sidelocks, hair scrunchie, bear scrunchie
+  body_tags: medium breasts
+  action: standing
+  face_state: looking at viewer, eye-level shot
+  expression: gentle smile
+  outfits:
+    workplace_1:
+      outfit: cream colored blouse, long sleeve, brown long skirt, no printing
+      props: lanyard
+    workplace_2:
+      outfit: oversized blazer, graphic tee, wide pants
+    daily_home_1:
+      outfit: pink oversized hoodie, white short shorts
+    daily_convenience_1:
+      outfit: oversized band t-shirt, black shorts, slippers
+    daily_sport_1:
+      outfit: gray sports bra, black leggings, white cropped hoodie
+      state: midriff, cleavage
+    daily_outing_1:
+      outfit: white cropped T-shirt, denim jacket, black jeans, long jeans
+      state: midriff
+    daily_dressup_1:
+      outfit: colorful mini dress, platform shoes
+      props: earrings
+    academic_1:
+      outfit: white collared shirt, gray pencil skirt, mini skirt, red tie, no stockings
+    service_1:
+      outfit: white apron,  white T-shirt , visor cap, white cap
+      props: name tag

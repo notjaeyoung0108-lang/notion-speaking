@@ -1,0 +1,184 @@
+# ─────────────────────────────────────────────────────────
+# expressions.yaml — 표정 메뉴
+#
+# 4컷 생성 시 GPT(Visual Director)가 각 패널의 대사 분위기에 맞춰
+# 아래 key 중 하나를 고른다. 코드가 key → tags 로 변환해 프롬프트에 넣는다.
+#
+#   tags     : SDXL 표정 태그 (실제로 프롬프트에 들어감)
+#   use_when : 이 표정을 언제 쓰는지 (GPT 선택 가이드)
+#
+# ⚠️ tags 는 "… face" 형태의 표정 전용 태그다 (action 이 아님).
+#    호흡 action 태그(breath, steam, fog, exhale)는 입김 구름으로 렌더되므로
+#    action 필드에는 절대 넣지 말 것. ("sigh face" 는 표정 태그라 무관.)
+#
+# 새 표정을 추가하려면 key 와 tags / use_when 만 적으면 GPT가 자동으로 선택지에 포함한다.
+#
+# ── 캐릭터별 표정 톤 (use_when 의 fits/avoid 와 함께 작동) ──
+#   hanyoil  : 불안·과준비·겸손, 따뜻함 (기본 blush). naughty/seductive/smug 회피
+#   ru-ha    : 통제·완벽주의, 감정 잘 안 드러냄 (기본 expressionless→serious).
+#              smug 는 '내 말이 맞았지'일 때만. naughty/seductive/laughing/오열 회피
+#   hanyuyeon: 데드팬·빈정·농담으로 방어 (기본 soft smile). 과한 눈물/seductive 회피
+#   so-ae    : 전문가·진지·수줍음 (기본 shy smile). naughty/seductive/smug 회피
+#   hyo-jeong: 혼돈·엉뚱·장난 (기본 gentle smile). naughty/wink/laughing 다 가능(전담)
+# ─────────────────────────────────────────────────────────
+
+expressions:
+  smile:
+    tags: smile face
+    use_when: general pleasant smile, content, friendly
+
+  light_smile:
+    tags: light smile face
+    use_when: faint, subtle smile — barely there
+
+  kind_smile:
+    tags: kind smile face
+    use_when: warm, caring, reassuring smile
+
+  laughing:
+    tags: laughing face
+    use_when: openly laughing, delighted, can't help it — fits hyo-jeong/hanyuyeon/hanyoil; ru-ha rarely laughs openly
+
+  wink_grin:
+    tags: ";d face"
+    use_when: playful wink with a big open grin, cheeky — fits hyo-jeong/hanyuyeon; avoid ru-ha/so-ae/hanyoil
+
+  happy:
+    tags: happy face
+    use_when: clearly happy, cheerful, upbeat
+
+  happy_tears:
+    tags: happy tears face
+    use_when: crying from joy or relief, deeply moved
+
+  seductive_smile:
+    tags: seductive smile face
+    use_when: flirty, alluring, teasing charm — rare; only deliberate teasing. avoid ru-ha/so-ae/hanyoil
+
+  naughty:
+    tags: naughty face
+    use_when: mischievous, scheming, up to something — fits hyo-jeong (or hanyuyeon at his most playful); NOT ru-ha/so-ae/hanyoil
+
+  smug:
+    tags: smug face
+    use_when: self-satisfied, told-you-so, winning the moment — fits ru-ha (proven right) / hanyuyeon (deadpan win)
+
+  sad:
+    tags: sad face
+    use_when: down, unhappy, dejected
+
+  crying_eyes_open:
+    tags: crying with eyes open face
+    use_when: crying while eyes stay open, overwhelmed
+
+  tear:
+    tags: tear face
+    use_when: a single quiet tear, subtly moved
+
+  crying:
+    tags: crying face
+    use_when: crying, visibly upset
+
+  streaming_tears:
+    tags: streaming tears face
+    use_when: heavy sobbing, tears pouring down
+
+  wiping_tears:
+    tags: wiping tears face
+    use_when: wiping away tears, composing oneself
+
+  tearing_up:
+    tags: tearing up face
+    use_when: eyes welling up, about to cry
+
+  badmood:
+    tags: badmood face
+    use_when: grumpy, in a bad mood, sour
+
+  frustrated:
+    tags: frustrated face
+    use_when: frustrated, fed up, stuck
+
+  frustrated_brow:
+    tags: frustrated brow face
+    use_when: frustration showing hard in the brow
+
+  annoyed:
+    tags: annoyed face
+    use_when: mildly irritated, bickering
+
+  anguish:
+    tags: anguish face
+    use_when: deep distress, anguished
+
+  sigh:
+    tags: sigh face
+    use_when: resigned, exasperated, "here we go again" — fits hanyuyeon (deadpan) / ru-ha (exasperated by chaos)
+
+  disappointed:
+    tags: disappointed face
+    use_when: let down, expectations unmet
+
+  gloom:
+    tags: gloom face
+    use_when: gloomy, dark heavy mood
+
+  despair:
+    tags: despair face
+    use_when: hopeless, despairing
+
+  angry:
+    tags: angry face
+    use_when: angry, mad
+
+  lonely:
+    tags: lonely face
+    use_when: lonely, isolated, wistful
+
+  glaring:
+    tags: glaring face
+    use_when: glaring, hostile stare
+
+  serious:
+    tags: serious face
+    use_when: serious, focused, firm — baseline neutral-strong; ru-ha's default register
+
+  sulking:
+    tags: sulking face
+    use_when: sulky, mock-offended, childishly upset
+
+  shouting:
+    tags: shouting face
+    use_when: shouting, raising the voice
+
+  screaming:
+    tags: screaming face
+    use_when: screaming — panic or rage
+
+  envy:
+    tags: envy face
+    use_when: envious, jealous
+
+  scowl:
+    tags: scowl face
+    use_when: scowling, displeased
+
+  disgust:
+    tags: disgust face
+    use_when: disgusted, grossed out
+
+  disdain:
+    tags: disdain face
+    use_when: contempt, looking down on someone
+
+  frown:
+    tags: frown face
+    use_when: frowning, displeased or worried
+
+  furrowed_brow:
+    tags: furrowed brow face
+    use_when: concentrating or troubled, brow furrowed
+
+  fear_kubrick:
+    tags: fear kubrick face
+    use_when: intense wide-eyed fear (Kubrick stare)

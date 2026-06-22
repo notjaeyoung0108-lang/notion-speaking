@@ -1,0 +1,74 @@
+# ─────────────────────────────────────────────────────────
+# locations.yaml — 배경 장소 어휘 (danbooru 태그)
+#
+# 슬라이스오브라이프 직장물 세계관에 맞는 장소만 큐레이션.
+# (원본 danbooru 장소 사전에서 dungeon/volcano/spacecraft/sex_shop 등 비관련은 제외)
+#
+#   각 장소:
+#     kr             : 한국어 라벨
+#     object         : 그 장소의 대표 소품 1개 (배경 = "장소, 소품" 으로 짧게 — 캐릭터 LoRA 보호)
+#     outfit_setting : 이 장소의 기본 복장 버킷
+#                      workplace | academic | daily_home | daily_convenience |
+#                      daily_outing | daily_dressup | daily_sport
+#
+# domains: 도메인별로 planner 가 고를 수 있는 장소 화이트리스트.
+#          (workplace 캐스트=HR팀 / daily=요일·소애·효정 / academic=학교회상 / cs=알바현장)
+# ⭐ canonical: world.md 의 6개 반복 무대 — 연속성의 기본값(우선 선택 권장)
+# ─────────────────────────────────────────────────────────
+
+locations:
+  # ── 직장 ──
+  office:             {kr: 사무실,        object: computer monitor,    outfit_setting: workplace}
+  cubicle:            {kr: 1인 사무실,     object: office desk,          outfit_setting: workplace}
+  staff_room:         {kr: 직원실,        object: coffee machine,       outfit_setting: workplace}
+  meeting_room:       {kr: 회의실,        object: conference table,     outfit_setting: workplace}   # = office + 회의 테이블
+  rooftop:            {kr: 옥상,          object: lunch table,          outfit_setting: workplace}
+
+  # ── 집/거주 ──
+  living_room:        {kr: 거실,          object: sofa,                 outfit_setting: daily_home}
+  kitchen:            {kr: 주방,          object: kitchen counter,      outfit_setting: daily_home}
+  bedroom:            {kr: 침실,          object: bed,                  outfit_setting: daily_home}
+  bathroom:           {kr: 화장실,        object: sink,                 outfit_setting: daily_home}
+  apartment:          {kr: 아파트,        object: window,               outfit_setting: daily_home}
+  messy_room:         {kr: 지저분한 방,    object: scattered clutter,    outfit_setting: daily_home}
+
+  # ── 외출/일상 ──
+  cafe:               {kr: 카페,          object: coffee cup,           outfit_setting: daily_outing}
+  restaurant:         {kr: 레스토랑,       object: dining table,         outfit_setting: daily_dressup}
+  convenience_store:  {kr: 편의점,        object: store shelf,          outfit_setting: daily_convenience}
+  supermarket:        {kr: 슈퍼마켓,       object: shopping cart,        outfit_setting: daily_convenience}
+  mall:               {kr: 쇼핑몰,        object: storefront,           outfit_setting: daily_dressup}
+  park:               {kr: 공원,          object: park bench,           outfit_setting: daily_sport}
+  street:             {kr: 거리,          object: streetlight,          outfit_setting: daily_convenience}
+  bus_stop:           {kr: 버스 정류장,    object: bus sign,             outfit_setting: daily_convenience}
+  train_station:      {kr: 기차역,        object: platform,             outfit_setting: daily_convenience}
+  movie_theater:      {kr: 영화관,        object: movie screen,         outfit_setting: daily_dressup}
+  gym:                {kr: 헬스장,        object: dumbbell,             outfit_setting: daily_sport}
+  bookstore:          {kr: 서점,          object: bookshelf,            outfit_setting: daily_outing}
+  bakery:             {kr: 빵집,          object: bread display,        outfit_setting: daily_outing}
+  salon:              {kr: 미용실,        object: salon chair,          outfit_setting: daily_dressup}
+  flower_shop:        {kr: 꽃집,          object: flower bouquet,       outfit_setting: daily_dressup}
+  market:             {kr: 시장,          object: market stall,         outfit_setting: daily_convenience}
+  fitting_room:       {kr: 피팅룸,        object: mirror,               outfit_setting: daily_dressup}
+  beach:              {kr: 해변,          object: beach umbrella,       outfit_setting: daily_sport}
+  garden:             {kr: 정원,          object: potted plant,         outfit_setting: daily_outing}
+
+  # ── 학교(회상) ──
+  classroom:          {kr: 교실,          object: blackboard,           outfit_setting: academic}
+  library:            {kr: 도서관,        object: bookshelf,            outfit_setting: academic}
+  cafeteria:          {kr: 구내식당,       object: lunch tray,           outfit_setting: academic}
+  clubroom:           {kr: 동아리방,       object: clutter,              outfit_setting: academic}
+  school:             {kr: 학교,          object: hallway lockers,      outfit_setting: academic}
+  playground:         {kr: 운동장,        object: goal post,            outfit_setting: academic}
+  locker_room:        {kr: 라커룸,        object: lockers,              outfit_setting: academic}
+
+# ── 도메인별 화이트리스트 (planner 선택용) ──
+# 앞쪽일수록 canonical(반복 무대). 뒤쪽은 변주용.
+domains:
+  workplace:        [office, meeting_room, rooftop, cubicle, staff_room]
+  daily:            [cafe, convenience_store, apartment, living_room, kitchen, bedroom,
+                     park, street, mall, restaurant, movie_theater, bus_stop, gym,
+                     bookstore, supermarket, beach, garden, train_station]
+  academic:         [classroom, library, cafeteria, clubroom, school, playground, rooftop, locker_room,park]
+  customer/service: [cafe, convenience_store, restaurant, bakery, salon, bookstore,
+                     supermarket, flower_shop, market, mall, fitting_room]

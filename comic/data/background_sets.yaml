@@ -1,0 +1,50 @@
+# Recurring location prompt anchors for SDXL rendering.
+
+background_sets:
+  plaoud_office__hr_desks:
+    set: Plaoud Office
+    room: HR desks
+    scene_tags: office, workspace, desks
+    lighting: fluorescent lighting, indoor lighting
+    palette: neutral colors, white walls, gray floor
+    anchor_objects: computer monitor, keyboard, office desk, document tray, id badge
+
+  meeting_room__presentation_screen:
+    set: Meeting Room
+    room: presentation screen
+    scene_tags: meeting room, conference room, presentation screen
+    lighting: bright indoor lighting, projector light
+    palette: neutral colors, white walls, dark table
+    anchor_objects: conference table, projector screen, laptop, slide deck, marker pen
+
+  rooftop__lunch_table:
+    set: Rooftop
+    room: lunch table
+    scene_tags: rooftop, outdoor terrace, city skyline
+    lighting: daylight, soft sunlight
+    palette: pale sky blue, concrete gray, muted green
+    anchor_objects: lunch table, bento box, paper cup, rooftop railing, folding chair
+
+  neighborhood_cafe__window_table:
+    set: Neighborhood Cafe
+    room: window table
+    scene_tags: cafe, window table, storefront interior
+    lighting: warm indoor lighting, window light
+    palette: warm wood, cream walls, muted green accents
+    anchor_objects: cafe table, coffee cup, menu board, pastry display, window
+
+  convenience_store_bench__storefront_bench:
+    set: Convenience Store Bench
+    room: storefront bench
+    scene_tags: convenience store, storefront, bench
+    lighting: fluorescent lighting, evening light
+    palette: bright signage colors, cool gray pavement, white storefront
+    anchor_objects: storefront bench, plastic bag, canned drink, receipt, glass door
+
+  hanyoil_apartment__kitchen_table:
+    set: Hanyoil Apartment
+    room: kitchen table
+    scene_tags: apartment kitchen, kitchen table, home interior
+    lighting: warm indoor lighting, soft lamp light
+    palette: warm white, pale wood, soft gray
+    anchor_objects: kitchen table, mixing bowl, mug, plastic bag, small appliance

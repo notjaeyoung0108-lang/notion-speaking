@@ -1,0 +1,23 @@
+# ─────────────────────────────────────────────────────────
+# props.yaml — 소품 어휘 (참고용)
+#
+# 지금은 GPT 가 자동 선택하지 않는다. characters.yaml 의 outfit.props
+# 또는 COMIC_PANELS 의 props_extra 를 손으로 채울 때 여기서 골라 쓴다.
+#
+#   key : tags(SDXL)
+# ─────────────────────────────────────────────────────────
+
+props:
+  id_lanyard:    identification card lanyard
+  black_cap:     black cap
+  earrings:      earrings
+  black_handbag: black handbag
+  shoulder_bag:  shoulder bag
+  tote_bag:      holding a tote bag
+  glasses:       glasses
+  coffee_cup:    holding a coffee cup
+  smartphone:    holding a smartphone
+  notebook:      holding a notebook
+  umbrella:      holding an umbrella
+  headphones:    headphones around neck
+  scarf:         scarf

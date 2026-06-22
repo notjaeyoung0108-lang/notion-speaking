@@ -1,0 +1,142 @@
+meta:
+  phase_scale:
+    1: acquaintances_with_comfort
+    2: recurring_tension
+    3: transition
+    4: close_trust
+  comfort_scale:
+    1: awkward
+    2: polite
+    3: comfortable
+    4: close
+    5: found_family
+  hierarchy:
+    hanyuyeon: 팀 상사(팀장)
+    hanyoil: 사원 (ru-ha 동기)
+    ru-ha: 사원 (hanyoil 동기)
+    so-ae: 후배(막내)
+    hyo-jeong: 회사 밖 친구
+relationships:
+  hanyoil ↔ ru-ha:
+    phase: 1
+    comfort_level: 4
+    dynamic:
+    - ruha_jokes_to_deflect
+    - hanyoil_calls_him_out_then_laughs
+    signature_bit: Ru-ha lands a dry joke mid-crisis; Hanyoil shoots back "Funny. Now help."
+      and he does — pretending it's nothing.
+    last_beat: Hanyoil appreciates how Ru-ha eases her nerves with a dry joke, even mid-crisis.
+    running_gag: Ru-ha's badly-timed one-liners; he helps her then plays it off as nothing.
+    unresolved:
+    - ruha_hides_real_support_behind_jokes
+  hanyoil ↔ hanyuyeon:
+    phase: 1
+    comfort_level: 3
+    dynamic:
+    - hanyuyeon_expects_high_standards
+    - hanyoil_resists_then_accepts_help
+    signature_bit: Hanyuyeon turns a 5-minute task into a color-coded system; Hanyoil sighs
+      "Can't we just do it?" — then quietly benefits from the system.
+    last_beat: Hanyoil appreciates her boss Hanyuyeon's quick thinking, seeing his high standards
+      can help in a crisis.
+    running_gag: Hanyuyeon's "simple" plans balloon into huge systems; he reorganizes what's
+      already organized.
+    unresolved:
+    - hanyoil_knows_hanyuyeon_cares_but_not_how_much
+    - hanyuyeon_rarely_expresses_approval_directly
+  hanyoil ↔ so-ae:
+    phase: 1
+    comfort_level: 3
+    dynamic:
+    - soae_overexplains_her_expertise
+    - hanyoil_indulges_then_gently_redirects
+    signature_bit: So-ae launches an unasked mini-lecture on a tiny detail; Hanyoil lets her
+      ride it out, then gently steers back — secretly a bit impressed.
+    last_beat: Hanyoil appreciates So-ae's eye for detail and her cautious approach.
+    running_gag: Hanyoil pushes for faster solutions, So-ae methodically points out pitfalls.
+    unresolved:
+    - soae_quietly_wants_hanyoils_approval
+  hanyoil ↔ hyo-jeong:
+    phase: 1
+    comfort_level: 4
+    dynamic:
+    - hyojeong_brings_chaos
+    - hanyoil_grounds_her
+    signature_bit: "The rule of two — Hanyoil brings two of something, Hyo-jeong shows up
+      to complete the pair ('I figured'). Plus the never-returned notebook."
+    last_beat: null
+    running_gag: hyojeong_still_has_hanyoils_notebook
+    unresolved:
+    - hyojeong_wants_hanyoil_to_say_you_were_right
+  ru-ha ↔ hanyuyeon:
+    phase: 1
+    comfort_level: 3
+    dynamic:
+    - ruha_jokes
+    - hanyuyeon_unamused_then_fixes_it_herself
+    signature_bit: Ru-ha nudges Hanyuyeon's perfectly arranged things out of place for fun;
+      she re-sorts it with a flat stare, pretending to hate it (she secretly enjoys the bit).
+    last_beat: Hanyuyeon acknowledges Ru-ha's humor, even though she doesn't laugh.
+    running_gag: hanyuyeon_reorganizes_then_ruha_quips
+    unresolved:
+    - hanyuyeon_secretly_finds_him_funny_never_laughs
+  ru-ha ↔ so-ae:
+    phase: 1
+    comfort_level: 3
+    dynamic:
+    - soae_earnest_lecture
+    - ruha_deflates_it_with_one_joke
+    signature_bit: So-ae builds to the climax of an earnest lecture; Ru-ha pops it with one
+      dry line. She huffs; he secretly finds her passion endearing.
+    last_beat: Ru-ha appreciates So-ae's detailed knowledge even though he jokes about it.
+    running_gag: ruha_one_liner_kills_soaes_lecture
+    unresolved:
+    - ruha_actually_finds_her_passion_endearing
+  ru-ha ↔ hyo-jeong:
+    phase: 1
+    comfort_level: 3
+    dynamic:
+    - hyojeong_out_weirds_him
+    - ruha_left_without_a_comeback
+    signature_bit: Ru-ha sets up a joke; Hyo-jeong says something even weirder, completely
+      sincere — leaving the usually-quick Ru-ha with no comeback, just a blink.
+    last_beat: null
+    running_gag: hyojeong_too_strange_for_ruha_to_joke
+    unresolved:
+    - ruha_cant_tell_if_shes_joking
+  hanyuyeon ↔ so-ae:
+    phase: 1
+    comfort_level: 3
+    dynamic:
+    - two_perfectionists_compete
+    - hanyuyeon_controls_while_soae_corrects
+    signature_bit: Two perfectionists, one tiny disagreement — "who's technically right" standoff
+      escalates absurdly over a trivial detail, then ends in grudging mutual respect.
+    last_beat: null
+    running_gag: whos_technically_right_standoff
+    unresolved:
+    - mutual_respect_disguised_as_rivalry
+  hanyuyeon ↔ hyo-jeong:
+    phase: 1
+    comfort_level: 2
+    dynamic:
+    - hyojeong_disrupts_hanyuyeons_system
+    - hanyuyeon_tries_to_manage_her
+    signature_bit: Hyo-jeong cheerfully wrecks Hanyuyeon's tidy system; Hanyuyeon tries to
+      manage her, fails, gives up with a twitch — secretly the chaos delights her.
+    last_beat: null
+    running_gag: hanyuyeon_reorganizes_what_hyojeong_messed_up
+    unresolved:
+    - hanyuyeon_secretly_enjoys_the_chaos
+  so-ae ↔ hyo-jeong:
+    phase: 1
+    comfort_level: 3
+    dynamic:
+    - hyojeong_makes_up_facts
+    - soae_cannot_let_it_pass
+    signature_bit: Hyo-jeong states a made-up "fact" with total confidence; So-ae physically
+      cannot let it pass and debunks it with a full lecture; Hyo-jeong stays unbothered.
+    last_beat: null
+    running_gag: soae_debunks_hyojeongs_theory
+    unresolved:
+    - soae_oddly_charmed_by_hyojeongs_logic

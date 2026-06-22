@@ -1,0 +1,23 @@
+# ── Secrets (NEVER commit) ──
+.env
+.env.*
+*.key
+*.pem
+
+# ── Python caches ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ── OS ──
+.DS_Store
+
+# ── Generated media (large, reproducible) ──
+data/comic_out/
+data/TTS/
+data/AAC/
+comic/render_out*/
+
+# ── keep curated source: lore/, comic/data/*.yaml, data/sentences/, data/state/ ──

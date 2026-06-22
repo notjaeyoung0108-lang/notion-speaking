@@ -1,0 +1,24 @@
+# ─────────────────────────────────────────────────────────
+# hairstyles.yaml — 헤어스타일 어휘 (참고용)
+#
+# 지금은 GPT 가 자동 선택하지 않는다. characters.yaml 의 outfit.hair_override
+# 또는 COMIC_PANELS 의 hair_override 를 손으로 채울 때 여기서 골라 쓴다.
+# (나중에 GPT 가 머리도 고르게 하려면 expressions.yaml 처럼 메뉴로 주입하면 된다.)
+#
+#   key : tags(SDXL)
+# ─────────────────────────────────────────────────────────
+
+hairstyles:
+  ponytail:        ponytail
+  high_ponytail:   high ponytail
+  low_ponytail:    low ponytail
+  low_side_ponytail: low side ponytail, sidelocks
+  hair_down:       hair down
+  long_hair:       long hair, straight hair
+  medium_hair:     medium hair
+  short_hair:      short hair
+  bun:             hair bun
+  twintails:       twintails
+  braid:           single braid
+  messy_bun:       messy bun, loose strands
+  wet_hair:        wet hair, hair down

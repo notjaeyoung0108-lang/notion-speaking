@@ -1,0 +1,84 @@
+usages:
+- word_no: '16'
+  date: 26.06.18
+  domain: daily
+  selected_pair: hanyoil ↔ ru-ha
+  characters:
+  - ru-ha
+  - hanyoil
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha humorously avoids directly asking about Hanyoil's schedule
+    and instead jokes about her always being busy.
+  target_sentence: What time do you finish?
+  relationship: friend_to_friend
+  speech_act: request
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: deflects with humor
+  collision: Hanyoil responds with playful realism, contrasting Ru-ha's exaggeration
+- word_no: '14'
+  date: 26.06.18
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters:
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil over-prepares with excessive details to reassure Hanyuyeon.
+  target_sentence: I'll try my best.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: over-preparation
+  collision: Hanyuyeon's expectation for efficiency pressures Hanyoil into even more
+    preparation.
+- word_no: '16'
+  date: 26.06.18
+  domain: daily
+  selected_pair: ru-ha ↔ hyo-jeong
+  characters: &id001
+  - ru-ha
+  - hyo-jeong
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong insists she's found something rare in the store
+    and will take 'just one more minute' forever.
+  target_sentence: What time do you finish?
+  relationship: friend_to_friend
+  speech_act: request
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: wants to plan efficiently
+  collision: gets tangled in Hyo-jeong's never-ending curiosity
+- word_no: '16'
+  date: 26.06.18
+  domain: daily
+  selected_pair: ru-ha ↔ hyo-jeong
+  characters: *id001
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong insists she's found something rare in the store
+    and will take 'just one more minute' forever.
+  target_sentence: What time do you finish?
+  relationship: friend_to_friend
+  speech_act: request
+  story_function: sets_up_punchline
+  character: hyo-jeong
+  facet: unpredictable explorer
+  collision: turns a simple timing check into a curious search for rare finds
+- word_no: '19'
+  date: 26.06.18
+  domain: customer/service
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters:
+  - hyo-jeong
+  - hanyoil
+  driver_character: hyo-jeong
+  comedic_game_premise: accidentally takes Hanyoil's phone instead of the item, continuing
+    her streak of unpredictable actions.
+  target_sentence: Could you call me back?
+  relationship: customer_to_staff
+  speech_act: request
+  story_function: buys_time
+  character: hanyoil
+  facet: careful and precise
+  collision: Hyo-jeong's whims lead to small mix-ups in otherwise routine actions.
