@@ -1,0 +1,111 @@
+{
+  "model": "gpt-4o",
+  "variant_A_sentence_only": [],
+  "variant_B_world_only": [],
+  "variant_C_world_plus_domain": [
+    {
+      "situation": "A school cafeteria during lunchtime.",
+      "characters": [
+        "hanyoil",
+        "hyo-jeong"
+      ],
+      "comedic_game": {
+        "driver": "hyo-jeong",
+        "premise": "hyo-jeong offers a bizarre food combination as if it's a gourmet secret.",
+        "escalation": "hyo-jeong insists on the combination's benefits despite hanyoil's skepticism.",
+        "button": "hyo-jeong nonchalantly insists it will become a trend."
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "bubble": "What are you eating?",
+          "bubble_kr": "뭐 먹고 있어?",
+          "expression_intent": "curious"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "It's rice with chocolate sauce. Delicious, right?",
+          "bubble_kr": "초콜릿 소스를 뿌린 밥이야. 맛있겠지?",
+          "expression_intent": "enthusiastic"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "That sounds... unusual.",
+          "bubble_kr": "그거... 좀 독특한데.",
+          "expression_intent": "skeptical"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "Actually, it boosts energy and happiness!",
+          "bubble_kr": "사실, 에너지랑 행복감을 올려줘!",
+          "expression_intent": "confident"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "I'm not sure science agrees.",
+          "bubble_kr": "과학적으로는 아닌 것 같은데.",
+          "expression_intent": "doubtful"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "You'll see. One day it'll be a trend!",
+          "bubble_kr": "두고 봐, 언젠가 유행할 거야!",
+          "expression_intent": "playful certainty"
+        }
+      ],
+      "_domain": "academic"
+    },
+    {
+      "situation": "Hanyoil and So-ae in high school, trying to paint a clubroom banner.",
+      "characters": [
+        "hanyoil",
+        "so-ae"
+      ],
+      "comedic_game": {
+        "driver": "so-ae",
+        "premise": "So-ae gets obsessed with the perfect shade of paint, while Hanyoil just wants to finish the banner quickly.",
+        "escalation": "So-ae keeps adding unnecessary details about color mixing, delaying progress.",
+        "button": "Hanyoil finally agrees on just any color, but realizes So-ae mixed the 'perfect' shade without noticing."
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "bubble": "Let's just paint the banner! Any color is fine.",
+          "bubble_kr": "그냥 이걸로 칠하자! 아무 색이나 괜찮아.",
+          "expression_intent": "impatient"
+        },
+        {
+          "char": "so-ae",
+          "bubble": "Actually, the shade needs to be exact. See, you mix blue and yellow for green.",
+          "bubble_kr": "사실, 색은 정확해야 해. 봐봐, 파랑이랑 노랑을 섞으면 녹색이야.",
+          "expression_intent": "enthusiastic about details"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "Okay, but we're still painting, right?",
+          "bubble_kr": "그러니까, 아직 칠하는 거지?",
+          "expression_intent": "hopeful"
+        },
+        {
+          "char": "so-ae",
+          "bubble": "Wait, not too much blue! It'll ruin the tone.",
+          "bubble_kr": "잠깐, 파랑 너무 많으면 톤 망가져.",
+          "expression_intent": "concerned"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "Fine, how about this? It looks... greenish.",
+          "bubble_kr": "좋아, 이건 어때? 좀 녹색 같아 보이는데.",
+          "expression_intent": "resigned"
+        },
+        {
+          "char": "so-ae",
+          "bubble": "Oh! You actually got the perfect shade!",
+          "bubble_kr": "오! 너 진짜 완벽한 색깔을 찾았구나!",
+          "expression_intent": "genuine wonder"
+        }
+      ],
+      "_domain": "academic"
+    }
+  ]
+}

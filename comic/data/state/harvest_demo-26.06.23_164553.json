@@ -1,0 +1,82 @@
+{
+  "scene": {
+    "situation": "It's a calm evening, and Hanyoil and Hyo-jeong are sitting at a convenience store bench, each holding a cup of instant ramen.",
+    "characters": [
+      "hanyoil",
+      "hyo-jeong"
+    ],
+    "comedic_game": {
+      "driver": "Hyo-jeong's unexpected interpretation of a simple situation",
+      "premise": "Hyo-jeong misinterprets a common experience and responds with sincerity.",
+      "escalation": "Hyo-jeong's interpretations become increasingly bizarre, while Hanyoil tries to ground her.",
+      "button": "Hyo-jeong unintentionally points out something profound about the moment."
+    },
+    "panels": [
+      {
+        "char": "hanyoil",
+        "bubble": "It's nice to just relax here, right?",
+        "bubble_kr": "여기서 그냥 쉬는 거 좋지 않냐?",
+        "expression_intent": "contentment"
+      },
+      {
+        "char": "hyo-jeong",
+        "bubble": "Totally! But I heard if you eat ramen under stars, you get twice the luck!",
+        "bubble_kr": "완전! 근데 별 아래서 라면 먹으면 행운이 두 배로 온대!",
+        "expression_intent": "sincere excitement"
+      },
+      {
+        "char": "hanyoil",
+        "bubble": "That's... a nice thought. But I think it's just noodles.",
+        "bubble_kr": "그건... 좋은 생각이네. 그냥 라면일 뿐이야.",
+        "expression_intent": "amused doubt"
+      },
+      {
+        "char": "hyo-jeong",
+        "bubble": "No, really! It's like the stars add a secret spice!",
+        "bubble_kr": "아니, 진짜야! 별이 비밀 양념을 넣어주는 거지!",
+        "expression_intent": "earnest belief"
+      },
+      {
+        "char": "hanyoil",
+        "bubble": "Is that why mine tastes salty?",
+        "bubble_kr": "그래서 내 건 짠가?",
+        "expression_intent": "teasing curiosity"
+      },
+      {
+        "char": "hyo-jeong",
+        "bubble": "See? Even the universe knows you need more flavor in life.",
+        "bubble_kr": "봐봐? 우주도 네 삶에 더 맛이 필요하다고 하잖아.",
+        "expression_intent": "playful truth"
+      }
+    ]
+  },
+  "harvest": {
+    "harvest": [
+      {
+        "expression": "It's nice to just [verb] here, right?",
+        "korean": "여기서 그냥 [동사]하는 게 좋지, 그렇지?",
+        "when_to_use": "When commenting on a pleasant current activity or location.",
+        "register": "casual"
+      },
+      {
+        "expression": "That's a nice thought.",
+        "korean": "좋은 생각이네.",
+        "when_to_use": "When appreciating or acknowledging an idea or sentiment politely.",
+        "register": "neutral"
+      },
+      {
+        "expression": "No, really!",
+        "korean": "아니야, 진짜로!",
+        "when_to_use": "When insisting on the truth of something you said.",
+        "register": "casual"
+      },
+      {
+        "expression": "Even the universe [verb]...",
+        "korean": "심지어 우주조차도 [동사]...",
+        "when_to_use": "For dramatic emphasis as if the universe supports your point.",
+        "register": "casual"
+      }
+    ],
+    "headline": "It's nice to just [verb] here, right?"
+  }
+}

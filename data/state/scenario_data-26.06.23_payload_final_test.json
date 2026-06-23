@@ -1,0 +1,525 @@
+[
+  {
+    "word_no": "payload-final-test",
+    "example": "Let me know when you're ready.",
+    "speaker": "hyo-jeong",
+    "translation": "준비되면 알려줘.",
+    "panels": [
+      {
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "daily_outing_7",
+        "action": "standing, hand on own chin",
+        "prop_interaction": "",
+        "acting_intent": "Hanyoil hints at the notebook's importance.",
+        "acting_preset": "",
+        "emotional_state": "",
+        "body_pose": "standing",
+        "gesture": "hand_on_chin",
+        "subject": "",
+        "expression": "blush, light smile face",
+        "face_state": "looking to the side",
+        "framing": "upper_body",
+        "background": "cafe, two coffee cups, notebook",
+        "location": "cafe",
+        "used_in": "daily",
+        "target_sentence": "Let me know when you're ready.",
+        "bubble": "You know, my notebook really helped in organizing my tasks.",
+        "bubble_kr": "내 노트는 일 정리하는 데 정말 도움이 됐어.",
+        "performance": {
+          "expression_intent": "hopeful",
+          "body_pose": "standing",
+          "gesture": "hand_on_chin",
+          "gaze": "looking_to_side",
+          "prop_use": "none",
+          "visual_read": "Hanyoil is trying to casually hint at the importance of the notebook."
+        },
+        "seed_offset": 0
+      },
+      {
+        "panel_type": "character",
+        "char": "hyo-jeong",
+        "outfit": "daily_outing_1",
+        "action": "standing, shrug",
+        "prop_interaction": "",
+        "acting_intent": "Hyo-jeong deflects with a quirky excuse.",
+        "acting_preset": "",
+        "emotional_state": "",
+        "body_pose": "standing",
+        "gesture": "shrug",
+        "subject": "",
+        "expression": "light smile face",
+        "face_state": "looking at viewer",
+        "framing": "upper_body",
+        "background": "cafe, two coffee cups, notebook",
+        "location": "cafe",
+        "used_in": "daily",
+        "target_sentence": "Let me know when you're ready.",
+        "bubble": "Oh, I’m using it to keep my table from wobbling!",
+        "bubble_kr": "아, 내 테이블이 흔들려서 그걸로 균형 잡고 있어!",
+        "performance": {
+          "expression_intent": "playfully sincere",
+          "body_pose": "standing",
+          "gesture": "shrug",
+          "gaze": "looking_at_viewer",
+          "prop_use": "none",
+          "visual_read": "Hyo-jeong casually dismisses Hanyoil's hint with a quirky excuse."
+        },
+        "seed_offset": 7
+      },
+      {
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "daily_outing_7",
+        "action": "leaning forward, pointing",
+        "prop_interaction": "",
+        "acting_intent": "Hanyoil suggests a coaster.",
+        "acting_preset": "",
+        "emotional_state": "",
+        "body_pose": "leaning_forward",
+        "gesture": "pointing",
+        "subject": "",
+        "expression": "serious face",
+        "face_state": "looking at viewer",
+        "framing": "upper_body",
+        "background": "cafe, two coffee cups, notebook",
+        "location": "cafe",
+        "used_in": "daily",
+        "target_sentence": "Let me know when you're ready.",
+        "bubble": "Maybe I could lend you a coaster instead?",
+        "bubble_kr": "내가 컵 받침 하나 빌려줄까?",
+        "performance": {
+          "expression_intent": "helpfully persistent",
+          "body_pose": "leaning_forward",
+          "gesture": "pointing",
+          "gaze": "looking_at_viewer",
+          "prop_use": "none",
+          "visual_read": "Hanyoil offers a practical solution."
+        },
+        "seed_offset": 13
+      },
+      {
+        "panel_type": "character",
+        "char": "hyo-jeong",
+        "outfit": "daily_outing_1",
+        "action": "standing, hands on hips",
+        "prop_interaction": "",
+        "acting_intent": "Hyo-jeong defers returning the notebook.",
+        "acting_preset": "",
+        "emotional_state": "",
+        "body_pose": "standing",
+        "gesture": "hands_on_hips",
+        "subject": "",
+        "expression": "light smile face",
+        "face_state": "looking away",
+        "framing": "upper_body",
+        "background": "cafe, two coffee cups, notebook",
+        "location": "cafe",
+        "used_in": "daily",
+        "target_sentence": "Let me know when you're ready.",
+        "bubble": "Let me know when you're ready.",
+        "bubble_kr": "준비되면 알려줘.",
+        "performance": {
+          "expression_intent": "casually evasive",
+          "body_pose": "standing",
+          "gesture": "hands_on_hips",
+          "gaze": "looking_away",
+          "prop_use": "none",
+          "visual_read": "Hyo-jeong gently defers returning the notebook."
+        },
+        "seed_offset": 21
+      },
+      {
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "daily_outing_7",
+        "action": "standing, own hands together",
+        "prop_interaction": "",
+        "acting_intent": "Hanyoil acknowledges playful defeat.",
+        "acting_preset": "",
+        "emotional_state": "",
+        "body_pose": "standing",
+        "gesture": "hands_clasped",
+        "subject": "",
+        "expression": "serious face",
+        "face_state": "looking down",
+        "framing": "upper_body",
+        "background": "cafe, two coffee cups, notebook",
+        "location": "cafe",
+        "used_in": "daily",
+        "target_sentence": "Let me know when you're ready.",
+        "bubble": "Alright, alright, you win this time.",
+        "bubble_kr": "그래, 그래, 이번엔 네가 이겼어.",
+        "performance": {
+          "expression_intent": "humorous resignation",
+          "body_pose": "standing",
+          "gesture": "hands_clasped",
+          "gaze": "looking_down",
+          "prop_use": "none",
+          "visual_read": "Hanyoil acknowledges the playful defeat."
+        },
+        "seed_offset": 29
+      },
+      {
+        "panel_type": "character",
+        "char": "hyo-jeong",
+        "outfit": "daily_outing_1",
+        "action": "standing, waving",
+        "prop_interaction": "",
+        "acting_intent": "Hyo-jeong lightens the mood.",
+        "acting_preset": "",
+        "emotional_state": "",
+        "body_pose": "standing",
+        "gesture": "waving",
+        "subject": "",
+        "expression": "light smile face",
+        "face_state": "looking up",
+        "framing": "upper_body",
+        "background": "cafe, two coffee cups, notebook",
+        "location": "cafe",
+        "used_in": "daily",
+        "target_sentence": "Let me know when you're ready.",
+        "bubble": "Anyway, did you hear about the new cafe downtown?",
+        "bubble_kr": "아무튼, 시내에 새로 생긴 카페 얘기 들었어?",
+        "performance": {
+          "expression_intent": "cheerful",
+          "body_pose": "standing",
+          "gesture": "waving",
+          "gaze": "looking_up",
+          "prop_use": "none",
+          "visual_read": "Hyo-jeong lightens the mood by shifting the topic."
+        },
+        "seed_offset": 37
+      }
+    ],
+    "dialogue": [
+      "hanyoil: You know, my notebook really helped in organizing my tasks.",
+      "hyo-jeong: Oh, I’m using it to keep my table from wobbling!",
+      "hanyoil: Maybe I could lend you a coaster instead?",
+      "hyo-jeong: Let me know when you're ready.",
+      "hanyoil: Alright, alright, you win this time.",
+      "hyo-jeong: Anyway, did you hear about the new cafe downtown?"
+    ],
+    "plan": {
+      "target_sentence": "Let me know when you're ready.",
+      "primary_used_in": "daily",
+      "speaker_role": "friend",
+      "listener_role": "friend",
+      "relationship": "friend_to_friend",
+      "power_dynamic": "equal",
+      "speech_act": "request",
+      "politeness": "softened",
+      "story_function": "buys_time",
+      "selected_pair": "hanyoil ↔ hyo-jeong",
+      "target_speaker": "hyo-jeong",
+      "target_listener": "hanyoil",
+      "metadata_correction": "",
+      "situation_id": "cafe_note_return",
+      "domain": "daily",
+      "location": "cafe",
+      "background_prop": "two coffee cups, notebook",
+      "outfit_setting": "daily_outing",
+      "situation": "At a cafe, Hyo-jeong has borrowed Hanyoil's notebook, and he's trying to get it back.",
+      "delivery_mode": "character-led",
+      "target_sentence_context": {
+        "relationship_context": "a casual exchange about a borrowed item",
+        "target_speaker_role": "Hyo-jeong says it because she is casually delaying the return of the notebook.",
+        "target_listener_role": "Hanyoil receives the request as he waits for the notebook return.",
+        "power_dynamic": "equal with playful tension over the delayed return",
+        "speech_act": "a request used to delay action",
+        "service_direction": "none",
+        "story_function": "buys time"
+      },
+      "nuance_structure": {
+        "situation": "Hyo-jeong has borrowed Hanyoil's notebook, which she hasn't returned yet.",
+        "pressure": "Hanyoil is subtly pressuring Hyo-jeong to return the notebook.",
+        "expression": "Hyo-jeong, feeling the pressure but wanting to delay, says, 'Let me know when you're ready.'",
+        "confirmation": "Hanyoil laughs, realizing Hyo-jeong isn't ready to return the notebook yet."
+      },
+      "sitcom_conflict": "Hyo-jeong enjoys her control over the notebook situation while Hanyoil is keen to get it back but avoids being direct.",
+      "comedic_game": {
+        "driver": "hyo-jeong",
+        "premise": "Hyo-jeong keeps delaying the return with quirky justifications.",
+        "escalation": "Each time Hanyoil brings up the notebook, Hyo-jeong invents a bigger reason to keep it a bit longer.",
+        "button": "Hanyoil humorously resigns, accepting he'll have to keep waiting with a grin."
+      },
+      "character_filter_collision": [
+        {
+          "character": "hyo-jeong",
+          "facet": "genuine off-angle sincerity",
+          "collision": "She sincerely believes her quirky justifications will be seen as valid by Hanyoil."
+        },
+        {
+          "character": "hanyoil",
+          "facet": " 은근한 승부욕",
+          "collision": "He wants to recover the notebook but also can't help engaging with Hyo-jeong's quirky excuses."
+        }
+      ],
+      "emotional_engine": [
+        {
+          "character": "hyo-jeong",
+          "hidden_need": "To be accepted as quirky but valuable in the friendship.",
+          "defense": "Invents playful justifications that amuse her.",
+          "soft_spot_or_contradiction": "Her playfulness covers her insecurity about being indispensable."
+        },
+        {
+          "character": "hanyoil",
+          "hidden_need": "Wants organized access to his belongings.",
+          "defense": "Through subtle suggestions, he hopes to prompt action.",
+          "soft_spot_or_contradiction": "His desire for order sometimes conflicts with his enjoyment of Hyo-jeong's unpredictability."
+        }
+      ],
+      "visible_learning_moment": "Hyo-jeong's quirky reasoning visibly thwarts Hanyoil's attempts to get his notebook back.",
+      "visible_proof_panel": null,
+      "characters": [
+        "hanyoil",
+        "hyo-jeong"
+      ],
+      "problem": "Hanyoil wants his notebook back from Hyo-jeong who keeps giving excuses.",
+      "beat_count": 6,
+      "beats": [
+        {
+          "panel": 1,
+          "panel_type": "character",
+          "speaker": "hanyoil",
+          "nuance_role": "situation",
+          "visual_focus": "Hanyoil holds a coffee cup, looking at Hyo-jeong expectantly",
+          "intent": "Show Hanyoil trying to casually bring up the notebook.",
+          "story_payload": "Hanyoil mentions how helpful his notebook was in the past.",
+          "visual_policy": "show_prop",
+          "has_collocation": false
+        },
+        {
+          "panel": 2,
+          "panel_type": "character",
+          "speaker": "hyo-jeong",
+          "nuance_role": "pressure",
+          "visual_focus": "Hyo-jeong smilingly holding the notebook between her hands",
+          "intent": "Illustrate Hyo-jeong lightly dodging the request with a quirky excuse.",
+          "story_payload": "Hyo-jeong claims she needs the notebook to keep her wobbly table balanced.",
+          "visual_policy": "attitude_only",
+          "has_collocation": false
+        },
+        {
+          "panel": 3,
+          "panel_type": "character",
+          "speaker": "hanyoil",
+          "nuance_role": "pressure",
+          "visual_focus": "Hanyoil humorously trying to counter the excuse",
+          "intent": "Make Hanyoil press gently but clearly for the notebook back.",
+          "story_payload": "Hanyoil offers to lend her a coaster instead.",
+          "visual_policy": "show_prop",
+          "has_collocation": false
+        },
+        {
+          "panel": 4,
+          "panel_type": "character",
+          "speaker": "hyo-jeong",
+          "nuance_role": "expression",
+          "visual_focus": "Hyo-jeong laughing lightly",
+          "intent": "Hyo-jeong states the target sentence, deferring the return.",
+          "story_payload": "Target sentence: 'Let me know when you're ready.'",
+          "visual_policy": "attitude_only",
+          "has_collocation": true
+        },
+        {
+          "panel": 5,
+          "panel_type": "character",
+          "speaker": "hanyoil",
+          "nuance_role": "confirmation",
+          "visual_focus": "Hanyoil shaking his head with a knowing smile",
+          "intent": "Show Hanyoil's resigned acceptance with humor.",
+          "story_payload": "Hanyoil nods with a humorous acceptance, hinting at giving up for now.",
+          "visual_policy": "attitude_only",
+          "has_collocation": false
+        },
+        {
+          "panel": 6,
+          "panel_type": "character",
+          "speaker": "hyo-jeong",
+          "nuance_role": "confirmation",
+          "visual_focus": "Both sipping coffee, light banter resumes",
+          "intent": "Reinforce the friendly dynamic, accepting the ongoing game.",
+          "story_payload": "Hyo-jeong changes the topic, maintaining the playful air between them.",
+          "visual_policy": "attitude_only",
+          "has_collocation": false
+        }
+      ],
+      "milestone": {
+        "is_milestone": false,
+        "pair": null,
+        "summary": null
+      }
+    },
+    "script_json": {
+      "panels": [
+        {
+          "char": "hanyoil",
+          "bubble": "You know, my notebook really helped in organizing my tasks.",
+          "bubble_kr": "내 노트는 일 정리하는 데 정말 도움이 됐어.",
+          "performance": {
+            "expression_intent": "hopeful",
+            "body_pose": "standing",
+            "gesture": "hand_on_chin",
+            "gaze": "looking_to_side",
+            "prop_use": "none",
+            "visual_read": "Hanyoil is trying to casually hint at the importance of the notebook."
+          }
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "Oh, I’m using it to keep my table from wobbling!",
+          "bubble_kr": "아, 내 테이블이 흔들려서 그걸로 균형 잡고 있어!",
+          "performance": {
+            "expression_intent": "playfully sincere",
+            "body_pose": "standing",
+            "gesture": "shrug",
+            "gaze": "looking_at_viewer",
+            "prop_use": "none",
+            "visual_read": "Hyo-jeong casually dismisses Hanyoil's hint with a quirky excuse."
+          }
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "Maybe I could lend you a coaster instead?",
+          "bubble_kr": "내가 컵 받침 하나 빌려줄까?",
+          "performance": {
+            "expression_intent": "helpfully persistent",
+            "body_pose": "leaning_forward",
+            "gesture": "pointing",
+            "gaze": "looking_at_viewer",
+            "prop_use": "none",
+            "visual_read": "Hanyoil offers a practical solution."
+          }
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "Let me know when you're ready.",
+          "bubble_kr": "준비되면 알려줘.",
+          "performance": {
+            "expression_intent": "casually evasive",
+            "body_pose": "standing",
+            "gesture": "hands_on_hips",
+            "gaze": "looking_away",
+            "prop_use": "none",
+            "visual_read": "Hyo-jeong gently defers returning the notebook."
+          }
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "Alright, alright, you win this time.",
+          "bubble_kr": "그래, 그래, 이번엔 네가 이겼어.",
+          "performance": {
+            "expression_intent": "humorous resignation",
+            "body_pose": "standing",
+            "gesture": "hands_clasped",
+            "gaze": "looking_down",
+            "prop_use": "none",
+            "visual_read": "Hanyoil acknowledges the playful defeat."
+          }
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "Anyway, did you hear about the new cafe downtown?",
+          "bubble_kr": "아무튼, 시내에 새로 생긴 카페 얘기 들었어?",
+          "performance": {
+            "expression_intent": "cheerful",
+            "body_pose": "standing",
+            "gesture": "waving",
+            "gaze": "looking_up",
+            "prop_use": "none",
+            "visual_read": "Hyo-jeong lightens the mood by shifting the topic."
+          }
+        }
+      ]
+    },
+    "visual_json": {
+      "panels": [
+        {
+          "subject": "",
+          "body_pose": "standing",
+          "gesture": "hand_on_chin",
+          "action": "standing, hand on own chin",
+          "prop_interaction": "",
+          "expression": "awkward_smile",
+          "face_state": "looking to the side",
+          "acting_intent": "Hanyoil hints at the notebook's importance.",
+          "framing": "upper_body",
+          "background": "cafe, table",
+          "performance_visual_read": "Hanyoil is trying to casually hint at the importance of the notebook.",
+          "emotional_state": ""
+        },
+        {
+          "subject": "",
+          "body_pose": "standing",
+          "gesture": "shrug",
+          "action": "standing, shrug",
+          "prop_interaction": "",
+          "expression": "light_smile",
+          "face_state": "looking at viewer",
+          "acting_intent": "Hyo-jeong deflects with a quirky excuse.",
+          "framing": "upper_body",
+          "background": "cafe, table",
+          "performance_visual_read": "Hyo-jeong casually dismisses Hanyoil's hint with a quirky excuse.",
+          "emotional_state": ""
+        },
+        {
+          "subject": "",
+          "body_pose": "leaning_forward",
+          "gesture": "pointing",
+          "action": "leaning forward, pointing",
+          "prop_interaction": "",
+          "expression": "helpfully persistent",
+          "face_state": "looking at viewer",
+          "acting_intent": "Hanyoil suggests a coaster.",
+          "framing": "upper_body",
+          "background": "cafe, table",
+          "performance_visual_read": "Hanyoil offers a practical solution.",
+          "emotional_state": ""
+        },
+        {
+          "subject": "",
+          "body_pose": "standing",
+          "gesture": "hands_on_hips",
+          "action": "standing, hands on hips",
+          "prop_interaction": "",
+          "expression": "light_smile",
+          "face_state": "looking away",
+          "acting_intent": "Hyo-jeong defers returning the notebook.",
+          "framing": "upper_body",
+          "background": "cafe, table",
+          "performance_visual_read": "Hyo-jeong gently defers returning the notebook.",
+          "emotional_state": ""
+        },
+        {
+          "subject": "",
+          "body_pose": "standing",
+          "gesture": "hands_clasped",
+          "action": "standing, own hands together",
+          "prop_interaction": "",
+          "expression": "humorous resignation",
+          "face_state": "looking down",
+          "acting_intent": "Hanyoil acknowledges playful defeat.",
+          "framing": "upper_body",
+          "background": "cafe, table",
+          "performance_visual_read": "Hanyoil acknowledges the playful defeat.",
+          "emotional_state": ""
+        },
+        {
+          "subject": "",
+          "body_pose": "standing",
+          "gesture": "waving",
+          "action": "standing, waving",
+          "prop_interaction": "",
+          "expression": "light_smile",
+          "face_state": "looking up",
+          "acting_intent": "Hyo-jeong lightens the mood.",
+          "framing": "upper_body",
+          "background": "cafe, table",
+          "performance_visual_read": "Hyo-jeong lightens the mood by shifting the topic.",
+          "emotional_state": ""
+        }
+      ]
+    }
+  }
+]

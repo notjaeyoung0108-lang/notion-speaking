@@ -31,12 +31,12 @@
 
 hanyoil:
   lora:                                          # 다중 LoRA 블렌딩 (path + weight)
-    - path: /models/models/lora/hanyoil_01.safetensors
+    - path: /models/models/lora/hanyoil_lora_3.safetensors
       weight: 0.8
-    - path: /models/models/lora/hanyoil_02.safetensors
+    - path: /models/models/lora/hanyoil_lora_2.safetensors
       weight: 0.3
   appearance_tags: 1girl, solo, light blush, black eyes
-  hair: black hair, long hair
+  hair: black hair, long hair, hair between eyes
   body_tags: slim body, slim thighs, round breasts, medium breasts, close-set breasts, narrow waist, light skin
   action: standing
   face_state: looking at viewer, eye-level shot
@@ -68,9 +68,6 @@ hanyoil:
     workplace_7:
       outfit: skyblue turtleneck, sleeveless shirt , gray pencil skirt, no stockings
       props: lanyard
-    workplace_8:
-      outfit: red turtleneck, sleeveless shirt , dress pants, black pants, high-waist pants
-      props: lanyard
     daily_home_1:
       outfit: white camisole, dolphin shorts, black shorts
       state: cleavage
@@ -99,15 +96,16 @@ hanyoil:
       outfit: plaid shirt, open shirt, navy shirt, black tanktop, gray sweatpants, lowleg pants
       state: navel, midriff, cleavage
       props: black cap
-      hair_override: black hair, ponytail
+      hair_override: ponytail
     daily_convenience_3:
       outfit: white shirt, long sleeves, compression shirt, gray pants, track pants
       state: cleavage
     daily_convenience_4:
-      outfit: gray camisole, white cardigan, cropped_cardigan, see-through cardigan, denim shorts, blue shorts, high-waist shorts
+      outfit: gray camisole, white cardigan, cropped_cardigan, see-through cardigan, denim shorts, blue shorts
       state: cleavage, bare shoulders
     daily_convenience_5:
-      outfit: black tanktop, blue jeans, high-waist jeans
+      outfit: black tanktop, denim shorts, blue shorts
+      props: black cap
       state: cleavage
       hair_override: black hair, ponytail
     daily_outing_1:
@@ -141,6 +139,9 @@ hanyoil:
     daily_outing_10:
       outfit: black sweater, off-shoulder sweater, long sleeves, denim shorts, black shorts, torn shorts
       state: cleavage, off shoulder
+    daily_outing_11:
+      outfit: black turtleneck, sleeveless shirt , white jeans,lowleg jeans
+      state: navel, midriff
     daily_dressup_1:
       outfit: short dress, black dress, lace sleeves, long sleeves, see-through cutout
       props: earrings, black handbag
@@ -259,7 +260,7 @@ hyo-jeong:
     daily_home_1:
       outfit: pink oversized hoodie, white short shorts
     daily_convenience_1:
-      outfit: oversized band t-shirt, black shorts, slippers
+      outfit: oversized band t-shirt, black shorts
     daily_sport_1:
       outfit: gray sports bra, black leggings, white cropped hoodie
       state: midriff, cleavage

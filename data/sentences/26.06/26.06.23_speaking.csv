@@ -1,0 +1,6 @@
+﻿No.,sentence_unit,korean_trigger,register,primary_used_in,used_in,speaker_role,listener_role,relationship,power_dynamic,speech_act,politeness,micro_situation,story_function,character_fit,avoid_with
+1,Let me know when you're ready.,준비되면 알려줘.,standard,daily,"[""daily"", ""workplace""]",friend,friend,friend_to_friend,equal,request,softened,친구와 함께 운동하기 전에 컨디션을 체크할 때,buys_time,"[""hanyoil"", ""ru-ha""]",[]
+2,I didn't get that.,못 들었어.,standard,workplace,"[""workplace"", ""daily""]",coworker,coworker,coworker_to_coworker,equal,clarification,direct,회의 중에 발표 내용을 다시 들을 때,creates_misunderstanding,"[""so-ae"", ""hyo-jeong""]",[]
+3,Can you say that again?,다시 말해줄 수 있어?,standard,academic,"[""academic"", ""workplace""]",student,professor,student_to_professor,upward,clarification,polite,강의에서 중요한 부분을 놓쳐서 다시 듣고 싶을 때,reveals_emotion,"[""hanyoil"", ""so-ae""]",[]
+4,Can I borrow this?,이거 빌릴 수 있어?,standard,daily,"[""daily"", ""workplace""]",roommate,roommate,roommate_to_roommate,equal,request,softened,룸메이트의 노트를 잠깐 빌리고 싶을 때,starts_conflict,"[""ru-ha"", ""hanyuyeon""]",[]
+5,I'm just about to start.,이제 막 시작하려고 해.,standard,workplace,"[""workplace"", ""daily""]",employee,boss,employee_to_boss,upward,update_status,softened,회의 또는 프로젝트를 시작하기 직전에 보고할 때,sets_up_punchline,"[""hanyuyeon"", ""hanyoil""]","[""too_casual_for_boss""]"

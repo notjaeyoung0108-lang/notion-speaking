@@ -132,11 +132,12 @@ relationships:
     phase: 1
     comfort_level: 3
     dynamic:
-    - hyojeong_makes_up_facts
-    - soae_cannot_let_it_pass
-    signature_bit: Hyo-jeong states a made-up "fact" with total confidence; So-ae physically
-      cannot let it pass and debunks it with a full lecture; Hyo-jeong stays unbothered.
+    - hyojeong_reads_the_current_situation_sideways
+    - soae_cannot_let_imprecise_logic_pass
+    signature_bit: Hyo-jeong reacts to the object or request in front of them with total
+      off-angle sincerity; So-ae tries to correct the logic, then realizes Hyo-jeong
+      accidentally pointed at the real issue.
     last_beat: null
-    running_gag: soae_debunks_hyojeongs_theory
+    running_gag: soae_corrects_hyojeongs_off_angle_logic
     unresolved:
-    - soae_oddly_charmed_by_hyojeongs_logic
+    - soae_oddly_charmed_by_hyojeongs_sideways_logic

@@ -162,7 +162,7 @@ def _resolve_lora_path(path_value: str, model_root: Path) -> str:
         return str(direct)
 
     aliases = {
-        "hanyoil_01.safetensors": "hanyoil_lora_3.safetensors",
+        "hanyoil_01.safetensors": "hanyoil_lora.safetensors",
         "hanyoil_02.safetensors": "hanyoil_lora_2.safetensors",
         "hyo_jeong.safetensors": "hyo-jeong.safetensors",
     }
@@ -346,6 +346,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run sd_generate.py locally without Modal.")
     parser.add_argument("--comic", action="store_true", help="Render prompts.COMIC_PANELS.")
     parser.add_argument("--batch-json-path", type=Path, help="Render batch items with panels/seed.")
+    parser.add_argument("--offset", type=int, default=0, help="Skip this many batch items before rendering.")
     parser.add_argument("--limit", type=int, default=0, help="Limit batch item count.")
     parser.add_argument("--seed", type=int, default=-1, help="Seed; default random when negative.")
     parser.add_argument("--model-root", type=Path, default=_default_model_root())
@@ -399,6 +400,8 @@ def main() -> None:
 
     if args.batch_json_path:
         items = _load_batch_items(args.batch_json_path)
+        if args.offset > 0:
+            items = items[args.offset :]
         if args.limit > 0:
             items = items[: args.limit]
         for index, item in enumerate(items, 1):

@@ -1,0 +1,264 @@
+[
+  {
+    "sentence": "I'll get back to you on that.",
+    "domain": "workplace",
+    "script": {
+      "situation": "HR meeting about snacks",
+      "characters": [
+        "hanyoil",
+        "ru-ha"
+      ],
+      "comedic_game": {
+        "driver": "hanyoil",
+        "premise": "hanyoil insists on planning snack rotation",
+        "escalation": "ru-ha questions the need",
+        "button": "hanyoil buys time instead of admitting it's a silly problem"
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "We need an official snack rotation schedule.",
+          "bubble_kr": "공식 간식 순서를 정해야 해.",
+          "expression_intent": "serious"
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "Really? It's just snacks.",
+          "bubble_kr": "정말? 그냥 간식이잖아.",
+          "expression_intent": "skeptical"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "But fairness is important!",
+          "bubble_kr": "하지만 공정함이 중요해!",
+          "expression_intent": "defensive"
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "You're avoiding work, right?",
+          "bubble_kr": "일 피하려고 그러는 거지?",
+          "expression_intent": "teasing"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "I'll get back to you on that.",
+          "bubble_kr": "그건 다시 알려줄게.",
+          "expression_intent": "evasively confident"
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "Great. Let me know when snacks become urgent.",
+          "bubble_kr": "좋아. 간식이 급해지면 알려줘.",
+          "expression_intent": "dry amusement"
+        }
+      ]
+    },
+    "direction": {
+      "panels": [
+        {
+          "expression": "serious",
+          "body_pose": "standing",
+          "gesture": "holding_paper",
+          "gaze": "looking_at_viewer",
+          "framing": "upper_body",
+          "prop_interaction": "paper_schedule",
+          "subject": "",
+          "background": "office_meeting_room",
+          "visual_note": "Hanyoil is taking the snack schedule seriously."
+        },
+        {
+          "expression": "skeptical",
+          "body_pose": "sitting",
+          "gesture": "arms_crossed",
+          "gaze": "looking_to_the_side",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "office_meeting_room",
+          "visual_note": "Ru-ha is doubtful about the importance."
+        },
+        {
+          "expression": "defensive",
+          "body_pose": "standing",
+          "gesture": "pointing",
+          "gaze": "looking_at_viewer",
+          "framing": "upper_body",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "office_meeting_room",
+          "visual_note": "Hanyoil insists on fairness strongly."
+        },
+        {
+          "expression": "teasing",
+          "body_pose": "sitting",
+          "gesture": "leaning_forward",
+          "gaze": "looking_at_viewer",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "office_meeting_room",
+          "visual_note": "Ru-ha playfully suggests Hanyoil is avoiding work."
+        },
+        {
+          "expression": "evasively confident",
+          "body_pose": "standing",
+          "gesture": "hands_on_hips",
+          "gaze": "looking_to_the_side",
+          "framing": "upper_body",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "office_meeting_room",
+          "visual_note": "Hanyoil confidently yet evasively gives no clear answer."
+        },
+        {
+          "expression": "dry amusement",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking_at_viewer",
+          "framing": "upper_body",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "office_meeting_room",
+          "visual_note": "Ru-ha finds humor in the non-urgent matter."
+        }
+      ]
+    }
+  },
+  {
+    "sentence": "Can you say that again?",
+    "domain": "academic",
+    "script": {
+      "situation": "a group study session is disrupted by loud music",
+      "characters": [
+        "hanyoil",
+        "so-ae"
+      ],
+      "comedic_game": {
+        "driver": "hanyoil",
+        "premise": "hanyoil is struggling to concentrate due to loud music from next room",
+        "escalation": "so-ae, unbothered, recites odd facts loudly",
+        "button": "hanyoil absentmindedly starts swaying to music instead of focusing"
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Do you hear that music? It's impossible to focus!",
+          "bubble_kr": "저 음악 들려? 집중할 수가 없어!",
+          "expression_intent": "frustrated"
+        },
+        {
+          "char": "so-ae",
+          "panel_type": "character",
+          "bubble": "Actually, did you know most people can ignore background noise?",
+          "bubble_kr": "사실 대부분 사람이 백그라운드 소음은 무시할 수 있어.",
+          "expression_intent": "matter-of-fact"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Great, I'm not most people!",
+          "bubble_kr": "잘 됐네, 난 대부분 사람이 아니잖아!",
+          "expression_intent": "exasperated"
+        },
+        {
+          "char": "so-ae",
+          "panel_type": "character",
+          "bubble": "Can you say that again? I was noting another fun fact.",
+          "bubble_kr": "다시 말해줄 수 있어? 다른 재밌는 사실을 적느라.",
+          "expression_intent": "oblivious"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Are you even listening?!",
+          "bubble_kr": "네가 듣고 있는 게 맞아?",
+          "expression_intent": "incredulous"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Oh no, now I'm moving to the beat...!",
+          "bubble_kr": "아니야, 이제 나도 음악에 맞춰 움직이고 있어...!",
+          "expression_intent": "resigned amusement"
+        }
+      ]
+    },
+    "direction": {
+      "panels": [
+        {
+          "expression": "frustrated",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking to the side",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "study_room, books, table",
+          "visual_note": "hanyoil is visibly annoyed by the loud music."
+        },
+        {
+          "expression": "composed_smile",
+          "body_pose": "sitting",
+          "gesture": "holding_paper",
+          "gaze": "looking at viewer",
+          "framing": "waist_shot",
+          "prop_interaction": "notes",
+          "subject": "",
+          "background": "study_room, books, table",
+          "visual_note": "so-ae calmly explains to hanyoil about ignoring noise."
+        },
+        {
+          "expression": "exasperated",
+          "body_pose": "sitting",
+          "gesture": "arms_crossed",
+          "gaze": "looking away",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "study_room, books, table",
+          "visual_note": "hanyoil responds with clear frustration."
+        },
+        {
+          "expression": "light_smile",
+          "body_pose": "sitting",
+          "gesture": "holding_paper",
+          "gaze": "looking down",
+          "framing": "waist_shot",
+          "prop_interaction": "notes",
+          "subject": "",
+          "background": "study_room, books, table",
+          "visual_note": "so-ae is distracted, noting down facts."
+        },
+        {
+          "expression": "incredulous",
+          "body_pose": "sitting",
+          "gesture": "leaning_forward",
+          "gaze": "looking at viewer",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "study_room, books, table",
+          "visual_note": "hanyoil is bewildered by so-ae's lack of attention."
+        },
+        {
+          "expression": "resigned amusement",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking down",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "study_room, books, table",
+          "visual_note": "hanyoil humorously accepts he's tapping to the beat."
+        }
+      ]
+    }
+  }
+]

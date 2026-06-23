@@ -1,0 +1,520 @@
+[
+  {
+    "sentence": "I'll get back to you on that.",
+    "domain": "workplace",
+    "script": {
+      "situation": "Hanyoil struggles to find a missing report while Ru-ha teases him about being unorganized.",
+      "characters": [
+        "hanyoil",
+        "ru-ha"
+      ],
+      "comedic_game": {
+        "driver": "hanyoil",
+        "premise": "Hanyoil is under pressure to find a report Ru-ha sees as unpreparedness.",
+        "escalation": "Ru-ha keeps teasing, while Hanyoil scrambles to find answers.",
+        "button": "Ru-ha offers to help, but Hanyoil insists with a touch of false confidence."
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Where did I put that report?",
+          "bubble_kr": "내가 그 보고서를 어디 뒀지?",
+          "expression_intent": "frustrated"
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "You mean your 'super organized' desk?",
+          "bubble_kr": "너의 '완전 깔끔한' 책상 말하는 거야?",
+          "expression_intent": "teasing"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "I have a system…sort of.",
+          "bubble_kr": "나름 시스템이 있어…어느 정도는.",
+          "expression_intent": "defensive"
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "Sure, sure. Want me to find it for you?",
+          "bubble_kr": "그래, 물론이지. 내가 찾아줄까?",
+          "expression_intent": "mock help"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "I'll get back to you on that.",
+          "bubble_kr": "그건 다시 알려줄게.",
+          "expression_intent": "stalling"
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "I'm always here when you need a real plan.",
+          "bubble_kr": "진짜 계획이 필요하면 항상 여깄어.",
+          "expression_intent": "smug"
+        }
+      ]
+    },
+    "direction": {
+      "panels": [
+        {
+          "expression": "frustrated",
+          "body_pose": "sitting",
+          "gesture": "hands_on_forehead",
+          "gaze": "looking_down",
+          "framing": "waist_shot",
+          "location": "office",
+          "background_prop": "desk",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "holding_paper",
+          "visual_note": "Hanyoil is sitting at his desk, visibly frustrated, searching through papers."
+        },
+        {
+          "expression": "teasing",
+          "body_pose": "standing",
+          "gesture": "hands_on_hips",
+          "gaze": "looking_at_viewer",
+          "framing": "waist_shot",
+          "location": "office",
+          "background_prop": "desk",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Ru-ha stands nearby, teasing Hanyoil about his messy desk."
+        },
+        {
+          "expression": "defensive",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking_up",
+          "framing": "waist_shot",
+          "location": "office",
+          "background_prop": "desk",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "holding_paper",
+          "visual_note": "Hanyoil responds defensively, looking up from his desk."
+        },
+        {
+          "expression": "mock_help",
+          "body_pose": "standing",
+          "gesture": "shrug",
+          "gaze": "looking_away",
+          "framing": "upper_body",
+          "location": "office",
+          "background_prop": "desk",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Ru-ha offers mock help with a playful shrug."
+        },
+        {
+          "expression": "stalling",
+          "body_pose": "sitting",
+          "gesture": "hand_on_chin",
+          "gaze": "looking_to_the_side",
+          "framing": "upper_body",
+          "location": "office",
+          "background_prop": "desk",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "holding_paper",
+          "visual_note": "Hanyoil considers Ru-ha's offer, stalling for time."
+        },
+        {
+          "expression": "smug",
+          "body_pose": "standing",
+          "gesture": "arms_crossed",
+          "gaze": "looking_at_viewer",
+          "framing": "upper_body",
+          "location": "office",
+          "background_prop": "desk",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Ru-ha, with a smug expression, stands confidently, reminding Hanyoil of their previous advice."
+        }
+      ]
+    },
+    "render_panels": [
+      {
+        "framing": "waist_shot",
+        "background": "office, desk",
+        "location": "office",
+        "used_in": "workplace",
+        "target_sentence": "I'll get back to you on that.",
+        "bubble": "Where did I put that report?",
+        "bubble_kr": "내가 그 보고서를 어디 뒀지?",
+        "seed_offset": 0,
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "workplace_5",
+        "action": "sitting, hands_on_forehead",
+        "body_pose": "sitting",
+        "gesture": "hands_on_forehead",
+        "subject": "",
+        "expression": "frustrated face",
+        "face_state": "looking down"
+      },
+      {
+        "framing": "waist_shot",
+        "background": "office, desk",
+        "location": "office",
+        "used_in": "workplace",
+        "target_sentence": "I'll get back to you on that.",
+        "bubble": "You mean your 'super organized' desk?",
+        "bubble_kr": "너의 '완전 깔끔한' 책상 말하는 거야?",
+        "seed_offset": 7,
+        "panel_type": "character",
+        "char": "ru-ha",
+        "outfit": "workplace_1",
+        "action": "standing, hands on hips",
+        "body_pose": "standing",
+        "gesture": "hands_on_hips",
+        "subject": "",
+        "expression": "teasing",
+        "face_state": "looking at viewer"
+      },
+      {
+        "framing": "waist_shot",
+        "background": "office, desk",
+        "location": "office",
+        "used_in": "workplace",
+        "target_sentence": "I'll get back to you on that.",
+        "bubble": "I have a system…sort of.",
+        "bubble_kr": "나름 시스템이 있어…어느 정도는.",
+        "seed_offset": 13,
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "workplace_5",
+        "action": "sitting",
+        "body_pose": "sitting",
+        "gesture": "none",
+        "subject": "",
+        "expression": "defensive",
+        "face_state": "looking up"
+      },
+      {
+        "framing": "upper_body",
+        "background": "office, desk",
+        "location": "office",
+        "used_in": "workplace",
+        "target_sentence": "I'll get back to you on that.",
+        "bubble": "Sure, sure. Want me to find it for you?",
+        "bubble_kr": "그래, 물론이지. 내가 찾아줄까?",
+        "seed_offset": 21,
+        "panel_type": "character",
+        "char": "ru-ha",
+        "outfit": "workplace_1",
+        "action": "standing, shrug",
+        "body_pose": "standing",
+        "gesture": "shrug",
+        "subject": "",
+        "expression": "mock_help",
+        "face_state": "looking away"
+      },
+      {
+        "framing": "upper_body",
+        "background": "office, desk",
+        "location": "office",
+        "used_in": "workplace",
+        "target_sentence": "I'll get back to you on that.",
+        "bubble": "I'll get back to you on that.",
+        "bubble_kr": "그건 다시 알려줄게.",
+        "seed_offset": 29,
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "workplace_5",
+        "action": "sitting, hand on own chin",
+        "body_pose": "sitting",
+        "gesture": "hand_on_chin",
+        "subject": "",
+        "expression": "stalling",
+        "face_state": "looking to the side"
+      },
+      {
+        "framing": "upper_body",
+        "background": "office, desk",
+        "location": "office",
+        "used_in": "workplace",
+        "target_sentence": "I'll get back to you on that.",
+        "bubble": "I'm always here when you need a real plan.",
+        "bubble_kr": "진짜 계획이 필요하면 항상 여깄어.",
+        "seed_offset": 37,
+        "panel_type": "character",
+        "char": "ru-ha",
+        "outfit": "workplace_1",
+        "action": "standing, crossed arms",
+        "body_pose": "standing",
+        "gesture": "arms_crossed",
+        "subject": "",
+        "expression": "smug face",
+        "face_state": "looking at viewer"
+      }
+    ]
+  },
+  {
+    "sentence": "Can you say that again?",
+    "domain": "academic",
+    "script": {
+      "situation": "Study group in the school cafeteria",
+      "characters": [
+        "hanyoil",
+        "hyo-jeong"
+      ],
+      "comedic_game": {
+        "driver": "hanyoil",
+        "premise": "Hanyoil is trying to study seriously while Hyo-jeong distracts with wild facts.",
+        "escalation": "Hanyoil is forced to repeatedly ask Hyo-jeong to focus, but each time Hyo-jeong shares a more bizarre fact.",
+        "button": "Hanyoil concedes to Hyo-jeong's energy, turning the study session into a trivia game."
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "We need to focus on history, okay?",
+          "bubble_kr": "역사에 집중해야 해, 알겠지?",
+          "expression_intent": "determined"
+        },
+        {
+          "char": "hyo-jeong",
+          "panel_type": "character",
+          "bubble": "Did you know ducks can't say 'moo'?",
+          "bubble_kr": "너 오리가 '음메' 못한다는 거 알아?",
+          "expression_intent": "excited"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Can you say that again?",
+          "bubble_kr": "다시 말해줄 수 있어?",
+          "expression_intent": "confused"
+        },
+        {
+          "char": "hyo-jeong",
+          "panel_type": "character",
+          "bubble": "And fish don't fly planes!",
+          "bubble_kr": "그리고 물고기는 비행기를 조종하지 않아!",
+          "expression_intent": "serious"
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Why do I even try...",
+          "bubble_kr": "내가 왜 시도하지...",
+          "expression_intent": "resigned"
+        },
+        {
+          "char": "hyo-jeong",
+          "panel_type": "character",
+          "bubble": "I'll quiz you on more cool facts!",
+          "bubble_kr": "더 멋진 사실들로 퀴즈 내줄게!",
+          "expression_intent": "enthusiastic"
+        }
+      ]
+    },
+    "direction": {
+      "panels": [
+        {
+          "expression": "serious",
+          "body_pose": "standing",
+          "gesture": "arms_crossed",
+          "gaze": "looking at viewer",
+          "framing": "full_body",
+          "location": "cafeteria",
+          "background_prop": "table, chairs",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Hanyoil is determined to focus on studying."
+        },
+        {
+          "expression": "happy",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking at viewer",
+          "framing": "waist_shot",
+          "location": "cafeteria",
+          "background_prop": "",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Hyo-jeong shares a randomly fun fact."
+        },
+        {
+          "expression": "confused",
+          "body_pose": "sitting",
+          "gesture": "hand_on_chin",
+          "gaze": "looking away",
+          "framing": "close_up",
+          "location": "cafeteria",
+          "background_prop": "",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Hanyoil is puzzled by Hyo-jeong's comment."
+        },
+        {
+          "expression": "serious",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking at viewer",
+          "framing": "upper_body",
+          "location": "cafeteria",
+          "background_prop": "table",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Hyo-jeong continues with the serious tone of fun facts."
+        },
+        {
+          "expression": "sigh",
+          "body_pose": "sitting",
+          "gesture": "facepalm",
+          "gaze": "looking down",
+          "framing": "close_up",
+          "location": "cafeteria",
+          "background_prop": "",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Hanyoil is exasperated by the distractions."
+        },
+        {
+          "expression": "enthusiastic",
+          "body_pose": "sitting",
+          "gesture": "hands_clasped",
+          "gaze": "looking at viewer",
+          "framing": "waist_shot",
+          "location": "cafeteria",
+          "background_prop": "",
+          "subject": "",
+          "action": "",
+          "prop_interaction": "",
+          "visual_note": "Hyo-jeong is eager to share more fun quizzes."
+        }
+      ]
+    },
+    "render_panels": [
+      {
+        "framing": "full_body",
+        "background": "cafeteria, table, chairs",
+        "location": "cafeteria",
+        "used_in": "academic",
+        "target_sentence": "Can you say that again?",
+        "bubble": "We need to focus on history, okay?",
+        "bubble_kr": "역사에 집중해야 해, 알겠지?",
+        "seed_offset": 0,
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "academic_1",
+        "action": "standing, crossed arms",
+        "body_pose": "standing",
+        "gesture": "arms_crossed",
+        "subject": "",
+        "expression": "serious face",
+        "face_state": "looking at viewer"
+      },
+      {
+        "framing": "waist_shot",
+        "background": "cafeteria, table, chairs",
+        "location": "cafeteria",
+        "used_in": "academic",
+        "target_sentence": "Can you say that again?",
+        "bubble": "Did you know ducks can't say 'moo'?",
+        "bubble_kr": "너 오리가 '음메' 못한다는 거 알아?",
+        "seed_offset": 7,
+        "panel_type": "character",
+        "char": "hyo-jeong",
+        "outfit": "academic_1",
+        "action": "sitting",
+        "body_pose": "sitting",
+        "gesture": "none",
+        "subject": "",
+        "expression": "happy face",
+        "face_state": "looking at viewer"
+      },
+      {
+        "framing": "close_up",
+        "background": "cafeteria, table, chairs",
+        "location": "cafeteria",
+        "used_in": "academic",
+        "target_sentence": "Can you say that again?",
+        "bubble": "Can you say that again?",
+        "bubble_kr": "다시 말해줄 수 있어?",
+        "seed_offset": 13,
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "academic_1",
+        "action": "sitting, hand on own chin",
+        "body_pose": "sitting",
+        "gesture": "hand_on_chin",
+        "subject": "",
+        "expression": "confused",
+        "face_state": "looking away"
+      },
+      {
+        "framing": "upper_body",
+        "background": "cafeteria, table, chairs",
+        "location": "cafeteria",
+        "used_in": "academic",
+        "target_sentence": "Can you say that again?",
+        "bubble": "And fish don't fly planes!",
+        "bubble_kr": "그리고 물고기는 비행기를 조종하지 않아!",
+        "seed_offset": 21,
+        "panel_type": "character",
+        "char": "hyo-jeong",
+        "outfit": "academic_1",
+        "action": "sitting",
+        "body_pose": "sitting",
+        "gesture": "none",
+        "subject": "",
+        "expression": "serious face",
+        "face_state": "looking at viewer"
+      },
+      {
+        "framing": "close_up",
+        "background": "cafeteria, table, chairs",
+        "location": "cafeteria",
+        "used_in": "academic",
+        "target_sentence": "Can you say that again?",
+        "bubble": "Why do I even try...",
+        "bubble_kr": "내가 왜 시도하지...",
+        "seed_offset": 29,
+        "panel_type": "character",
+        "char": "hanyoil",
+        "outfit": "academic_1",
+        "action": "sitting, facepalm",
+        "body_pose": "sitting",
+        "gesture": "facepalm",
+        "subject": "",
+        "expression": "sigh face",
+        "face_state": "looking down"
+      },
+      {
+        "framing": "waist_shot",
+        "background": "cafeteria, table, chairs",
+        "location": "cafeteria",
+        "used_in": "academic",
+        "target_sentence": "Can you say that again?",
+        "bubble": "I'll quiz you on more cool facts!",
+        "bubble_kr": "더 멋진 사실들로 퀴즈 내줄게!",
+        "seed_offset": 37,
+        "panel_type": "character",
+        "char": "hyo-jeong",
+        "outfit": "academic_1",
+        "action": "sitting, own hands together",
+        "body_pose": "sitting",
+        "gesture": "hands_clasped",
+        "subject": "",
+        "expression": "enthusiastic",
+        "face_state": "looking at viewer"
+      }
+    ]
+  }
+]

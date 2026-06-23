@@ -1,0 +1,213 @@
+{
+  "model": "gpt-4o",
+  "variant_A_sentence_only": [
+    {
+      "situation": "Two coworkers are trapped inside the office supply closet at midnight, trying to find a way out.",
+      "characters": [
+        "Jim",
+        "Sara"
+      ],
+      "comedic_game": {
+        "driver": "Jim",
+        "premise": "Jim keeps trying to handle any emergency situation with office supply references.",
+        "escalation": "Each time the stakes increase, Jim responds with progressively sillier office supply-related solutions.",
+        "button": "Sara's sensible request gets a now absurdly logical delay."
+      },
+      "panels": [
+        {
+          "char": "Sara",
+          "bubble": "Jim, we're stuck! How do we get out?",
+          "bubble_kr": "짐, 우리 갇혔어! 어떻게 나가?",
+          "expression_intent": "panicked"
+        },
+        {
+          "char": "Jim",
+          "bubble": "Not a problem! Let's paperclip our ideas together!",
+          "bubble_kr": "걱정 마! 아이디어를 종이클립으로 묶자!",
+          "expression_intent": "confident"
+        },
+        {
+          "char": "Sara",
+          "bubble": "Paperclips won't open the door! Do you have a better plan?",
+          "bubble_kr": "종이클립으론 못 열어! 더 나은 계획 있어?",
+          "expression_intent": "frustrated"
+        },
+        {
+          "char": "Jim",
+          "bubble": "Alright, we can brainstorm with sticky notes!",
+          "bubble_kr": "좋아, 포스트잇으로 브레인스토밍 하자!",
+          "expression_intent": "enthusiastic"
+        },
+        {
+          "char": "Sara",
+          "bubble": "Brainstorming?! Can you think of anything else?",
+          "bubble_kr": "브레인스토밍이라고?! 다른 생각은 없어?",
+          "expression_intent": "desperate"
+        },
+        {
+          "char": "Jim",
+          "bubble": "I'll get back to you on that.",
+          "bubble_kr": "그건 다시 알려줄게.",
+          "expression_intent": "sheepish"
+        }
+      ],
+      "_target_sentence": "I'll get back to you on that."
+    },
+    {
+      "situation": "Two university students are struggling through a late-night study session, surrounded by stacks of books and empty coffee cups.",
+      "characters": [
+        "Jake",
+        "Laura"
+      ],
+      "comedic_game": {
+        "driver": "Laura",
+        "premise": "Laura is comically bad at remembering historical dates.",
+        "escalation": "Laura keeps inventing ridiculously wrong dates for key events.",
+        "button": "Laura suggests an impossible future date as the answer."
+      },
+      "panels": [
+        {
+          "char": "Jake",
+          "bubble": "So, when did the Berlin Wall fall?",
+          "bubble_kr": "그래서, 베를린 장벽이 언제 무너졌지?",
+          "expression_intent": "curious"
+        },
+        {
+          "char": "Laura",
+          "bubble": "Um, 1066?",
+          "bubble_kr": "음, 1066년?",
+          "expression_intent": "unsure"
+        },
+        {
+          "char": "Jake",
+          "bubble": "That's the Norman Conquest!",
+          "bubble_kr": "그건 노르만 정복이야!",
+          "expression_intent": "correcting"
+        },
+        {
+          "char": "Laura",
+          "bubble": "Oh, right! Was it 1776 then?",
+          "bubble_kr": "아, 맞다! 혹시 1776년?",
+          "expression_intent": "thinking"
+        },
+        {
+          "char": "Jake",
+          "bubble": "Can you say that again?",
+          "bubble_kr": "다시 말해줄 수 있어?",
+          "expression_intent": "bewildered"
+        },
+        {
+          "char": "Laura",
+          "bubble": "How about 3025? I'm sure that's it!",
+          "bubble_kr": "3025년? 그게 맞을 거야!",
+          "expression_intent": "confidently wrong"
+        }
+      ],
+      "_target_sentence": "Can you say that again?"
+    }
+  ],
+  "variant_B_world_only": [
+    {
+      "situation": "hanyoil and so-ae are sorting the break room's snack shelf.",
+      "characters": [
+        "hanyoil",
+        "so-ae"
+      ],
+      "comedic_game": {
+        "driver": "so-ae's obsession with snack organization",
+        "premise": "so-ae insists on a hyper-detailed snack sorting system; hanyoil tries to simplify.",
+        "escalation": "as each snack is categorized, hanyoil becomes increasingly exasperated by the absurd criteria.",
+        "button": "so-ae enthusiastically introduces a 'sub-category' binder."
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "bubble": "Just put the chips here, right?",
+          "bubble_kr": "그냥 칩 여기에 두면 되는 거지, 그치?",
+          "expression_intent": "hopeful simplicity"
+        },
+        {
+          "char": "so-ae",
+          "bubble": "Actually, chips go by crunch intensity.",
+          "bubble_kr": "사실, 칩은 바삭한 정도로 분류해야 돼.",
+          "expression_intent": "correcting earnestness"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "Crunch intensity... seriously?",
+          "bubble_kr": "바삭한 정도... 진지하게?",
+          "expression_intent": "disbelief"
+        },
+        {
+          "char": "so-ae",
+          "bubble": "And then by flavor profile, like tangy vs. salty.",
+          "bubble_kr": "그다음엔 맛 프로파일로, 달콤함 대 짠맛으로.",
+          "expression_intent": "explaining eagerly"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "This is a two-pudding problem.",
+          "bubble_kr": "이건 푸딩 두 개는 필요한 문제야.",
+          "expression_intent": "resigned humor"
+        },
+        {
+          "char": "so-ae",
+          "bubble": "Oh, and I have a binder for sub-categories!",
+          "bubble_kr": "아, 그리고 하위 카테고리용 바인더도 있어!",
+          "expression_intent": "enthusiastic pride"
+        }
+      ]
+    },
+    {
+      "situation": "Ru-ha and Hyo-jeong try to solve a mysterious package delivery at a convenience store bench.",
+      "characters": [
+        "ru-ha",
+        "hyo-jeong"
+      ],
+      "comedic_game": {
+        "driver": "Hyo-jeong's off-angle sincerity",
+        "premise": "Hyo-jeong interprets Ru-ha's vague curiosity in a mysterious, unexpected way.",
+        "escalation": "Hyo-jeong continually misinterprets the package details while Ru-ha struggles to keep up.",
+        "button": "Ru-ha, left speechless, sees Hyo-jeong's logic accidentally solve the mystery."
+      },
+      "panels": [
+        {
+          "char": "ru-ha",
+          "bubble": "So, what's in the package?",
+          "bubble_kr": "그래서 상자 안에 뭐가 있어?",
+          "expression_intent": "curious yet casual"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "Probably a secret treasure map.",
+          "bubble_kr": "아마 비밀 보물 지도일 걸.",
+          "expression_intent": "confident sincerity"
+        },
+        {
+          "char": "ru-ha",
+          "bubble": "Treasure map? It's a package from Plaoud.",
+          "bubble_kr": "보물 지도? 이건 플라우드에서 온 건데.",
+          "expression_intent": "surprised but amused"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "That's exactly what they want you to think!",
+          "bubble_kr": "그게 바로 그들이 네가 그렇게 생각하게 하려는 거야!",
+          "expression_intent": "conspiratorial"
+        },
+        {
+          "char": "ru-ha",
+          "bubble": "So, just open it?",
+          "bubble_kr": "그럼 그냥 열어볼까?",
+          "expression_intent": "skeptical resolution"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "Fine, but beware of glitter bombs.",
+          "bubble_kr": "좋아, 근데 반짝이 폭탄 조심해.",
+          "expression_intent": "sudden seriousness"
+        }
+      ]
+    }
+  ]
+}

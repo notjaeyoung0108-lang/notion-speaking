@@ -86,6 +86,113 @@ def _background_bundle(P, pcfg: dict) -> str:
     return _trim_tags(pcfg.get("background", ""), limit=2) or "simple background"
 
 
+OBJECT_PANEL_SIZE = 1024
+
+
+def _panel_render_size(P, is_object_panel: bool) -> tuple[int, int]:
+    if is_object_panel:
+        return OBJECT_PANEL_SIZE, OBJECT_PANEL_SIZE
+    return P.WIDTH, P.HEIGHT
+
+
+_FRAMING_TAGS = {
+    "full_body": "full body",
+    "waist_shot": "cowboy shot, knees up",
+    "upper_body": "upper body, portrait",
+    "close_up": "close-up, portrait, face focus, headshot",
+    "object_close_up": "close-up, still life",
+}
+
+_FRAMING_NEGATIVE_TAGS = {
+    "waist_shot": "feet",
+    "upper_body": "full body, feet",
+    "close_up": "full body, lower body, legs, feet",
+    "object_close_up": "person, girl, face, body, hands",
+}
+
+
+def _framing_tags(pcfg: dict, is_object_panel: bool) -> str:
+    key = str(pcfg.get("framing") or "").strip().lower().replace("-", "_").replace(" ", "_")
+    if is_object_panel:
+        return _FRAMING_TAGS["object_close_up"]
+    return _FRAMING_TAGS.get(key, "upper body")
+
+
+def _framing_negative_tags(pcfg: dict, is_object_panel: bool) -> str:
+    key = str(pcfg.get("framing") or "").strip().lower().replace("-", "_").replace(" ", "_")
+    if is_object_panel:
+        return _FRAMING_NEGATIVE_TAGS["object_close_up"]
+    return _FRAMING_NEGATIVE_TAGS.get(key, "")
+
+
+_OBJECT_COLOR_HINTS = [
+    (("phone", "smartphone", "cellphone"), "black smartphone, incoming call screen, white table"),
+    (("menu",), "white menu card, white table"),
+    (("receipt",), "white receipt, white table"),
+    (("coffee", "cup"), "white coffee cup, brown table"),
+    (("notebook", "notes"), "white paper, brown desk"),
+]
+
+_OBJECT_NEGATIVE_HINTS = [
+    (("phone", "smartphone", "cellphone"), "laptop, keyboard, computer, monitor, tablet"),
+]
+
+
+def _object_subject_for_prompt(subject: str, action: str = "") -> str:
+    """Strengthen object panels with simple color/material anchors.
+
+    Illustrious often turns generic "phone on table" into any office device.
+    A tiny color + surface hint keeps the object legible without overloading the
+    scene prompt.
+    """
+    subject = (subject or "").strip()
+    action = (action or "").strip()
+    text = f"{subject}, {action}".lower()
+    extras = []
+    for keys, hint in _OBJECT_COLOR_HINTS:
+        if any(key in text for key in keys):
+            extras.extend(part.strip() for part in hint.split(",") if part.strip())
+    merged = []
+    for part in [subject, *extras]:
+        if part and part.lower() not in {x.lower() for x in merged}:
+            merged.append(part)
+    return ", ".join(merged) or action or "still life objects"
+
+
+def _object_negative_for_prompt(subject: str, action: str = "") -> str:
+    text = f"{subject or ''}, {action or ''}".lower()
+    extras = []
+    for keys, hint in _OBJECT_NEGATIVE_HINTS:
+        if any(key in text for key in keys):
+            extras.append(hint)
+    return ", ".join(extras)
+
+
+def _scene_action_tags(pcfg: dict) -> str:
+    parts = []
+    for raw in (pcfg.get("action", ""), pcfg.get("prop_interaction", "")):
+        for tag in str(raw or "").split(","):
+            tag = tag.strip()
+            if tag and tag.lower() not in {x.lower() for x in parts}:
+                parts.append(tag)
+    return ", ".join(parts)
+
+
+def _object_narration_text(pcfg: dict) -> str:
+    subject = str(pcfg.get("subject") or "").strip()
+    action = str(pcfg.get("action") or "").strip()
+    text = f"{subject}, {action}".lower()
+    if any(word in text for word in ("phone", "smartphone", "cellphone")) and "ring" in text:
+        return "A phone rings."
+    if "upside-down" in text and "menu" in text:
+        return "The menu is upside down."
+    if subject:
+        return subject.replace(",", " - ")
+    if action:
+        return action.replace(",", " - ")
+    return ""
+
+
 def _first_background_cfg(panels_cfg: list[dict]) -> dict:
     """Pick the first panel with set/room metadata as the episode background source."""
     for pcfg in panels_cfg:
@@ -643,6 +750,8 @@ NARRATION_BOX_PAD_X         = 34
 NARRATION_BOX_PAD_Y         = 18
 NARRATION_BOX_BORDER_W      = 4
 NARRATION_BOX_SCENE_OVERLAP = 12
+NARRATION_BOX_SCENE_INSET   = 18
+NARRATION_BOX_SCENE_TOP_INSET = 42
 
 
 def _webtoon_gutter_color(pcfg: dict | None = None):
@@ -703,9 +812,8 @@ def compose_webtoon_panel(image, text: str = "", face_bbox: tuple | None = None,
             req_w = max((_line_width(ln, font, italic_font, tmp_draw) for ln in lines), default=0)
         box_w = min(max_box_w, max(int(req_w) + NARRATION_BOX_PAD_X * 2, int(sw * 0.26)))
         box_h = line_h * len(lines) + NARRATION_BOX_PAD_Y * 2
-        m_top = max(m_top, box_h + 24)
-        box_x = (sw + bd * 2 - box_w) // 2
-        box_y = max(12, (m_top - box_h) // 2)
+        box_x = bd + NARRATION_BOX_SCENE_INSET
+        box_y = m_top + NARRATION_BOX_SCENE_TOP_INSET
         narration_box = (box_x, box_y, box_w, box_h, lines, line_h, font, italic_font)
     if text and bubble_kind != "narration":
         if face_bbox is None and yolo is not None:
@@ -1512,6 +1620,7 @@ class Generator:
             char_name = (pcfg.get("char") or "").strip()
             panel_type = (pcfg.get("panel_type") or "").strip().lower()
             is_object_panel = panel_type in {"object", "setting"} or not char_name
+            panel_w, panel_h = _panel_render_size(P, is_object_panel)
 
             if is_object_panel:
                 char = None
@@ -1545,13 +1654,16 @@ class Generator:
                 "school_uniform":    "academic_1",
             }
             # action/expression 은 비주얼 GPT 가 이미 Danbooru 태그로 출력 — 그대로 사용
-            action_tags = pcfg.get("action", "")
+            action_tags = _scene_action_tags(pcfg)
             bg = _background_bundle(P, pcfg)
+            framing_tags = _framing_tags(pcfg, is_object_panel)
+            framing_negative = _framing_negative_tags(pcfg, is_object_panel)
             if is_object_panel:
-                subject = pcfg.get("subject") or action_tags or "still life objects"
+                raw_subject = pcfg.get("subject") or ""
+                subject = _object_subject_for_prompt(raw_subject, action_tags)
                 prompt = (
                     f"{P.QUALITY_TAGS}, {subject}, {action_tags}, {P.OBJECT_PANEL_TAGS}, "
-                    f"{bg}, eye-level shot"
+                    f"{framing_tags}, eye-level shot, {bg}"
                 )
             else:
                 _outfit_key = pcfg["outfit"]
@@ -1570,14 +1682,20 @@ class Generator:
                 panel_face = pcfg.get("face_state", "").strip() or "looking at viewer"
                 # 카메라는 항상 eye-level 로 고정 (위/아래 앵글 방지). 퀄리티 태그는 맨 앞.
                 prompt = (
-                    f"{P.QUALITY_TAGS}, {char_name}, {char_tags}, {outfit_tags}, "
-                    f"{expr_tags}, {panel_face}, {action_tags}, "
-                    f"eye-level shot, {bg}"
+                    f"{P.QUALITY_TAGS}, {char_name}, {action_tags}, "
+                    f"{char_tags}, {outfit_tags}, {expr_tags}, {panel_face}, "
+                    f"{framing_tags}, eye-level shot, {bg}"
                 )
             negative_prompt = (
                 P.NEGATIVE_PROMPT + ", " + P.OBJECT_NEGATIVE_TAGS
                 if is_object_panel else P.NEGATIVE_PROMPT
             )
+            if framing_negative:
+                negative_prompt += ", " + framing_negative
+            if is_object_panel:
+                object_negative = _object_negative_for_prompt(pcfg.get("subject", ""), action_tags)
+                if object_negative:
+                    negative_prompt += ", " + object_negative
 
             panel_seed = seed + pcfg.get("seed_offset", idx)
             panel_variants = {}
@@ -1647,7 +1765,7 @@ class Generator:
                 result = self.pipe(
                     prompt_embeds=cond, pooled_prompt_embeds=pooled,
                     negative_prompt_embeds=neg_cond, negative_pooled_prompt_embeds=neg_pooled,
-                    width=P.WIDTH, height=P.HEIGHT,
+                    width=panel_w, height=panel_h,
                     num_inference_steps=P.STEPS, guidance_scale=P.CFG_SCALE,
                     num_images_per_prompt=1, generator=gen,
                 ).images[0]
@@ -1666,7 +1784,16 @@ class Generator:
                 panel_variants["face_box"] = face_box
 
             raw_bubble_text = pcfg.get("bubble", "")
-            bubble_text = raw_bubble_text if (not is_object_panel or _is_narration_text(raw_bubble_text)) else ""
+            if is_object_panel:
+                if _is_narration_text(raw_bubble_text):
+                    bubble_text = raw_bubble_text
+                elif not raw_bubble_text:
+                    auto_caption = _object_narration_text(pcfg)
+                    bubble_text = f"(narration) {auto_caption}" if auto_caption else ""
+                else:
+                    bubble_text = ""
+            else:
+                bubble_text = raw_bubble_text
             if bubble_text:
                 print(f"  💬 말풍선: \"{bubble_text}\"")
             # 웹툰 액자: 모든 패널을 동일 프레임(좌우 레일+박스)으로 씌워 폭을 통일한다.
@@ -1770,21 +1897,29 @@ class Generator:
             # 복습 카드는 '인출 단서'(키워드법) — 만화 씬 배경을 빼고 항상 흰배경으로
             # 고정한다(씬 배경을 쓰면 단서가 산만해지고 갤러리 썸네일 일관성도 깨진다).
             bg = "white background, simple background"
-            action_tags = pcfg.get("action", "")
+            action_tags = _scene_action_tags(pcfg)
+            framing_tags = _framing_tags(pcfg, is_object_panel)
+            framing_negative = _framing_negative_tags(pcfg, is_object_panel)
 
             if is_object_panel:
                 if current_lora:
                     self._clear_lora(self.pipe)
                     current_lora = ""
-                subject = pcfg.get("subject") or action_tags or "still life objects"
+                raw_subject = pcfg.get("subject") or ""
+                subject = _object_subject_for_prompt(raw_subject, action_tags)
                 prompt = (
                     f"{P.QUALITY_TAGS}, {subject}, {action_tags}, {P.OBJECT_PANEL_TAGS}, "
-                    f"{bg}, eye-level shot"
+                    f"{framing_tags}, eye-level shot, {bg}"
                 )
                 negative_prompt = (
                     P.NEGATIVE_PROMPT + ", " + P.OBJECT_NEGATIVE_TAGS + ", "
                     + getattr(P, "REVIEW_CARD_NEGATIVE_TAGS", "")
                 )
+                if framing_negative:
+                    negative_prompt += ", " + framing_negative
+                object_negative = _object_negative_for_prompt(raw_subject, action_tags)
+                if object_negative:
+                    negative_prompt += ", " + object_negative
             else:
                 char = P.CHARS[char_name]
                 if char_name != current_lora:
@@ -1802,13 +1937,15 @@ class Generator:
                 expr_tags = pcfg.get("expression", "")
                 panel_face = pcfg.get("face_state", "").strip() or "looking at viewer"
                 prompt = (
-                    f"{P.QUALITY_TAGS}, {char_name}, {char_tags}, {outfit_tags}, "
-                    f"{expr_tags}, {panel_face}, {action_tags}, "
-                    f"solo, upper body, centered, hands visible, eye-level shot, {bg}"
+                    f"{P.QUALITY_TAGS}, {char_name}, {action_tags}, "
+                    f"{char_tags}, {outfit_tags}, {expr_tags}, {panel_face}, "
+                    f"solo, {framing_tags}, centered, hands visible, eye-level shot, {bg}"
                 )
                 negative_prompt = (
                     P.NEGATIVE_PROMPT + ", " + getattr(P, "REVIEW_CARD_NEGATIVE_TAGS", "")
                 )
+                if framing_negative:
+                    negative_prompt += ", " + framing_negative
 
             print(f"\n=== 복습카드 [{i+1}/{len(cards)}] word {no} | seed={seed} | "
                   f"{'object' if is_object_panel else char_name} ===")

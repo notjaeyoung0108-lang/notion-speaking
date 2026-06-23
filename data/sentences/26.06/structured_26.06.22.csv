@@ -1,0 +1,6 @@
+﻿sentence_unit,korean_trigger,register,primary_used_in,used_in,speaker_role,listener_role,relationship,power_dynamic,speech_act,politeness,micro_situation,story_function,character_fit,avoid_with
+Can you hold on for a second?,잠깐만 기다려줄 수 있어요?,standard,workplace,"[""daily"", ""workplace""]",coworker,coworker,coworker_to_coworker,equal,request,softened,동료가 회의 중에 중요한 전화를 받았을 때,buys_time,"[""hanyoil"", ""hanyuyeon""]",[]
+Thanks for letting me know.,알려줘서 고마워요.,standard,daily,"[""daily"", ""workplace""]",friend,friend,friend_to_friend,equal,thanks,polite,친구가 약속 시간을 변경했을 때,reveals_emotion,"[""ru-ha"", ""so-ae""]",[]
+Do you have a moment?,잠깐 시간 있으세요?,standard,workplace,"[""workplace"", ""customer/service""]",employee,boss,employee_to_boss,upward,request,polite,상사에게 보고 전 이야기를 해야할 때,reveals_emotion,"[""hanyoil"", ""hanyuyeon""]",[]
+Can I get back to you later?,나중에 다시 연락드려도 될까요?,standard,workplace,"[""workplace"", ""customer/service""]",employee,coworker,coworker_to_coworker,equal,delay_answer,softened,동료가 자료 요구를 했지만 바로 확인이 안될 때,buys_time,"[""hanyoil"", ""hyo-jeong""]",[]
+Is now a good time?,지금 괜찮나요?,standard,customer/service,"[""daily"", ""customer/service""]",customer,staff,customer_to_staff,customer_to_service,small_talk,polite,고객이 서비스 센터를 방문했을 때,starts_conflict,"[""hyo-jeong""]",[]

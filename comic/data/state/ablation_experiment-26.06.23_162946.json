@@ -1,0 +1,114 @@
+{
+  "model": "gpt-4o",
+  "variant_A_sentence_only": [],
+  "variant_B_world_only": [],
+  "variant_C_world_plus_domain": [],
+  "variant_D_sentence_char_domain": [
+    {
+      "situation": "In the meeting room, Ru-ha and Hanyuyeon are discussing a new training proposal.",
+      "characters": [
+        "ru-ha",
+        "hanyuyeon"
+      ],
+      "comedic_game": {
+        "driver": "Ru-ha's dry humor and Hanyuyeon's perfectionist tendencies clash over details.",
+        "premise": "Ru-ha tries to brush off a task, only for Hanyuyeon to insist on details.",
+        "escalation": "Ru-ha deflects with humor as Hanyuyeon continues to press for perfection.",
+        "button": "Ru-ha agrees to tackle it with the simplest form of commitment he can muster."
+      },
+      "panels": [
+        {
+          "char": "ru-ha",
+          "bubble": "Okay, what's this new training thing?",
+          "bubble_kr": "그래서 이 새로운 교육 뭐야?",
+          "expression_intent": "mild curiosity"
+        },
+        {
+          "char": "hanyuyeon",
+          "bubble": "It's simple. Just a ten-step program!",
+          "bubble_kr": "간단해. 그냥 10단계 프로그램이야!",
+          "expression_intent": "firm control"
+        },
+        {
+          "char": "ru-ha",
+          "bubble": "Ten steps? Can I skip to step eleven?",
+          "bubble_kr": "10단계? 11단계로 바로 가면 안 돼?",
+          "expression_intent": "sarcastic amusement"
+        },
+        {
+          "char": "hanyuyeon",
+          "bubble": "Ru-ha, focus. We need a detailed action plan.",
+          "bubble_kr": "루하, 집중해. 자세한 행동 계획이 필요해.",
+          "expression_intent": "seriousness"
+        },
+        {
+          "char": "ru-ha",
+          "bubble": "Okay, okay. I'll get back to you on that.",
+          "bubble_kr": "알았어, 알았어. 그건 다시 알려줄게.",
+          "expression_intent": "fake reassurance"
+        },
+        {
+          "char": "hanyuyeon",
+          "bubble": "By then, I'll have forty steps ready.",
+          "bubble_kr": "그때쯤이면 40단계 만들 거야.",
+          "expression_intent": "determined escalation"
+        }
+      ],
+      "_target_sentence": "I'll get back to you on that.",
+      "_domain": "workplace"
+    },
+    {
+      "situation": "Lunch break in the school cafeteria, two friends chatting.",
+      "characters": [
+        "hanyoil",
+        "hyo-jeong"
+      ],
+      "comedic_game": {
+        "driver": "hyo-jeong",
+        "premise": "Hyo-jeong interprets a cafeteria menu item in a bizarre way.",
+        "escalation": "Hyo-jeong keeps adding stranger meanings to the menu item every time Hanyoil asks about it.",
+        "button": "Hanyoil gives up and orders something safer."
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "bubble": "What's 'Mystery Pasta'?",
+          "bubble_kr": "'미스터리 파스타'가 뭐야?",
+          "expression_intent": "curiosity"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "It's pasta with secrets!",
+          "bubble_kr": "그건 비밀이 있는 파스타야!",
+          "expression_intent": "excited belief"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "Can you say that again?",
+          "bubble_kr": "다시 말해줄 수 있어?",
+          "expression_intent": "confusion"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "You know, pasta that whispers its dreams!",
+          "bubble_kr": "알잖아, 꿈을 속삭이는 파스타!",
+          "expression_intent": "enthusiastic sincerity"
+        },
+        {
+          "char": "hanyoil",
+          "bubble": "I'm just going to get a sandwich.",
+          "bubble_kr": "그냥 샌드위치 먹을래.",
+          "expression_intent": "resigned"
+        },
+        {
+          "char": "hyo-jeong",
+          "bubble": "Fine, but the sandwich doesn't gossip.",
+          "bubble_kr": "좋아, 근데 샌드위치는 수다 떨지 않아.",
+          "expression_intent": "teasing smile"
+        }
+      ],
+      "_target_sentence": "Can you say that again?",
+      "_domain": "academic"
+    }
+  ]
+}

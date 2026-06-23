@@ -1,0 +1,170 @@
+{
+  "plan_payloads": [
+    {
+      "panel": 1,
+      "speaker": "hanyoil",
+      "intent": "Establish setting: Hanyoil is casually at the convenience store with Hyo-jeong.",
+      "story_payload": "Hanyoil asks about the notebook while picking up a snack.",
+      "visual_policy": "attitude_only",
+      "has_collocation": false
+    },
+    {
+      "panel": 2,
+      "speaker": "hyo-jeong",
+      "intent": "Hyo-jeong gives an odd explanation for needing the notebook longer.",
+      "story_payload": "Hyo-jeong claims she uses it as a balance for her 'art project.'",
+      "visual_policy": "show_prop",
+      "has_collocation": false
+    },
+    {
+      "panel": 3,
+      "speaker": "hanyoil",
+      "intent": "Build the pressure as Hanyoil questions but accepts Hyo-jeong’s excuse.",
+      "story_payload": "Hanyoil makes a playful comment on the odd explanation.",
+      "visual_policy": "attitude_only",
+      "has_collocation": false
+    },
+    {
+      "panel": 4,
+      "speaker": "hyo-jeong",
+      "intent": "Hyo-jeong adds another unrelated reason for keeping the notebook.",
+      "story_payload": "Hyo-jeong mentions needing it to correct the shelf's slope.",
+      "visual_policy": "show_prop",
+      "has_collocation": false
+    },
+    {
+      "panel": 5,
+      "speaker": "hanyoil",
+      "intent": "Hanyoil concedes, using the target sentence to politely slow the negotiation.",
+      "story_payload": "Hanyoil says, 'Let me know when you're ready.'",
+      "visual_policy": "attitude_only",
+      "has_collocation": true
+    },
+    {
+      "panel": 6,
+      "speaker": "hyo-jeong",
+      "intent": "End with Hyo-jeong's playful agreement, hinting at her rationale.",
+      "story_payload": "Hyo-jeong promises she'll 'definitely' let him know soon.",
+      "visual_policy": "attitude_only",
+      "has_collocation": false
+    }
+  ],
+  "script": [
+    {
+      "char": "hanyoil",
+      "bubble": "Hey, about my notebook... can you bring it back soon?",
+      "performance": {
+        "expression_intent": "casual inquiry",
+        "body_pose": "standing",
+        "gesture": "hands_on_hips",
+        "gaze": "looking_at_viewer",
+        "prop_use": "none",
+        "visual_read": "Hanyoil casually asks about the notebook."
+      }
+    },
+    {
+      "char": "hyo-jeong",
+      "bubble": "I need it as a balance for my grand art project.",
+      "performance": {
+        "expression_intent": "sincere explanation",
+        "body_pose": "standing",
+        "gesture": "none",
+        "gaze": "looking_to_side",
+        "prop_use": "none",
+        "visual_read": "Hyo-jeong sincerely believes her odd reason."
+      }
+    },
+    {
+      "char": "hanyoil",
+      "bubble": "An art project? That's a new one.",
+      "performance": {
+        "expression_intent": "amused skepticism",
+        "body_pose": "standing",
+        "gesture": "hand_on_chin",
+        "gaze": "looking_at_viewer",
+        "prop_use": "none",
+        "visual_read": "Hanyoil humorously questions the odd explanation."
+      }
+    },
+    {
+      "char": "hyo-jeong",
+      "bubble": "Plus, it's perfect for correcting the shelf's slope!",
+      "performance": {
+        "expression_intent": "enthusiastic",
+        "body_pose": "standing",
+        "gesture": "pointing",
+        "gaze": "looking_up",
+        "prop_use": "none",
+        "visual_read": "Hyo-jeong adds another odd reason earnestly."
+      }
+    },
+    {
+      "char": "hanyoil",
+      "bubble": "Let me know when you're ready.",
+      "performance": {
+        "expression_intent": "patient",
+        "body_pose": "standing",
+        "gesture": "none",
+        "gaze": "looking_to_side",
+        "prop_use": "none",
+        "visual_read": "Hanyoil calmly slows the negotiation."
+      }
+    },
+    {
+      "char": "hyo-jeong",
+      "bubble": "I'll definitely let you know soon!",
+      "performance": {
+        "expression_intent": "playful promise",
+        "body_pose": "standing",
+        "gesture": "hand_raised",
+        "gaze": "looking_at_viewer",
+        "prop_use": "none",
+        "visual_read": "Hyo-jeong playfully agrees with a hint of further delay."
+      }
+    }
+  ],
+  "final": [
+    {
+      "char": "hanyoil",
+      "bubble": "Hey, about my notebook... can you bring it back soon?",
+      "action": "standing, hands on hips",
+      "prop_interaction": "",
+      "expression": "serious face"
+    },
+    {
+      "char": "hyo-jeong",
+      "bubble": "I need it as a balance for my grand art project.",
+      "action": "standing",
+      "prop_interaction": "",
+      "expression": "serious face"
+    },
+    {
+      "char": "hanyoil",
+      "bubble": "An art project? That's a new one.",
+      "action": "standing, hand on own chin",
+      "prop_interaction": "",
+      "expression": "serious face"
+    },
+    {
+      "char": "hyo-jeong",
+      "bubble": "Plus, it's perfect for correcting the shelf's slope!",
+      "action": "standing, pointing",
+      "prop_interaction": "",
+      "expression": "serious face"
+    },
+    {
+      "char": "hanyoil",
+      "bubble": "Let me know when you're ready.",
+      "action": "standing",
+      "prop_interaction": "",
+      "expression": "sigh face"
+    },
+    {
+      "char": "hyo-jeong",
+      "bubble": "I'll definitely let you know soon!",
+      "action": "standing, hand up",
+      "prop_interaction": "",
+      "expression": "light smile face"
+    }
+  ]
+}

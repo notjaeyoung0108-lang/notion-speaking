@@ -82,3 +82,2040 @@ usages:
   character: hanyoil
   facet: careful and precise
   collision: Hyo-jeong's whims lead to small mix-ups in otherwise routine actions.
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters:
+  - hyo-jeong
+  - so-ae
+  driver_character: hyo-jeong
+  comedic_game_premise: confidently shares bizarre, fictional historical facts
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: accuracy obsession
+  collision: against hyo-jeong's confident incorrectness
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id002
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: Insists on joking to ease tension even during urgent tasks
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: stress coping with focus and urgency
+  collision: Ru-ha's jokes intrude on Hanyoil's need for concentration
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id002
+  driver_character: ru-ha
+  comedic_game_premise: Insists on joking to ease tension even during urgent tasks
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: deflecting stress with humor
+  collision: Hanyoil's serious need for focus clashes with Ru-ha's light-hearted approach
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id003
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on taking the task despite Hanyuyeon's hesitation.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: over-preparation
+  collision: his detailed plans challenge Hanyuyeon's control routine.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id003
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on taking the task despite Hanyuyeon's hesitation.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyuyeon
+  facet: control-as-care
+  collision: struggles to delegate because of their need to oversee everything
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: ru-ha ↔ so-ae
+  characters: &id004
+  - so-ae
+  - ru-ha
+  driver_character: so-ae
+  comedic_game_premise: insists on detailed coffee selection based on bean origin
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: so-ae
+  facet: detail-obsessed approval seeker
+  collision: her detailed coffee facts are playfully deflected by Ru-ha
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: ru-ha ↔ so-ae
+  characters: *id004
+  driver_character: so-ae
+  comedic_game_premise: insists on detailed coffee selection based on bean origin
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: ru-ha
+  facet: deadpan deflector who helps quietly
+  collision: turns So-ae's earnest details into a playful moment
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id005
+  - hanyoil
+  - ru-ha
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil tries to tackle the impossible paperwork mountain
+    despite Ru-ha's jokes
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparation
+  collision: collides with the impracticality of the overwhelming paperwork
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id005
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil tries to tackle the impossible paperwork mountain
+    despite Ru-ha's jokes
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: deadpan deflector
+  collision: finds amusement in Hanyoil's mounting frustration, easing tension
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: &id006
+  - hyo-jeong
+  - so-ae
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong insists on made-up, surreal facts in everyday conversation.
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: need for accuracy
+  collision: conflicts with Hyo-jeong's confident delivery of false information
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: *id006
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong insists on made-up, surreal facts in everyday conversation.
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hyo-jeong
+  facet: love for surreal stories
+  collision: results in So-ae needing to clarify what she hears due to disbelief
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id007
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: insists on joking during urgent tasks
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: need for focus and completion
+  collision: Ru-ha's humor interrupts Hanyoil's concentration on reports
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id007
+  driver_character: ru-ha
+  comedic_game_premise: insists on joking during urgent tasks
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: humor as a deflection
+  collision: meets Hanyoil's serious boundary, causing a role shift
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id008
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Insists he can handle the task alone, despite the pile of
+    complex details.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: approval-seeking protagonist
+  collision: His eagerness bumps up against Hanyuyeon's caution and high standards.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id008
+  driver_character: hanyoil
+  comedic_game_premise: Insists he can handle the task alone, despite the pile of
+    complex details.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyuyeon
+  facet: control-as-care team lead
+  collision: Hanyuyeon's need for control conflicts with Hanyoil's over-eagerness.
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: ru-ha ↔ so-ae
+  characters: &id009
+  - so-ae
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha keeps suggesting humorous recipe alternatives.
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: so-ae
+  facet: precision habit in recipe following
+  collision: Ru-ha's improvisation challenges her precision
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: ru-ha ↔ so-ae
+  characters: *id009
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha keeps suggesting humorous recipe alternatives.
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: ru-ha
+  facet: habit of deflecting seriousness with humor
+  collision: So-ae's earnestness invites Ru-ha's playful disruption
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id010
+  - hanyoil
+  - ru-ha
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on organizing the chaos of sticky notes despite
+    the obvious hopelessness.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparation
+  collision: The organized plan meets Ru-ha's relaxed approach to the chaos, with
+    neither bending.
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id010
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on organizing the chaos of sticky notes despite
+    the obvious hopelessness.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: deadpan deflector
+  collision: Ru-ha's jokes deflect Hanyoil's seriousness, turning the task into a
+    farce.
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: ru-ha ↔ so-ae
+  characters: &id011
+  - so-ae
+  - ru-ha
+  driver_character: so-ae
+  comedic_game_premise: enthusiastically engages in ordering, but mishears due to
+    excitement
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: earnestness and need for accuracy
+  collision: mishears section of Ru-ha's suggestion, needing repetition
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: ru-ha ↔ so-ae
+  characters: *id011
+  driver_character: so-ae
+  comedic_game_premise: enthusiastically engages in ordering, but mishears due to
+    excitement
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: ru-ha
+  facet: dry humor
+  collision: uses humor to navigate So-ae's mishearing
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id012
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: insists on Hanyoil joining him for every small task, pretending
+    it's a big deal.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: focus under pressure
+  collision: Ru-ha's interruptions clash with need to maintain workflow.
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id012
+  driver_character: ru-ha
+  comedic_game_premise: insists on Hanyoil joining him for every small task, pretending
+    it's a big deal.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: deflecting seriousness with humor
+  collision: Hanyoil's seriousness punctuates his casual teasing.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id013
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil over-preps by creating meticulous plans while trying
+    to take on a new task.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: needs to prove capability
+  collision: Hanyuyeon's cautious withholding prompts Hanyoil's insistent over-preparation.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id013
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil over-preps by creating meticulous plans while trying
+    to take on a new task.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyuyeon
+  facet: control-as-care
+  collision: Hanyoil's insistence challenges his need to oversee tasks directly.
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters:
+  - hyo-jeong
+  - so-ae
+  driver_character: hyo-jeong
+  comedic_game_premise: confidently shares a bizarre 'fact' about apples floating
+    to prove they're less acidic
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: so-ae
+  facet: approval-seeking but trying to hide it
+  collision: Hyo-jeong's outlandishness challenges So-ae’s need for logical facts
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id014
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha keeps adding sticky notes with ridiculous tasks next
+    to Hanyoil's serious efforts.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparation
+  collision: Ru-ha's casual jokes and added notes turn Hanyoil's attempt at order
+    into chaos.
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id014
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha keeps adding sticky notes with ridiculous tasks next
+    to Hanyoil's serious efforts.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: deflecting seriousness with humor
+  collision: Ru-ha's humor turns Hanyoil's serious organizing into a comedic mess.
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id015
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on explaining her latest fascination at normal
+    volume in a noisy cafe.
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: approval-seeking through overexplaining
+  collision: Her detailed explanation collides with the ambient noise, causing communication
+    strain.
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id015
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on explaining her latest fascination at normal
+    volume in a noisy cafe.
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: needs to comprehend and engage accurately
+  collision: His attempts to follow So-ae's detail clash with the noisy setting, leading
+    to his need for clarification.
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id016
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha keeps adding random sticky notes to Hanyoil's serious
+    organizational efforts.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparation
+  collision: Ru-ha's playful note additions contrast with Hanyoil's need to organize,
+    leading her to set a boundary.
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id016
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha keeps adding random sticky notes to Hanyoil's serious
+    organizational efforts.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: habit of adding chaos
+  collision: Ru-ha's playful disruption with absurd notes keeps the situation light
+    but overwhelming.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id017
+  - hanyuyeon
+  - hanyoil
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on simplifying Hanyuyeon's complex report
+    system.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: pride in practical solutions
+  collision: Hanyoil prefers a simpler method, clashing with Hanyuyeon's intricate
+    approach.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id017
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on simplifying Hanyuyeon's complex report
+    system.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyuyeon
+  facet: overcomplex organizational habits
+  collision: Hanyoil's simplicity conflicts with his need for detailed systems.
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: ru-ha ↔ so-ae
+  characters:
+  - so-ae
+  - ru-ha
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on perfect coffee specificity
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: so-ae
+  facet: obsession with details
+  collision: collides with Ru-ha's patience and humor
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters:
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha keeps adding ridiculous sticky notes next to Hanyoil's
+    organized tasks.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: pride in organization and competence
+  collision: Ru-ha adds chaos and humor, undermining her efforts
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id018
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: insists the silent film is the best choice for tonight
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: excitement for unique films combined with approval-seeking through knowledge-sharing
+  collision: Hanyoil struggles to keep up with So-ae's rapid explanations, leading
+    to confusion
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id018
+  driver_character: so-ae
+  comedic_game_premise: insists the silent film is the best choice for tonight
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: pride in understanding plots and needing clarifications
+  collision: due to the film being silent, he must rely on So-ae for explanations
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id019
+  - hanyoil
+  - ru-ha
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil is trying to handle a chaotic stack of tasks while
+    Ru-ha playfully interrupts.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: Over-preparation under stress
+  collision: Collides with Ru-ha's lighthearted attempts to tease and distract, causing
+    stress.
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id019
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil is trying to handle a chaotic stack of tasks while
+    Ru-ha playfully interrupts.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: Deadpan humor as deflection
+  collision: Ru-ha's humor collides with Hanyoil's stress, unintentionally escalating
+    urgency.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id020
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyuyeon
+  comedic_game_premise: Insists on a complex and color-coded organizing system for
+    a simple task.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: pride in practical solutions
+  collision: Against Hanyuyeon's elaborate systems, Hanyoil wants to simplify and
+    still show competence.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id020
+  driver_character: hanyuyeon
+  comedic_game_premise: Insists on a complex and color-coded organizing system for
+    a simple task.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyuyeon
+  facet: control-as-care
+  collision: Hanyoil's simplification gently challenges Hanyuyeon's need for control.
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id021
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: So-ae keeps suggesting peculiar niche movies based on odd
+    themes.
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: hanyoil
+  facet: indulgent agreement
+  collision: struggles with the eccentric nature of So-ae's movie choices
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id021
+  driver_character: so-ae
+  comedic_game_premise: So-ae keeps suggesting peculiar niche movies based on odd
+    themes.
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: so-ae
+  facet: approval-seeking
+  collision: overly enthusiastic about peculiar movie genres
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id022
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha repeatedly interrupts Hanyoil's task-focused work with
+    absurd and unrelated jokes.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: Over-preparation and need for organization
+  collision: Ru-ha's interruptions prevent the focus needed for organization.
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id022
+  driver_character: ru-ha
+  comedic_game_premise: Ru-ha repeatedly interrupts Hanyoil's task-focused work with
+    absurd and unrelated jokes.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: Habit of adding chaos through humor
+  collision: Hanyoil's need for focus clashes with Ru-ha's playful energy.
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id023
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: So-ae eagerly suggests a complex array of movie choices, eager
+    to impress.
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: wanting to be supportive but overwhelmed
+  collision: encounters So-ae's rapid, detail-heavy suggestions.
+- word_no: '1'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id023
+  driver_character: so-ae
+  comedic_game_premise: So-ae eagerly suggests a complex array of movie choices, eager
+    to impress.
+  target_sentence: Sorry, I didn't catch that.
+  relationship: friend_to_friend
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: approval-seeking through showing knowledge
+  collision: creates confusion due to overwhelming detail amid background noise.
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id024
+  - hanyoil
+  - ru-ha
+  driver_character: hanyoil
+  comedic_game_premise: She insists on completing her tasks without distractions.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: stress management
+  collision: tries to maintain focus amidst Ru-ha's playful jokes
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id024
+  driver_character: hanyoil
+  comedic_game_premise: She insists on completing her tasks without distractions.
+  target_sentence: I can't right now.
+  relationship: coworker_to_coworker
+  speech_act: boundary_setting
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: deflecting seriousness with humor
+  collision: his jokes clash with Hanyoil's need to concentrate
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id025
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists he can manage the priority list despite seeming
+    disorganized.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: fear of not meeting expectations
+  collision: Hanyuyeon's high standards and initial doubts.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id025
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists he can manage the priority list despite seeming
+    disorganized.
+  target_sentence: I'll take care of it.
+  relationship: employee_to_boss
+  speech_act: reassurance
+  story_function: reveals_emotion
+  character: hanyuyeon
+  facet: expects high organization
+  collision: sees Hanyoil's clutter and questions his ability.
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id026
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: Insists on creating an overly detailed and complex meal plan.
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: hanyoil
+  facet: indulgent agreement
+  collision: Hanyoil supports So-ae's plan despite its complexity, revealing a desire
+    to please.
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id026
+  driver_character: so-ae
+  comedic_game_premise: Insists on creating an overly detailed and complex meal plan.
+  target_sentence: That works for me.
+  relationship: friend_to_friend
+  speech_act: agreement
+  story_function: softens_conflict
+  character: so-ae
+  facet: obsession with details
+  collision: So-ae's need for precision creates a miniature ordeal, testing Hanyoil's
+    patience.
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id027
+  - hanyoil
+  - ru-ha
+  driver_character: ru-ha
+  comedic_game_premise: He insists on lightening the mood with witty remarks and distractions.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparation
+  collision: Ru-ha's joking nature interrupts his focus, creating tension between
+    perfectionism and humor.
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id027
+  driver_character: ru-ha
+  comedic_game_premise: He insists on lightening the mood with witty remarks and distractions.
+  target_sentence: Let's call it a day.
+  relationship: coworker_to_coworker
+  speech_act: suggestion
+  story_function: sets_up_punchline
+  character: ru-ha
+  facet: playful teasing
+  collision: Hanyoil's focus makes Ru-ha's jokes more exaggerated, clashing with work
+    seriousness.
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id028
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on giving detailed explanations even for simple
+    questions.
+  target_sentence: Can I ask you a quick question?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: starts_conflict
+  character: hanyoil
+  facet: seeking quick clarification
+  collision: clashes with So-ae giving a thorough explanation instead of a brief overview
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id028
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on giving detailed explanations even for simple
+    questions.
+  target_sentence: Can I ask you a quick question?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: starts_conflict
+  character: so-ae
+  facet: obsession with details
+  collision: attempts to thoroughly explain when only a quick answer is needed
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id029
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil is under pressure to finish several detailed reports
+    on tight deadlines.
+  target_sentence: I need a little more time.
+  relationship: employee_to_boss
+  speech_act: delay_answer
+  story_function: buys_time
+  character: hanyoil
+  facet: fear of not meeting expectations
+  collision: His admission of needing more time bumps against Hanyuyeon's high standards.
+- word_no: '2'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id029
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil is under pressure to finish several detailed reports
+    on tight deadlines.
+  target_sentence: I need a little more time.
+  relationship: employee_to_boss
+  speech_act: delay_answer
+  story_function: buys_time
+  character: hanyuyeon
+  facet: control-as-care
+  collision: Their expectation for timely updates meets Hanyoil's struggle, causing
+    tension.
+- word_no: '3'
+  date: 26.06.22
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id030
+  - hanyoil
+  - so-ae
+  driver_character: hanyoil
+  comedic_game_premise: feigns understanding to not appear lost in front of So-ae
+  target_sentence: Could you explain that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: fear of not meeting expectations
+  collision: struggles with understanding So-ae's complex explanation
+- word_no: '3'
+  date: 26.06.22
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id030
+  driver_character: hanyoil
+  comedic_game_premise: feigns understanding to not appear lost in front of So-ae
+  target_sentence: Could you explain that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: so-ae
+  facet: awkward helpfulness
+  collision: gives an overly complex explanation that Hanyoil can’t follow
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: &id031
+  - so-ae
+  - hyo-jeong
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong insists on being fine despite So-ae's evident concern.
+  target_sentence: I'm fine, thanks.
+  relationship: friend_to_friend
+  speech_act: reassurance
+  story_function: softens_conflict
+  character: so-ae
+  facet: approval-seeking sulk
+  collision: So-ae can't overlook Hyo-jeong's tired appearance but is careful not
+    to offend by pressing.
+- word_no: '4'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: *id031
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong insists on being fine despite So-ae's evident concern.
+  target_sentence: I'm fine, thanks.
+  relationship: friend_to_friend
+  speech_act: reassurance
+  story_function: softens_conflict
+  character: hyo-jeong
+  facet: sincere off-angle reaction
+  collision: Hyo-jeong genuinely believes she's fine and responds to the immediate
+    concern, missing So-ae's underlying worries.
+- word_no: '5'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters:
+  - hanyoil
+  - ru-ha
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on completing all tasks immediately despite
+    not enough time.
+  target_sentence: I'll let you know by tomorrow.
+  relationship: coworker_to_coworker
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparation
+  collision: Ru-ha's suggestion to delay tasks clashes with her need for immediate
+    completion.
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters:
+  - hanyoil
+  - so-ae
+  driver_character: hanyoil
+  comedic_game_premise: Innocently asks for a quick clarification.
+  target_sentence: Can I ask you a quick question?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: starts_conflict
+  character: hanyoil
+  facet: seeking quick clarification
+  collision: So-ae's thorough analyzing collides with Hanyoil's quick request needs.
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id032
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: insisting on detailed explanations for simple questions
+  target_sentence: Can I ask you a quick question?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: starts_conflict
+  character: hanyoil
+  facet: seeking quick clarification
+  collision: So-ae's detailed response makes it hard for him to get concise information.
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id032
+  driver_character: so-ae
+  comedic_game_premise: insisting on detailed explanations for simple questions
+  target_sentence: Can I ask you a quick question?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: starts_conflict
+  character: so-ae
+  facet: insisting on detailed explanations
+  collision: Hanyoil's need for quickness contrasts with her tendency to elaborate.
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id033
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on giving detailed explanations for even simple
+    questions.
+  target_sentence: Can I ask you a quick question?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: starts_conflict
+  character: hanyoil
+  facet: seeking quick clarification
+  collision: His need for speed clashes with So-ae's detailed nature.
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id033
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on giving detailed explanations for even simple
+    questions.
+  target_sentence: Can I ask you a quick question?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: starts_conflict
+  character: so-ae
+  facet: insisting on detailed explanations
+  collision: Her thoroughness overwhelms Hanyoil's simple request.
+- word_no: '1'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters:
+  - hanyoil
+  - ru-ha
+  driver_character: hanyoil
+  comedic_game_premise: Trying to manage the presentation while attending to the unexpected
+    call
+  target_sentence: Can you hold on for a second?
+  relationship: coworker_to_coworker
+  speech_act: request
+  story_function: buys_time
+  character: hanyoil
+  facet: 과준비
+  collision: Ru-ha finds humor in Hanyoil's over-preparation turning chaotic
+- word_no: '2'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: &id034
+  - so-ae
+  - hyo-jeong
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong speaks tangentially about unrelated topics until
+    they realize they should directly address the meeting time change.
+  target_sentence: Thanks for letting me know.
+  relationship: friend_to_friend
+  speech_act: thanks
+  story_function: reveals_emotion
+  character: hyo-jeong
+  facet: sincere off-angle reaction
+  collision: Hyo-jeong's tendency to speak tangentially delays the main conversation,
+    causing So-ae to step in to clarify.
+- word_no: '2'
+  date: 26.06.22
+  domain: daily
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: *id034
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong speaks tangentially about unrelated topics until
+    they realize they should directly address the meeting time change.
+  target_sentence: Thanks for letting me know.
+  relationship: friend_to_friend
+  speech_act: thanks
+  story_function: reveals_emotion
+  character: so-ae
+  facet: approval-seeking sulk
+  collision: So-ae hesitates, fearing her update might upset Hyo-jeong but is relieved
+    when Hyo-jeong appreciates the information.
+- word_no: '3'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters:
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on addressing an overlooked project detail
+    immediately, confronting his boss's current preoccupations.
+  target_sentence: Do you have a moment?
+  relationship: employee_to_boss
+  speech_act: request
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: over-preparation
+  collision: Hanyoil's need to ensure everything is perfect clashes with Hanyuyeon's
+    selective focus on her tasks.
+- word_no: '4'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id035
+  - hanyoil
+  - so-ae
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on preparing everything to perfection before
+    responding to So-ae.
+  target_sentence: Can I get back to you later?
+  relationship: coworker_to_coworker
+  speech_act: delay_answer
+  story_function: buys_time
+  character: hanyoil
+  facet: over-preparation
+  collision: Hanyoil's need to prepare conflicts with So-ae's detail-oriented requests,
+    adding pressure.
+- word_no: '4'
+  date: 26.06.22
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id035
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists on preparing everything to perfection before
+    responding to So-ae.
+  target_sentence: Can I get back to you later?
+  relationship: coworker_to_coworker
+  speech_act: delay_answer
+  story_function: buys_time
+  character: so-ae
+  facet: sociable awkwardness
+  collision: So-ae's insistence unintentionally adds stress to Hanyoil, who is already
+    overloaded.
+- word_no: '5'
+  date: 26.06.22
+  domain: customer/service
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: &id036
+  - hyo-jeong
+  - so-ae
+  driver_character: hyo-jeong
+  comedic_game_premise: Organizing an unusual and possibly overcomplicated menu layout
+    display.
+  target_sentence: Is now a good time?
+  relationship: customer_to_staff
+  speech_act: small_talk
+  story_function: starts_conflict
+  character: hyo-jeong
+  facet: genuine off-angle sincerity
+  collision: her unconventional logic makes So-ae uncertain about interrupting
+- word_no: '5'
+  date: 26.06.22
+  domain: customer/service
+  selected_pair: so-ae ↔ hyo-jeong
+  characters: *id036
+  driver_character: hyo-jeong
+  comedic_game_premise: Organizing an unusual and possibly overcomplicated menu layout
+    display.
+  target_sentence: Is now a good time?
+  relationship: customer_to_staff
+  speech_act: small_talk
+  story_function: starts_conflict
+  character: so-ae
+  facet: approval-seeking but trying to hide it
+  collision: nervous about correcting Hyo-jeong, but feels comically forced to speak
+    up
+- word_no: '1'
+  date: 26.06.23
+  domain: daily
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters: &id037
+  - hanyoil
+  - hyo-jeong
+  driver_character: hyo-jeong
+  comedic_game_premise: Insists on unusual snack combinations even at a routine store
+    visit
+  target_sentence: Let me know when you're ready.
+  relationship: friend_to_friend
+  speech_act: request
+  story_function: buys_time
+  character: hanyoil
+  facet: stress_release_with_snack
+  collision: tries to focus on favorites, but Hyo-jeong's odd combinations throw him
+    off
+- word_no: '1'
+  date: 26.06.23
+  domain: daily
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters: *id037
+  driver_character: hyo-jeong
+  comedic_game_premise: Insists on unusual snack combinations even at a routine store
+    visit
+  target_sentence: Let me know when you're ready.
+  relationship: friend_to_friend
+  speech_act: request
+  story_function: buys_time
+  character: hyo-jeong
+  facet: unpredictable_tangents
+  collision: overwhelms ordinary snack run with quirky suggestions
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters:
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: insisting on deeply detailed explanations
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: 사소한 것에 광적 디테일
+  collision: her excessive detail collides with Hanyoil’s need for brevity
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id038
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: Delivering over-detailed explanations during her presentation.
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: so-ae
+  facet: 묻지도 않은 미니 강의
+  collision: Her rapid details make Hanyoil struggle to follow, highlighting his need
+    for simpler explanations.
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id038
+  driver_character: so-ae
+  comedic_game_premise: Delivering over-detailed explanations during her presentation.
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: seeking quick clarification
+  collision: Feels overwhelmed by So-ae's detail and politely requests a repeat
+- word_no: '4'
+  date: 26.06.23
+  domain: daily
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters: &id039
+  - hanyoil
+  - hyo-jeong
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong creatively justifies keeping the notebook.
+  target_sentence: Can I borrow this?
+  relationship: roommate_to_roommate
+  speech_act: request
+  story_function: starts_conflict
+  character: hanyoil
+  facet: 과준비
+  collision: tries to plan with precision but is thwarted by Hyo-jeong's unconventional
+    logic.
+- word_no: '4'
+  date: 26.06.23
+  domain: daily
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters: *id039
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong creatively justifies keeping the notebook.
+  target_sentence: Can I borrow this?
+  relationship: roommate_to_roommate
+  speech_act: request
+  story_function: starts_conflict
+  character: hyo-jeong
+  facet: 비논리 반응
+  collision: logical requests met with off-angle sincerity that derails the straightforward
+    exchange.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters:
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: hanyoil insists he is about to begin the project when confronted
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: 과준비
+  collision: His over-preparation collides with hanyuyeon's understanding glance.
+- word_no: '1'
+  date: 26.06.23
+  domain: daily
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters:
+  - hanyoil
+  - hyo-jeong
+  driver_character: hyo-jeong
+  comedic_game_premise: Hyo-jeong insists on keeping the notebook with quirky justifications.
+  target_sentence: Let me know when you're ready.
+  relationship: friend_to_friend
+  speech_act: request
+  story_function: buys_time
+  character: hyo-jeong
+  facet: creative_control
+  collision: her wacky reasons for holding the notebook bump against Hanyoil's need
+    for practical use.
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters:
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: So-ae insists on providing extensive details in every explanation.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: 묻지도 않은 미니 강의
+  collision: Hanyoil struggles with the barrage of details, needing a simpler explanation.
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters:
+  - so-ae
+  - hanyoil
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil consistently misses small details in explanations.
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: 은근한 승부욕
+  collision: seeking exact understanding while competing with his own confusion
+- word_no: '4'
+  date: 26.06.23
+  domain: daily
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters: &id040
+  - hanyoil
+  - hyo-jeong
+  driver_character: hyo-jeong
+  comedic_game_premise: She insists on creative justifications for keeping borrowed
+    items.
+  target_sentence: Can I borrow this?
+  relationship: roommate_to_roommate
+  speech_act: request
+  story_function: starts_conflict
+  character: hanyoil
+  facet: 발끈 포인트
+  collision: Hyo-jeong's unpredictable reasons meet Hanyoil's need for clarity and
+    function.
+- word_no: '4'
+  date: 26.06.23
+  domain: daily
+  selected_pair: hanyoil ↔ hyo-jeong
+  characters: *id040
+  driver_character: hyo-jeong
+  comedic_game_premise: She insists on creative justifications for keeping borrowed
+    items.
+  target_sentence: Can I borrow this?
+  relationship: roommate_to_roommate
+  speech_act: request
+  story_function: starts_conflict
+  character: hyo-jeong
+  facet: 비논리 반응
+  collision: Hyo-jeong's rationale is peculiar, baffling Hanyoil.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id041
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists he's ready to start immediately, trying to
+    hide his nerves.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: 과준비
+  collision: He struggles to maintain his prepared facade as Hanyuyeon presses for
+    assurance.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id041
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil insists he's ready to start immediately, trying to
+    hide his nerves.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: exacting_standards
+  collision: His high expectations add pressure to Hanyoil's already strained confidence.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters:
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil struggles to appear proactive under his boss's scrutiny.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: 은근한 승부욕
+  collision: Trying too hard, he contrasts with Hanyuyeon's calm competitiveness.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id042
+  - hanyoil
+  - hanyuyeon
+  driver_character: ''
+  comedic_game_premise: Hanyoil reassures his readiness, but his behavior suggests
+    otherwise.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparedness
+  collision: nervous under Hanyuyeon's expectation
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id042
+  driver_character: ''
+  comedic_game_premise: Hanyoil reassures his readiness, but his behavior suggests
+    otherwise.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: exact_standards
+  collision: shows calm yet firm expectation for progress
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id043
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil wants to impress but foibles under Hanyuyeon's watch.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: perfectionist streak
+  collision: clashes with the mechanical mishap
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id043
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil wants to impress but foibles under Hanyuyeon's watch.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: competitive calm
+  collision: his calmness highlights Hanyoil's tension
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters:
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyuyeon
+  comedic_game_premise: Hanyoil must hide nerves while appearing ready.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: perfectionist streak
+  collision: Collides with Hanyuyeon's subtle pressure to start.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id044
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil falsely projects readiness while internally scrambling.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparedness
+  collision: struggles under Hanyuyeon's critical gaze.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id044
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil falsely projects readiness while internally scrambling.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: expects exacting standards
+  collision: adds pressure by holding Hanyoil to high expectations.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id045
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyuyeon
+  comedic_game_premise: The project is imminent, and Hanyoil fumbles to hide nerves.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: perfectionist streak
+  collision: Hanyuyeon's pressure triggers Hanyoil's need to appear ready.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id045
+  driver_character: hanyuyeon
+  comedic_game_premise: The project is imminent, and Hanyoil fumbles to hide nerves.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: control-as-care
+  collision: Hanyuyeon's high standards cause subtle unease for Hanyoil.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id046
+  - hanyoil
+  - hanyuyeon
+  driver_character: ''
+  comedic_game_premise: Hanyoil tries to impress but struggles visibly under pressure.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: perfectionist streak
+  collision: His desire to appear prepared clashes with his visible nervousness.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id046
+  driver_character: ''
+  comedic_game_premise: Hanyoil tries to impress but struggles visibly under pressure.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: scary-calm when losing
+  collision: His high standards apply subtle pressure on Hanyoil.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id047
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyuyeon
+  comedic_game_premise: Hanyoil wants to appear prepared and confident but is visibly
+    anxious.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: nervous compliance
+  collision: Hanyoil's visible nerves collide with Hanyuyeon's calm pressure.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id047
+  driver_character: hanyuyeon
+  comedic_game_premise: Hanyoil wants to appear prepared and confident but is visibly
+    anxious.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: control-as-care
+  collision: Hanyuyeon's high standards push Hanyoil to reassure and start.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters:
+  - hanyoil
+  - hanyuyeon
+  driver_character: hanyoil
+  comedic_game_premise: Hanyoil must pretend he's ready to avoid Hanyuyeon's scrutiny.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: over-preparedness
+  collision: Hanyuyeon's calm standards challenge Hanyoil's need to impress.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: &id048
+  - hanyuyeon
+  - hanyoil
+  driver_character: ''
+  comedic_game_premise: Hanyoil pretends to be ready while scrambling.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyoil
+  facet: appearing ready
+  collision: tries to seem prepared when hanyuyeon applies pressure.
+- word_no: '5'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ hanyuyeon
+  characters: *id048
+  driver_character: ''
+  comedic_game_premise: Hanyoil pretends to be ready while scrambling.
+  target_sentence: I'm just about to start.
+  relationship: employee_to_boss
+  speech_act: update_status
+  story_function: sets_up_punchline
+  character: hanyuyeon
+  facet: high standards
+  collision: scrutinizes hanyoil's readiness, pushing his facade.
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id049
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: So-ae overwhelms with unnecessary detail, making the task
+    seem more complicated.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: over-preparedness
+  collision: So-ae's details make it hard for Hanyoil to stick to his plan.
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id049
+  driver_character: so-ae
+  comedic_game_premise: So-ae overwhelms with unnecessary detail, making the task
+    seem more complicated.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: detail-obsessed
+  collision: So-ae's need to be precise overwhelms Hanyoil's need for clear guidance.
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id050
+  - hanyoil
+  - so-ae
+  driver_character: ''
+  comedic_game_premise: Hanyoil struggles to keep up with So-ae's dense info dump.
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: appearing ready
+  collision: fumbles as So-ae overwhelms him with detail
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id050
+  driver_character: ''
+  comedic_game_premise: Hanyoil struggles to keep up with So-ae's dense info dump.
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: so-ae
+  facet: detail-obsessed
+  collision: provides too much information leaving Hanyoil confused
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id051
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: So-ae over-details a simple office task.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: adaptive newcomer
+  collision: seeks help but is caught off guard by lengthy explanations
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id051
+  driver_character: so-ae
+  comedic_game_premise: So-ae over-details a simple office task.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: approval-seeking sulk
+  collision: becomes sullen when clarity attempts fail
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id052
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: So-ae overwhelms Hanyoil with minute details
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: over-preparedness
+  collision: struggles with So-ae's dense info dump
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id052
+  driver_character: so-ae
+  comedic_game_premise: So-ae overwhelms Hanyoil with minute details
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: so-ae
+  facet: detail-obsessed
+  collision: provides excessive details, causing confusion
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: &id053
+  - so-ae
+  - hanyoil
+  driver_character: so-ae
+  comedic_game_premise: Information overload creates confusion, leading Hanyoil to
+    admit defeat.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: appearing ready
+  collision: struggles with So-ae's overwhelming detail, which challenges his facade
+    of readiness
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ so-ae
+  characters: *id053
+  driver_character: so-ae
+  comedic_game_premise: Information overload creates confusion, leading Hanyoil to
+    admit defeat.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: so-ae
+  facet: approval-seeking detail delivery
+  collision: gives overly detailed instructions that overwhelm Hanyoil
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters:
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: So-ae's enthusiasm for detail overwhelms Hanyoil, who just
+    wants simplicity.
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: adaptive newcomer
+  collision: tries to adapt but overwhelmed by So-ae's flood of information
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id054
+  - hanyoil
+  - ru-ha
+  driver_character: ''
+  comedic_game_premise: Hanyoil's organizing clashes with Ru-ha's laid-back style.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: over-preparation
+  collision: creates confusion for Ru-ha who prefers relaxed prep.
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id054
+  driver_character: ''
+  comedic_game_premise: Hanyoil's organizing clashes with Ru-ha's laid-back style.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: ru-ha
+  facet: deadpan deflection
+  collision: struggles with Hanyoil's detailed lecture.
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil_so-ae
+  characters: &id055
+  - hanyoil
+  - so-ae
+  driver_character: so-ae
+  comedic_game_premise: Overzealous detail explanation vs need for clarity
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: hanyoil
+  facet: over-preparedness
+  collision: meets So-ae's over-detailed explanations causing confusion
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil_so-ae
+  characters: *id055
+  driver_character: so-ae
+  comedic_game_premise: Overzealous detail explanation vs need for clarity
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: so-ae
+  facet: tangent enthusiasm
+  collision: meets Hanyoil's need for straight answers
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: &id056
+  - hanyoil
+  - ru-ha
+  driver_character: ''
+  comedic_game_premise: Ru-ha interrupts with jokes, confusing the situation.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: hanyoil
+  facet: over-preparation
+  collision: struggles for smooth delivery amidst Ru-ha's interruptions.
+- word_no: '2'
+  date: 26.06.23
+  domain: workplace
+  selected_pair: hanyoil ↔ ru-ha
+  characters: *id056
+  driver_character: ''
+  comedic_game_premise: Ru-ha interrupts with jokes, confusing the situation.
+  target_sentence: I didn't get that.
+  relationship: coworker_to_coworker
+  speech_act: clarification
+  story_function: creates_misunderstanding
+  character: ru-ha
+  facet: dry humor deflect
+  collision: keeps derailing serious moments with jokes.
+- word_no: '3'
+  date: 26.06.23
+  domain: academic
+  selected_pair: hanyoil ↔ so-ae
+  characters:
+  - hanyoil
+  - so-ae
+  driver_character: ''
+  comedic_game_premise: hanyoil's simple solution is derailed by so-ae's historical
+    details
+  target_sentence: Can you say that again?
+  relationship: student_to_professor
+  speech_act: clarification
+  story_function: reveals_emotion
+  character: so-ae
+  facet: historical accuracy obsession
+  collision: disrupts hanyoil's simple timing flow

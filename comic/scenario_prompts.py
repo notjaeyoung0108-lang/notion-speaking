@@ -1,25 +1,25 @@
-"""scenario_prompts.py — GPT-4o 시나리오 생성용 프롬프트 템플릿."""
+"""Prompt templates for the English-learning webtoon pipeline."""
 
 from __future__ import annotations
 
 
-# ─────────────────────────────────────────────────────────
+# ---------------------------------------------------------
 # Outfit Mapping
-# ─────────────────────────────────────────────────────────
-
-# 도메인(workplace/daily/academic …) → 의상 setting 접두어.
-# (상황 라이브러리 폐지 — 의상은 이제 plan.domain 만으로 결정한다.)
-# 선택 코드는 이 접두어로 시작하는 의상 중 '등장 캐릭터 전원 공통'인 것을 고른다.
+# Outfit Mapping
+# ---------------------------------------------------------
+# Domain -> outfit setting prefix.
+# The renderer chooses common outfits for all appearing characters.
+# Outfit selection uses outfits shared by all appearing characters.
 CATEGORY_DEFAULT_SETTING: dict[str, str] = {
     "workplace": "workplace", "academic": "academic", "daily": "daily_outing",
     "customer/service": "daily_outing", "personal": "daily_dressup", "social": "daily_outing",
 }
 
 
-# ─────────────────────────────────────────────────────────
+# ---------------------------------------------------------
 # Word Block
-# ─────────────────────────────────────────────────────────
-
+# Word Block
+# ---------------------------------------------------------
 def build_word_block(word: dict) -> str:
     target = word.get("collocation unit") or word.get("sentence_unit") or word.get("sentence unit", "")
     meaning = word.get("meaning") or word.get("korean_trigger") or word.get("Korean trigger", "")
@@ -36,31 +36,51 @@ def build_word_block(word: dict) -> str:
     politeness = word.get("politeness") or metadata.get("politeness", "")
     story_function = word.get("story_function") or word.get("story function") or metadata.get("story function", "")
     return f"""
-=== Target Expression ===
+=== Target Sentence ===
 
 - sentence        : {target}
+- Korean cue      : {meaning}
 - register        : {word.get('register', '')}
-- primary_used_in : {primary_used_in}
-- used_in         : {used_in}
+- domain          : {used_in or primary_used_in}
+
+Speech hints, not plot:
+- speech_act      : {speech_act}
+- politeness      : {politeness}
 - speaker_role    : {speaker_role}
 - listener_role   : {listener_role}
 - relationship    : {relationship}
 - power_dynamic   : {power_dynamic}
-- speech_act      : {speech_act}
-- politeness      : {politeness}
 - story_function  : {story_function}
-- Korean cue      : {meaning}
-- situation       : {nuance}
-- translation     : {translation}
+- micro_situation : {nuance}
 
-The relationship metadata is the source of truth. Do not contradict speaker_role, listener_role, relationship, power_dynamic, or speech_act.
+Use these only to understand what the sentence does socially.
+Do not copy the micro_situation as the episode plot.
+Invent a fresh sitcom situation from the character/world friction where this sentence becomes useful.
 """
 
 
-# ─────────────────────────────────────────────────────────
-# Collocation Rules
-# ─────────────────────────────────────────────────────────
+def build_planner_word_block(word: dict) -> str:
+    target = word.get("collocation unit") or word.get("sentence_unit") or word.get("sentence unit", "")
+    meaning = word.get("meaning") or word.get("korean_trigger") or word.get("Korean trigger", "")
+    primary_used_in = word.get("primary_used_in") or word.get("used in") or ""
+    used_in = word.get("used_in") or primary_used_in
+    return f"""
+=== Target Sentence Seed ===
 
+- sentence   : {target}
+- Korean cue : {meaning}
+- register   : {word.get('register', '')}
+- domain     : {used_in or primary_used_in}
+
+Invent a sitcom situation where this exact sentence becomes useful.
+Do not begin from the CSV micro_situation or role metadata.
+"""
+
+
+# ---------------------------------------------------------
+# Collocation Rules
+# Collocation Rules
+# ---------------------------------------------------------
 def build_word_rule(collocation: str) -> str:
     return (
         f'- The exact target sentence "{collocation}" MUST appear verbatim inside one spoken English bubble\n'
@@ -75,15 +95,15 @@ def build_word_rule(collocation: str) -> str:
     )
 
 
-# ─────────────────────────────────────────────────────────
+# ---------------------------------------------------------
 # System Prompt
-# ─────────────────────────────────────────────────────────
-
+# System Prompt
+# ---------------------------------------------------------
 def build_arc_prompt(arc_state: dict) -> str:
     """Format current relationship arc state into a system prompt block."""
     if not arc_state:
         return ""
-    _PHASE_LABEL = {1: "현상유지", 2: "균열/긴장", 3: "전환", 4: "가까워짐"}
+    _PHASE_LABEL = {1: "stable", 2: "tension", 3: "turning_point", 4: "closer"}
 
     def _fmt(v):
         return " / ".join(v) if isinstance(v, (list, tuple)) else str(v)
@@ -97,7 +117,7 @@ def build_arc_prompt(arc_state: dict) -> str:
         signature_bit = state.get("signature_bit")
         dynamic = state.get("dynamic") or []
         unresolved = state.get("unresolved") or []
-        head = f"{pair}  [phase {phase} — {_PHASE_LABEL.get(phase, phase)}"
+        head = f"{pair}  [phase {phase} - {_PHASE_LABEL.get(phase, phase)}"
         head += f", comfort {comfort}]" if comfort is not None else "]"
         lines.append(head)
         if dynamic:
@@ -111,20 +131,20 @@ def build_arc_prompt(arc_state: dict) -> str:
     return "\n".join(lines)
 
 
-# ═════════════════════════════════════════════════════════════
-# 3단 파이프라인 프롬프트 (Story Planner → Script → Visual)
-# 관심사 분리 — 각 GPT 호출이 한 가지만 잘하도록
-# ═════════════════════════════════════════════════════════════
+# ---------------------------------------------------------
+# Three-stage prompt pipeline: Story Planner -> Script -> Visual
+# Each GPT call focuses on one job.
+# ---------------------------------------------------------
 
 _TONE_MAP = {
-    # register 값 — collocations 의 'register' 컬럼(informal/standard/formal).
-    # casual/sarcastic/emotional/blunt 는 현재 프롬프트가 생성하지 않지만 수동 지정 대비 유지.
-    "informal":  "Overall tone: informal and relaxed — casual spoken language.",
+    # register values from the collocations data.
+    # Extra tone labels are kept for manual overrides.
+    "informal":  "Overall tone: informal and relaxed - casual spoken language.",
     "standard":  "Overall tone: neutral, natural everyday speech.",
     "casual":    "Overall tone: casual and relaxed.",
     "formal":    "Overall tone: slightly formal/professional but still plain.",
-    "sarcastic": "Overall tone: lightly dry/sarcastic — understated.",
-    "emotional": "Overall tone: emotionally warm — speaking from feeling.",
+    "sarcastic": "Overall tone: lightly dry/sarcastic - understated.",
+    "emotional": "Overall tone: emotionally warm - speaking from feeling.",
     "blunt":     "Overall tone: blunt and direct, no softening.",
 }
 
@@ -138,11 +158,11 @@ def tone_rule_for(register: str = "") -> str:
 def _revision_block(feedback: str) -> str:
     if not feedback:
         return ""
-    return ("=== REVISION NOTES (previous draft FAILED review — fix these) ===\n\n"
+    return ("=== REVISION NOTES (previous draft FAILED review - fix these) ===\n\n"
             + feedback + "\n\n")
 
 
-# ── ① Story Planner — 구조/기획만 ──────────────────────────────
+# Story Planner - structure only
 def build_planner_prompt(
 lore,
 word_block,
@@ -157,287 +177,361 @@ required_domain="",
 location_menu="",
 ) -> str:
     _domain_lock = (
-        (f"\n⛔ HARD REQUIREMENT — DOMAIN IS FIXED: this target sentence's domain is "
+        (f"\nHARD REQUIREMENT - DOMAIN IS FIXED: this target sentence's domain is "
          f"\"{required_domain}\". The \"domain\" you return MUST be EXACTLY \"{required_domain}\" "
          f"(one of the four: workplace | daily | academic | customer/service). "
          f"Choose a location that genuinely belongs to "
          f"that domain. If the domain is NOT workplace, the scene must NOT happen at an office, "
-         f"meeting room, Plaoud, or any desk/work setting — go to a real personal/shop/school place.\n")
+         f"meeting room, Plaoud, or any desk/work setting - go to a real personal/shop/school place.\n")
         if required_domain else "")
-    return f"""You are the STORY PLANNER for an ENGLISH-LEARNING webtoon.
+    return f"""You are a sitcom story breaker in a writers' room for an English-learning webtoon.
 {_domain_lock}
 
+Your job is to break one small 6-panel sitcom story, not to write jokes first
+and not to write dialogue yet.
 
-Your job is to plan ONE complete episode as a character-driven sitcom scene:
-a tiny conflict that could only happen because these lore characters react in their own ways.
+Start from CHARACTER FRICTION inside this world, NOT from the target sentence.
+Pick characters whose facets (from the character bible) collide over one tiny
+everyday problem in the chosen domain, and build the funny escalation FIRST.
+The target sentence is simply the natural line one character lands on under that
+pressure — it is NOT the seed and NOT the point of the scene.
 
-Output STRUCTURE ONLY.
-DO NOT write dialogue.
+Comedy is the engine; the world bible, character facets, and the domain are your
+source of taste. The micro_situation and role metadata are only faint
+speech-function hints — do NOT copy them as the plot, and do NOT let them flatten
+the scene into people merely discussing status, readiness, or feelings.
 
-Read the world bible carefully.
+HARD FAILURE MODE — do NOT produce a "status-check / explanation" episode where one
+character over-explains and the other is confused or asks them to repeat. If your
+premise reduces to "A explains, B doesn't get it," discard it and find a real
+behavioral collision: an object that misbehaves, a small competition, a quirky
+justification, a dodge, a visible social mistake. No two episodes may share the
+same shape.
 
-Priority order:
+EVEN IF the target sentence is itself a question, a clarification, or a request to
+repeat (e.g. "I didn't get that.", "Can you say that again?"), do NOT build a teaching/
+explanation scene. Invent a NON-teaching reason the character says that line — they
+double-take at an absurd claim, get drowned out by a noise/object, are distracted by
+their own facet, mishear a prank, or refuse to accept a ridiculous answer. The line
+should land because of a funny behavioral collision, never because someone is lecturing.
 
-1. Episode Rules
-2. Characters & World from the lore files — habits, fears, standards, relationships, and recurring dynamics
-3. The exact target sentence — the episode must create a natural character move for that sentence
-4. Target scenario metadata — relationship context, roles, power dynamic, speech act, service direction, story function
-5. Relationship Arc State
+Break the story in this order:
+1. WANT - what does one character want right now?
+2. PRESSURE - what does the other character, setting, role, or object do that pressures it?
+3. GAME - what is the one funny behavioral pattern created by that pressure?
+4. ESCALATION - how does that same pattern get sharper across the panels?
+5. TARGET MOMENT - where does the target sentence become the useful thing to say?
+6. BUTTON - what is the final character-specific turn or residue?
+
+A beat is not a feeling. A beat is an external event, choice, interruption,
+mistake, object state, or social move that changes what the next character can do.
+
+Creative goal:
+- Start from character friction inside this world, not from the micro_situation wording.
+- Make something specific happen in the room right now. Avoid abstract status-check
+  conversations where characters only discuss progress, readiness, or feelings.
+- Break external action, not internal mood. A sitcom beat should be playable on
+  screen through behavior, interruption, object trouble, role pressure, or a
+  visible social mistake. Do not build the episode mainly from inner thoughts.
+- Avoid plans whose game is only "character feels nervous / tries to look ready /
+  boss applies pressure." Turn that psychology into a visible behavior or event.
+- Give the script writer a playable beat sheet: premise, turn, target moment, and button.
+- Use only a few concrete details. Leave exact wording, acting, poses, and camera for later stages.
+
+Pipeline needs:
+- Return exactly 6 beats.
+- Exactly one beat must have "has_collocation": true.
+- That beat must be a character panel with a non-empty speaker.
+- All other beats must have "has_collocation": false.
+- The target_speaker must be the speaker of the true beat.
 
 {_revision_block(feedback)}
-
 === WORLD BIBLE ===
-
 {lore}
 
 {word_block}
 
-Expression rules:
+Target sentence rule:
 {word_rule}
 
 {cast_directive}
 
 === RELATIONSHIP ARC STATE ===
-
 {arc_prompt}
 
 {("=== SHOWRUNNER NOTES ===" + chr(10) + showrunner_notes + chr(10)) if showrunner_notes else ""}
 
-=== PLANNING RULES ===
-
-Apply the world bible + episode_rules.md (above) — don't restate them. The relationship pair
-and lead are PRE-SELECTED (see RELATIONSHIP note below); build the episode on that pair, using
-only the domain's cast and locations from the domain world above.
-
-Make the plan do this — and keep room to be creative within it:
-- DESIGN FOR SPEAKING MEMORY, not lore display. The viewer should remember:
-  "Oh, this is exactly when I can say the target sentence." The scene can be
-  funny, but the funny part must make the speaking moment easier to recall.
-- Build a tiny social trap, not a generic example. Use one concrete pressure
-  that a learner recognizes immediately: a late reply, a wrong order, a friend
-  waiting, a boss asking twice, a receipt mistake, a phone dying, a calendar
-  conflict, a small favor becoming awkward.
-- Keep the situation ordinary first, characterful second. The learner should
-  think "I have been in this situation," before noticing the joke. Do not invent
-  random trivia, fantasy facts, surreal lore, or wacky side topics unless the
-  target micro_situation is explicitly about that topic.
-- Think like a webtoon director with a small toolbox, not like a rule-follower.
-  You may freely use any ONE or TWO devices that fit the target sentence:
-  internal thought bubble, silent object cutaway, visible contradiction, object
-  pile-up, over-helpful action, tiny role-play break, deadpan reaction, awkward
-  politeness, before/after object state, or a character doing the literal version
-  of a normal phrase. Do not use a device just because it is listed.
-- The best device is the one that makes the target sentence easier to remember.
-  If the sentence says "quick", the scene may make "quick" visibly not quick.
-  If it asks for more time, the visible time pressure may grow. If it asks for
-  clarification, the missed detail should become practical and immediate. If it
-  promises an update, the thing-to-update may multiply.
-- After the target sentence, prefer one visible comic consequence over extra
-  explanation. The consequence should be drawable in a single panel and should
-  come from the character's personality or relationship pressure.
-- A thought bubble is allowed, but only as a reaction to something already visible.
-  Do not use thought bubbles to explain a joke that the picture did not earn.
-- SEED THE SCENE FROM THE TARGET SENTENCE'S micro_situation (the "situation" field above). That real-life
-  moment is the SPINE — the concrete reason a real person would say THIS exact sentence. Build the episode AS
-  a vivid, specific realization of that moment, then layer the selected character's trait ON TOP: the comedy
-  is how THIS character WARPS/heightens that same situation — NOT a different situation invented from their
-  trait. Never swap the micro_situation for an unrelated game. (e.g. "What time do you finish?" / "친구의 일정을
-  확인하고 싶을 때" → the scene is about checking when someone is free, NOT about critiquing a painting.)
-- Use the target scenario metadata as constraints, not decoration:
-  · relationship context = the social frame the selected pair must plausibly embody
-  · speaker/listener roles = who says the exact target sentence and who receives it
-  · power dynamic = who can pressure, refuse, correct, or decide
-  · speech act = what the target sentence does in the exchange
-  · service direction = whether the episode is customer→staff, staff→customer, internal team, teacher/student, or none
-  · story function = where the target sentence belongs in the sitcom beat chain
-- If a metadata field is blank because an older CSV is used, infer the missing value once and keep it consistent.
-- Pick the clearest delivery_mode (character | object | action | setting | mixed) for the character conflict.
-- Use EXACTLY 6 panels for high-frequency speaking practice:
-  panel 1-2 establish the ordinary object/task/place, panel 3 raises the social pressure,
-  panel 4 or 5 contains the target sentence, and panel 6 is a grounded character button.
-  Avoid slow setups. Every panel should change the social pressure. This is a
-  flexible rhythm, not a fixed formula: choose the beat placement that makes the
-  target sentence feel most natural.
-- Map the character-conflict beats onto a COMEDY shape (SREP), not a lesson-shaped scene:
-    · situation  = SET-UP    (establish the micro_situation concretely + who's who)
-    · pressure   = REVEAL    (the selected character's trait WARPS that situation — the GAME appears as a
-                              heightening OF the micro_situation, never a new topic)
-    · expression = LAND      (the EXACT TARGET SENTENCE appears verbatim here because the situation now DEMANDS it —
-                              it performs its own speech_act naturally: a request asks, a refusal refuses, a
-                              reassurance reassures. It may be the driver's line OR the other character's
-                              line — whichever the speech_act + speaker_role require. Do NOT force it to be an
-                              "exasperated reaction" when its speech_act is not a reaction. A short spoken wrapper
-                              is allowed if it makes the line more conversational.)
-    · confirmation = PAYOFF  (the next honest consequence of the driver facet — resolve, dodge,
-                              escalate, undercut, or leave awkward residue)
-  Extra panels = more escalation, never a new topic.
-- THE GAME OF THE SCENE: pick ONE character whose facet drives a slightly heightened,
-  ORDINARY premise, and
-  have them DOUBLE DOWN — each beat a bigger variation of the SAME premise — while the other
-  reacts/condemns/tries to stop it. Comedy comes from heightening one thing, not many jokes.
-- Before choosing the facet, read that character's emotional engine. Pick the hidden need,
-  defense, soft spot, or contradiction that makes the target sentence feel like a human choice.
-  The facet is the visible behavior; the emotional engine is why they choose that behavior now.
-- Keep the premise low-stakes and drawable. A good premise fits in one image:
-  three reminder notes on a phone, a receipt longer than the table, two identical
-  coffee cups with opposite moods, a snack shelf slowly emptying, a meeting note
-  with one circled mistake. If it needs explanation, it is too abstract.
-- Use the available webtoon/image features freely when they help:
-  character panel, silent object panel, short speech bubble, short internal
-  thought bubble, visible prop, repeated prop getting worse, pose change,
-  expression change, same location with a changed object state. The output image
-  model can draw objects, poses, expressions, backgrounds, and speech bubbles;
-  it cannot draw a joke that exists only as abstract narration.
-- The target sentence must be the useful spoken move, not the punchline by
-  itself. The punchline is the visible consequence after it: someone complies
-  too literally, quietly relapses, reveals a small contradiction, or softens in
-  a character-specific way.
-- For high-frequency everyday sentences, prefer mundane triggers:
-  noisy cafe, missed detail, unclear plan, too many choices, calendar mismatch,
-  someone asking at a bad time, a task handoff, a tiny mistake on a receipt or
-  message. Avoid premise-first scenes where the target sentence could be removed
-  without changing the episode.
-- Phoebe-style reactions are welcome when hyo-jeong appears, but they must be
-  reactions to the current speaking pressure. Her oddness should attach to the
-  ordinary object or pressure already in the scene (receipt, snack, phone,
-  schedule, order, price, shelf, appointment), never open an unrelated tangent.
-  Do not use fake history, animal trivia, random science facts, surreal world
-  claims, or any premise that only exists so a quirky character can be quirky.
-- In customer/service episodes with hyo-jeong, remember the relationship:
-  the staff member and customer already know each other. The comedy should come
-  from friend familiarity colliding with staff/customer role-play, while the
-  actual service pressure stays clear (order, price, stock, reservation,
-  receipt, wait time, wrong item).
-- For clarification sentences like "Sorry, I didn't catch that" or "What do you
-  mean?", the missed information must be practical and immediate: a name, time,
-  order, instruction, address, price, plan, or task detail. Do not make the
-  confusing content a joke topic.
-- Do not plan by desired line type or scene-ending category.
-  Plan the psychological cause: what does THIS character want, protect, avoid, or over-control
-  in this exact moment? The target sentence should be the most character-plausible move available.
-- The character clash is the SPINE: the exact target sentence must fall out of how THIS pair
-  clashes. Never bolt the sentence on the side as a learning requirement.
-- The speaker of the exact target sentence must match the implied speaker role and speech act.
-  Do not give a customer complaint line to a staff helper, a junior request to a senior, or a
-  button reaction to the setup beat unless the metadata says so.
-- Echo the target metadata into the top-level JSON fields exactly. These fields must match the
-  word metadata unless you explicitly explain a safe correction in "metadata_correction".
-- target_speaker must be one of selected_pair's two characters.
-- target_listener should be the other selected_pair character unless the scene is clearly monologue/action-led.
-- BE SPECIFIC, not generic: a concrete everyday object, number, or visible state is more memorable
-  ("three unread messages", "a receipt for two coffees", "a 3:15 meeting", "one missing file" —
-  not "something important", "some problem").
-- Make the visible_learning_moment something a viewer literally SEES. Use an object/caption panel
-  (speaker "") only when a screen/receipt/before-after state shows the character conflict faster than dialogue.
-- The "situation" you invent must be a fresh, specific realization OF the micro_situation — not a stock
-  setup, and never a substitute topic. The character bible + domain decide HOW it looks and who warps it;
-  the micro_situation decides WHAT moment it is.
-
-LOCATION — pick ONE "location" from THIS domain's allowed list (use the tag verbatim). The
-earlier items are the canonical recurring stages; pick those by default, a later one only when
-the character game truly fits it better (vary stages across episodes, don't always use the first):
+=== AVAILABLE LOCATIONS ===
+Pick one location tag from this domain:
 {location_menu}
 {cast_note}{avoid_situations}
-Before returning, check:
-- SITUATION MATCH: does the scene actually enact the micro_situation, or did you drift to an unrelated
-  topic? (If the sentence is "몇 시에 끝나?" the scene MUST be about checking when someone is free.) If it
-  drifted, the game is wrong — rebuild the game as a heightening of the micro_situation.
-- COHERENCE: read the beats in order. Does each beat reply to the one before? Would a real person say the
-  EXACT target sentence at its beat FOR THE REASON the micro_situation gives? If the target line is a
-  non-sequitur in this conversation, do not ship it — rebuild around the micro_situation.
-- Is the scene driven by the lore characters rather than a generic learner situation? For each character
-  beat, can you answer "why would THIS character say/do this, instead of any generic speaker?"
-- Does the visible_learning_moment actually show on screen? Is there ONE escalating game whose final beat
-  follows from the driver facet? Are the details SPECIFIC, not generic? If not, revise.
 
-=== RETURN JSON ONLY ===
-
+Return JSON only. Keep this shape for the production pipeline, but fill it as a writer's room beat sheet:
 {{
-"target_sentence": "copy the exact target sentence",
-"primary_used_in": "copy the word metadata primary_used_in / used in domain",
-"speaker_role": "copy the word metadata speaker_role",
-"listener_role": "copy the word metadata listener_role",
-"relationship": "copy the word metadata relationship",
-"power_dynamic": "copy the word metadata power_dynamic",
-"speech_act": "copy the word metadata speech_act",
-"politeness": "copy the word metadata politeness",
-"story_function": "copy the word metadata story_function",
-"selected_pair": "exact selected pair string from RELATIONSHIP note",
-"target_speaker": "one character from selected_pair who speaks the exact target sentence",
-"target_listener": "the other selected_pair character, unless monologue/action-led",
-"metadata_correction": "empty string unless you safely corrected missing/contradictory metadata; explain the correction here",
+  "target_sentence": "exact target sentence",
+  "primary_used_in": "target domain",
+  "speaker_role": "metadata role or inferred role",
+  "listener_role": "metadata role or inferred role",
+  "relationship": "metadata relationship or inferred relationship",
+  "power_dynamic": "metadata power dynamic or inferred dynamic",
+  "speech_act": "what the sentence does in the scene",
+  "politeness": "metadata or inferred",
+  "story_function": "where the sentence lands emotionally",
+  "selected_pair": "exact selected pair string",
+  "target_speaker": "character who says the exact sentence",
+  "target_listener": "character receiving it",
+  "metadata_correction": "",
 
-"situation_id": "short slug for the situation you invented (e.g. clogged_sink_diy)",
-"domain": "EXACTLY one of: workplace | daily | academic | customer/service",
-"location": "ONE location TAG from the allowed list above, verbatim (e.g. cafe, office, classroom, park)",
-"background_prop": "0 to 2 drawable background objects (comma-separated) that fit THIS scene's situation/game (generated, scene-specific — e.g. 'broken coffee machine', 'stack of receipts, sticky notes', 'whiteboard full of charts'). Objects only, no people. Use an empty string \"\" for a clean, prop-free location. Keep it short — at most two.",
-"outfit_setting": "ONE wardrobe matching location & domain: workplace | academic | daily_home | daily_convenience | daily_outing | daily_dressup | daily_sport. Meanings: daily_home=at home only; daily_convenience=quick casual errand like convenience store/supermarket/street; daily_sport=exercise/outdoor activity; daily_outing=normal going out such as cafe/bookstore/bakery; daily_dressup=more dressed-up outing such as restaurant/movie/mall/salon/date-like place. Never use daily_home outside a home location.",
-"situation": "one sentence: where, when, what problem",
-"delivery_mode": "character-led | object-led | action-led | setting-led | mixed",
+  "situation_id": "short slug",
+  "domain": "workplace | daily | academic | customer/service",
+  "location": "one allowed location tag",
+  "background_prop": "0 to 2 simple objects, or empty string",
+  "outfit_setting": "workplace | academic | daily_home | daily_convenience | daily_outing | daily_dressup | daily_sport",
+  "situation": "one vivid sentence describing the scene pressure",
+  "delivery_mode": "character-led | object-led | action-led | setting-led | mixed",
 
-"target_sentence_context": {{
-"relationship_context": "copy or infer one social frame for the episode",
-"target_speaker_role": "which character fills the speaker role and why",
-"target_listener_role": "which character fills the listener role and why",
-"power_dynamic": "copy or infer the power dynamic and how it creates pressure",
-"speech_act": "copy or infer the speech act performed by the exact target sentence",
-"service_direction": "copy or infer: none | customer_to_staff | staff_to_customer | internal_team | teacher_to_student | student_to_teacher",
-"story_function": "copy or infer the story function and ensure the collocation beat uses it"
-}},
+  "target_sentence_context": {{
+    "relationship_context": "why these two are in this exchange",
+    "target_speaker_role": "why this character owns the line",
+    "target_listener_role": "why the other character receives it",
+    "power_dynamic": "where the pressure comes from",
+    "speech_act": "what the sentence accomplishes",
+    "service_direction": "none | customer_to_staff | staff_to_customer | internal_team | teacher_to_student | student_to_teacher",
+    "story_function": "the sentence's story job"
+  }},
 
-"nuance_structure": {{
-"situation": "the ordinary state created by the selected character trait or relationship dynamic",
-"pressure": "the specific pressure that makes the exact target sentence necessary",
-"expression": "the concrete in-scene action/decision/realization where a character naturally says the exact target sentence (no meta commentary)",
-"confirmation": "the visible result/reaction/aftermath that confirms the character conflict"
-}},
+  "nuance_structure": {{
+    "situation": "setup",
+    "pressure": "turn/complication",
+    "expression": "target sentence moment",
+    "confirmation": "button/residue"
+  }},
 
-"sitcom_conflict": "one sentence: the tiny warm character conflict that makes the target sentence necessary",
+  "sitcom_conflict": "one sentence conflict",
+  "comedic_game": {{
+    "driver": "character driving the funny pressure",
+    "premise": "one playable comic idea",
+    "escalation": "how it changes across panels",
+    "button": "ending beat"
+  }},
+  "character_filter_collision": [
+    {{"character": "name", "facet": "activated trait", "collision": "how it meets the other character/setting"}}
+  ],
+  "emotional_engine": [
+    {{"character": "name", "hidden_need": "what they want", "defense": "how they protect it", "soft_spot_or_contradiction": "what keeps them human"}}
+  ],
+  "visible_learning_moment": "why the target sentence feels inevitable",
+  "visible_proof_panel": null,
+  "characters": ["0 to 3 names"],
+  "problem": "single problem driving the scene",
+  "beat_count": 6,
+  "beats": [
+    {{
+      "panel": 1,
+      "panel_type": "character | object",
+      "speaker": "name, or empty string for object/caption panel",
+      "nuance_role": "situation | pressure | expression | confirmation",
+      "visual_focus": "what matters in the panel",
+      "intent": "writerly beat, not camera direction",
+      "has_collocation": false
+    }}
+  ],
+  "milestone": {{"is_milestone": false, "pair": "exact pair name or null", "summary": "one sentence if milestone else null"}}
+}}"""
 
-"comedic_game": {{
-"driver": "the ONE character who drives the slightly heightened everyday pressure",
-"premise": "the single specific ordinary thing they insist on or keep doing (be concrete and useful for the target sentence)",
-"escalation": "how it gets BIGGER beat by beat (variations of the SAME premise, not new jokes)",
-"button": "the final line or image as the next honest move from the driver's facet. It may resolve, dodge, escalate, undercut, or leave awkward residue, but it must come from character causality, not scene-closing convenience."
-}},
 
-"character_filter_collision": [
-{{"character": "name", "facet": "copy one exact facet label from that character's bible when possible; otherwise name the activated habit/fear/standard", "collision": "how it bumps against the other character/object/setting"}}
-],
+# Shared return schema (single-brace JSON) — reused by the free planner so downstream parsing
+# stays identical. Embedded via f-string: f"...{_PLANNER_RETURN_SCHEMA}".
+_PLANNER_RETURN_SCHEMA = """Return JSON only. Keep this shape for the production pipeline, but fill it as a writer's room beat sheet:
+{
+  "target_sentence": "exact target sentence",
+  "primary_used_in": "target domain",
+  "speaker_role": "metadata role or inferred role",
+  "listener_role": "metadata role or inferred role",
+  "relationship": "metadata relationship or inferred relationship",
+  "power_dynamic": "metadata power dynamic or inferred dynamic",
+  "speech_act": "what the sentence does in the scene",
+  "politeness": "metadata or inferred",
+  "story_function": "where the sentence lands emotionally",
+  "selected_pair": "exact selected pair string",
+  "target_speaker": "character who says the exact sentence",
+  "target_listener": "character receiving it",
+  "metadata_correction": "",
 
-"emotional_engine": [
-{{"character": "name", "hidden_need": "what they want here", "defense": "how they protect themselves", "soft_spot_or_contradiction": "what makes this more than a one-note joke"}}
-],
+  "situation_id": "short slug",
+  "domain": "workplace | daily | academic | customer/service",
+  "location": "one allowed location tag",
+  "background_prop": "0 to 2 simple objects, or empty string",
+  "outfit_setting": "workplace | academic | daily_home | daily_convenience | daily_outing | daily_dressup | daily_sport",
+  "situation": "one vivid sentence describing the scene pressure",
+  "delivery_mode": "character-led | object-led | action-led | setting-led | mixed",
 
-"visible_learning_moment": "the concrete visible before/after, decision, object state, or reaction that makes the target sentence feel inevitable without defining it",
-"visible_proof_panel": "integer beat number (1..number of beats) or null. If chosen, that beat MUST be panel_type 'object', speaker '', has_collocation false, visual_focus a concrete drawable object/state. null if the conflict is purely interpersonal.",
+  "target_sentence_context": {
+    "relationship_context": "why these two are in this exchange",
+    "target_speaker_role": "why this character owns the line",
+    "target_listener_role": "why the other character receives it",
+    "power_dynamic": "where the pressure comes from",
+    "speech_act": "what the sentence accomplishes",
+    "service_direction": "none | customer_to_staff | staff_to_customer | internal_team | teacher_to_student | student_to_teacher",
+    "story_function": "the sentence's story job"
+  },
 
-"characters": ["0 to 3 names from the domain cast pool"],
-"problem": "the single problem that drives the episode",
-"beat_count": 6,
+  "nuance_structure": {
+    "situation": "setup",
+    "pressure": "turn/complication",
+    "expression": "target sentence moment",
+    "confirmation": "button/residue"
+  },
 
-"beats": [
+  "sitcom_conflict": "one sentence conflict",
+  "comedic_game": {
+    "driver": "character driving the funny pressure",
+    "premise": "one playable comic idea",
+    "escalation": "how it changes across panels",
+    "button": "ending beat"
+  },
+  "character_filter_collision": [
+    {"character": "name", "facet": "activated trait", "collision": "how it meets the other character/setting"}
+  ],
+  "emotional_engine": [
+    {"character": "name", "hidden_need": "what they want", "defense": "how they protect it", "soft_spot_or_contradiction": "what keeps them human"}
+  ],
+  "visible_learning_moment": "why the target sentence feels inevitable",
+  "visible_proof_panel": null,
+  "characters": ["0 to 3 names"],
+  "problem": "single problem driving the scene",
+  "beat_count": 6,
+  "beats": [
+    {
+      "panel": 1,
+      "panel_type": "character | object",
+      "speaker": "name, or empty string for object/caption panel",
+      "nuance_role": "situation | pressure | expression | confirmation",
+      "visual_focus": "what matters in the panel",
+      "intent": "writerly beat, not camera direction",
+      "has_collocation": false
+    }
+  ],
+  "milestone": {"is_milestone": false, "pair": "exact pair name or null", "summary": "one sentence if milestone else null"}
+}"""
+
+
+def build_free_planner_prompt(
+    lore,
+    word_block,
+    word_rule,
+    arc_prompt,
+    feedback="",
+    avoid_situations="",
+    required_domain="",
+    location_menu="",
+) -> str:
+    """Clean D-style planner: domain + target sentence + full cast bible, comedy-first, free pairing.
+
+    No pre-selected pair, no role/metadata anchoring — the experiment showed those force the
+    'over-explainer + confused listener' template. Outputs the SAME schema as build_planner_prompt
+    so the downstream script/visual stages are unchanged.
+    """
+    _domain_lock = (
+        (f"\nHARD REQUIREMENT - DOMAIN IS FIXED: this target sentence's domain is "
+         f"\"{required_domain}\". The \"domain\" you return MUST be EXACTLY \"{required_domain}\" "
+         f"(workplace | daily | academic | customer/service). Choose a location that genuinely "
+         f"belongs to that domain.\n")
+        if required_domain else "")
+    return f"""You are a sitcom story breaker for a slice-of-life workplace sitcom that teaches English.
+{_domain_lock}
+Write ONE small, funny 6-panel episode. Comedy comes FIRST and from CHARACTER FACET COLLISION:
+two people bring different facets (habits, fears, filters) from the character bible to one tiny
+everyday problem; one person's quirk ESCALATES while the other reacts, and warmth only lands at
+the final button (do not resolve every panel).
+
+Start from CHARACTER FRICTION inside this world, NOT from the target sentence. The target
+sentence is simply the natural line one character lands on under that pressure — it is NOT the
+seed and NOT the point of the scene. The world bible, character facets, and the domain are your
+source of taste.
+
+YOU choose which cast pairing makes the funniest collision. Do NOT default to the
+explainer->confused-listener or teacher->student pairing.
+
+HARD FAILURE MODE — do NOT produce a "status-check / explanation" episode where one character
+over-explains and the other is confused or asks them to repeat. EVEN IF the target sentence is a
+question / clarification / request to repeat (e.g. "I didn't get that.", "Can you say that again?"),
+do NOT build a teaching scene. Invent a NON-teaching reason the line is said: a double-take at an
+absurd claim, being drowned out by a noise/object, a prank, a distraction, refusing a ridiculous
+answer, a competition. The line must land from a funny behavioral collision, never from lecturing.
+
+Break the story so it is playable on screen through behavior, objects, interruptions, and social
+mistakes — not inner mood. Use only a few concrete details; leave wording/acting/camera for later.
+
+Write the actual DIALOGUE for every panel — this IS the script; there is no separate dialogue stage.
+
+Pipeline needs:
+- Exactly 6 beats; each beat is one panel.
+- Character beats have ONE spoken bubble; object/caption beats use speaker "" and usually empty bubble.
+- The exact target sentence appears VERBATIM in exactly ONE character beat; set that beat's
+  has_collocation=true and all other beats false. Place it WHEREVER it lands most naturally
+  (often mid-scene at the peak of the collision), NOT forced onto the final button.
+- target_speaker = the speaker of that beat, and must be listed in "characters".
+- Alternate speakers — never the same speaker twice in a row. Keep each bubble ONE simple idea.
+
+Performance per beat uses ONLY these keys:
+- body_pose: standing | sitting | leaning_forward | walking | crouching
+- gesture: none | arms_crossed | hands_on_hips | pointing | hand_on_chin | hand_on_forehead |
+  facepalm | head_in_hands | shrug | hand_raised | waving | hands_clasped | holding_cup |
+  holding_phone | holding_paper | holding_laptop | typing
+- gaze: looking_at_viewer | looking_to_side | looking_down | looking_up | looking_away
+- expression_intent: short visible emotion (deadpan, confused, smug, awkward, ...)
+- prop_use: "none", or one simple drawable prop
+
+{_revision_block(feedback)}
+=== WORLD + CHARACTER BIBLE ===
+{lore}
+
+=== RELATIONSHIP ARC STATE ===
+{arc_prompt}
+
+{word_block}
+
+Target sentence rule:
+{word_rule}
+
+=== AVAILABLE LOCATIONS (pick ONE tag for the whole episode) ===
+{location_menu}
+{avoid_situations}
+
+Return JSON ONLY:
 {{
-"panel": 1,
-"panel_type": "character | object",
-"speaker": "name, or empty string for object/caption panels",
-"nuance_role": "situation | pressure | expression | confirmation",
-"visual_focus": "object panels: the exact object/state carrying the beat; character panels: the visible action",
-"intent": "what this panel does for the character conflict + how the character uniquely reacts (one short line)",
-"has_collocation": false
-}}
-],
+  "situation": "one vivid sentence describing the scene",
+  "sitcom_conflict": "one sentence conflict",
+  "domain": "{required_domain or 'workplace | daily | academic | customer/service'}",
+  "location": "one allowed location tag",
+  "background_prop": "0-2 simple objects, or empty string",
+  "outfit_setting": "workplace | academic | daily_home | daily_convenience | daily_outing | daily_dressup | daily_sport",
+  "characters": ["1-3 names"],
+  "selected_pair": "the two leads as 'a ↔ b'",
+  "target_speaker": "character who says the exact target sentence",
+  "comedic_game": {{"driver": "", "premise": "", "escalation": "", "button": ""}},
+  "character_filter_collision": [{{"character": "", "facet": "", "collision": ""}}],
+  "visible_learning_moment": "why the target line feels inevitable",
+  "visible_proof_panel": null,
+  "beat_count": 6,
+  "beats": [
+    {{"panel": 1, "panel_type": "character | object", "speaker": "name, or empty for object panel",
+      "bubble": "English line; empty for silent object",
+      "bubble_kr": "natural Korean; empty for object/narration",
+      "performance": {{"expression_intent": "", "body_pose": "", "gesture": "", "gaze": "", "prop_use": "none"}},
+      "subject": "object panels: the visible object/state, else empty",
+      "has_collocation": false}}
+  ],
+  "milestone": {{"is_milestone": false, "pair": null, "summary": null}}
+}}"""
 
-"milestone": {{"is_milestone": false, "pair": "exact pair name or null", "summary": "one sentence if is_milestone else null"}}
-}}
-"""
 
-
-# ── ② Script — 대사만 ─────────────────────────────────────────
+# Script - dialogue and minimal performance
 _REGISTER_KR = {
-    "informal": "Korean speech level: 반말 (casual) throughout — these people are close. Keep it consistent every bubble.",
-    "standard": "Korean speech level: default to 반말 between these close friends/coworkers; use 존댓말 ONLY if the scene is clearly formal. Pick ONE level and keep it consistent every bubble.",
-    "formal":   "Korean speech level: default to 반말 between these close friends/coworkers; use 존댓말 ONLY if the actual relationship/service situation clearly calls for polite speech. The English expression may be formal while the Korean relationship tone stays casual.",
+    "informal": "Korean speech level: casual banmal throughout. Keep it consistent every bubble.",
+    "standard": "Korean speech level: default to casual banmal between close friends/coworkers; use polite Korean only if the scene is clearly formal. Pick one level and keep it consistent.",
+    "formal":   "Korean speech level: default to casual banmal for close relationships; use polite Korean only when the actual relationship/service situation calls for it.",
 }
 
 
@@ -446,167 +540,130 @@ def register_kr_rule(register: str = "") -> str:
 
 
 def build_script_prompt(lore, word_block, plan_json, tone_rule="", feedback="", register="") -> str:
-    return f"""You are the DIALOGUE WRITER for an ENGLISH-LEARNING webtoon (Korean learners).
-You are given a SCENE BRIEF (prose). Write ONLY the dialogue. Read the brief for tone, character,
-and what each beat means — then follow its BEAT-BY-BEAT skeleton EXACTLY (one bubble per character
-beat, in that speaker order; object beats stay silent).
+    return f"""You are the SCRIPT WRITER for an English-learning webtoon.
+You write the panel script: dialogue, Korean translation, and minimal performance direction.
 
-⭐ TOP PRIORITY: every line is instantly understandable to a learner.
-- Use ONLY common, everyday English (textbook / daily-conversation level).
-- NO jargon of any kind — not corporate (deck, ROI, pivot, sync), not hobby/fan
-  ("bridge", "fancam", dance-move names), not obscure slang. A superfan/expert speaks in
-  PLAIN words ("my favorite singer's old performance", NOT "the 2019 bridge").
-- Short, clear sentences. One beat per bubble (no cramming greeting+situation+feeling).
-- Make the scene useful to speak aloud. Each bubble should sound like something a
-  learner could repeat in a real conversation, not a narration of the plot.
-- Prefer direct social pressure over explanation. Let objects/actions show the
-  setup; let dialogue reveal what the character wants right now.
-- The dialogue should still work if it happened to the learner tomorrow. Avoid
-  random facts, trivia, fantasy details, or bits that are funny but not useful
-  for remembering the target sentence.
-- For everyday target sentences, never introduce fake history, animal trivia,
-  random science facts, or unrelated "did you know" topics. If hyo-jeong needs a
-  Phoebe-style line, make it an off-angle reaction to a practical missed detail,
-  schedule, order, task, receipt, phone, message, shelf, appointment, or plan.
-  If the brief contains an unrelated tangent, replace it while keeping the same
-  beat structure.
-- In customer/service scenes, keep the friend relationship audible in a small
-  way: one line may acknowledge "you work here now?" or "customer mode," but it
-  must immediately return to the service task.
+Use the SCENE BRIEF as the source of truth. Do not invent a new plot, new scene, new speaker order,
+or new target-sentence beat. The planner already decided the story; your job is to make each panel
+play clearly.
 
-{_revision_block(feedback)}Follow the brief:
-- PANEL 1 must establish the situation from the dialogue alone — the reader sees only
-  the bubbles + pictures, never the brief. Make who/where/what instantly clear in line 1.
-- Each "Panel N — <speaker> (<role>)" line in the brief is one bubble spoken by that speaker.
-  "[SILENT OBJECT]" beats are silent cutaways: emit char "", bubble "", bubble_kr "".
-  Do NOT move the exact target sentence into a silent object beat.
-- Each line REPLIES to the line before it. Stay on the ONE topic.
-- Preserve the brief's beat order and roles: situation → pressure → expression → confirmation
-  (extra panels deepen the same character pressure, never a new topic).
-- Give each bubble a job:
-  panel 1 names the immediate problem in ordinary words,
-  pressure panels make the problem more awkward or more visible,
-  the target panel performs the needed social move,
-  the final panel gives a small consequence, reversal, or character button.
-- The exact target sentence lands on the beat marked "<<< the target sentence lands HERE", spoken by
-  THAT beat's character — naturally. NEVER write a line whose only job is to display the
-  sentence; it must fall out of a real exchange. Do NOT move it to another character.
-- Copy the target sentence verbatim inside that bubble, including contractions and word order.
-  Do NOT paraphrase, shorten, split, tense-shift, or add words inside the target sentence words.
-  You MAY add a short natural spoken wrapper before or after it when it sounds more real:
-  "Yeah,", "Honestly,", "I mean,", "Yes, but", "Okay, so", "for now", "please".
-  Good: "Okay, so I need a little more time." Bad: "I might need more time."
-- Character voice must make the sentence feel motivated by this specific character's personality
-  and relationship, not by a generic learning scenario.
-- For object-led panels, do not write captions. Let the object/state carry the meaning.
-- The exact target sentence must appear verbatim in a character's spoken dialogue, not in an object panel.
-- Final panel = the next honest character beat after the target sentence, legible at a glance.
-  It may resolve, dodge, escalate, undercut, or leave small awkward residue. Choose the move THIS
-  character would actually make.
-- You have webtoon devices available, but none are mandatory:
-  short internal thought bubble, silent object cutaway, visible contradiction,
-  prop pile-up, over-helpful action, deadpan reaction, awkward politeness, tiny
-  role-play break, before/after object state. Pick only what helps this exact
-  scene. Leave them unused when plain dialogue is stronger.
-- If you use an internal thought bubble, make it short and reactive. It should
-  respond to a visible action or object, not explain the joke. Good shape:
-  visible action first, thought reaction second.
-  Mark the English bubble with "(internally)" at the start so the renderer uses
-  the thought-bubble asset. Do not add this marker to bubble_kr.
-- If you need a brief narration/time-card box such as "15 minutes later", mark
-  the English bubble with "(narration)" at the start. Use this sparingly for
-  time jumps or simple scene context, not to explain the joke.
-  It can appear in the same script output as dialogue: set the panel's bubble to
-  "(narration) ..." and keep it short. Use it only when a time jump or quick
-  context card makes the next spoken line clearer.
-  Narration may be used on a silent object/caption panel; in that case keep
-  "char" empty and "bubble_kr" empty, and put only the English narration marker
-  in "bubble".
-- Characters use their behavior patterns (see bible) ONLY where it fits — never force a catchphrase.
-- Each speaking character's chosen facet from character_filter_collision MUST appear at least
-  once in what they say or how they respond. The facet can be subtle, but it must affect an
-  actual line choice, timing, refusal, joke, correction, hesitation, or decision.
+Role:
+- Write exactly one output panel for each beat in the brief.
+- Character beats get one spoken bubble.
+- Object/caption beats use char "" and usually empty bubble/bubble_kr.
+- The exact target sentence must appear verbatim in the marked character beat.
+- Do not move the target sentence to a different speaker or object/caption panel.
+- Keep each panel's performance direction minimal and drawable.
+- Do not replace the planned sitcom game with a new excuse or tangent.
+- Each bubble must directly follow that panel's beat intent and the brief's comedic_game.
+- If the brief says the excuse is a table leg, door, receipt, phone, order, time, or task,
+  keep that exact everyday pressure. Do not swap in unrelated riddles, rare collections,
+  trivia, fantasy logic, or new objects.
 
-⭐ VOICE — same situation, different person, different line:
-- Plain English and strong character are NOT in conflict. Keep words simple AND make each
-  character sound like ONLY themselves. Voice lives in WHAT they choose to say, their
-  attitude, and timing — not in fancy vocabulary.
-- The two speakers must NOT sound interchangeable. Write each line the way THAT character
-  (see bible) would react — e.g. one deflects with a dry one-liner while the other states
-  the plan flatly; one over-explains a tiny detail while the other just wants to move on.
-- You can be deadpan, fussy, blunt, or over-eager using only common words. Do that.
+Allowed webtoon devices:
+- Normal speech bubble: plain English in "bubble".
+- Thought bubble: start English bubble with "(internally)", but use this only
+  when the scene brief explicitly asks for an internal/thought beat. Do not use
+  thought bubbles as the default way to show nervousness, pressure, or hesitation.
+  If the brief does not literally ask for a thought bubble/internal beat, write
+  a spoken line instead and let performance show the pressure.
+- Narration card: start English bubble with "(narration)".
+- Object/caption panel: char "", bubble/bubble_kr empty unless a short "(narration)" card is needed.
 
-⭐ CHARACTER CAUSALITY — choose lines by inner pressure, not by ending shape:
-- For every bubble, silently answer: What does this character want here? What are they protecting
-  or avoiding? How does the other person or setting pressure that defense?
-- Use the brief's emotional_engine field if present. Let the line reveal a hidden need,
-  defense, soft spot, or contradiction through ordinary dialogue, not through explanation.
-- Do not choose a line because it neatly ends the scene, teaches the lesson, or feels like the
-  "right" closing answer. Any line is fine only when it is the most plausible thing this character
-  would say under this pressure.
-- If a bubble sounds like any character could say it, rewrite it from the chosen facet.
+Performance direction rules:
+- The performance is part of the script, not a later visual guess.
+- Choose acting that helps the line read at a glance.
+- Prefer face, posture, gaze, and simple hand gesture over literal prop handling.
+- Use props only when the prop is visually central and easy to draw.
+- If a prop is mentioned but the joke reads better through attitude, set prop_use to "none".
+- Do not make a character hold an object just because the dialogue mentions it.
+- For hard-to-draw physical jokes, let the dialogue/narration carry the idea and keep prop_use simple.
+- Follow visual_policy from LOCKED PANEL PAYLOADS:
+  attitude_only -> prop_use "none";
+  show_prop -> one simple visible prop use;
+  object_cutaway -> use an object/caption panel if that beat is object, otherwise keep prop_use simple;
+  narration_card -> start bubble with "(narration)" only on caption/object beats;
+  thought_reaction -> start bubble with "(internally)" on character beats.
+- body_pose MUST be one of: standing, sitting, leaning_forward, walking, crouching.
+- gesture MUST be one of: none, arms_crossed, hands_on_hips, pointing, pointing_at_screen,
+  hand_on_chin, hand_on_forehead, facepalm, head_in_hands, shrug, hand_raised,
+  waving, hands_clasped, holding_cup, holding_phone, holding_paper, holding_laptop, typing.
+- gaze MUST be one of: looking_at_viewer, looking_to_side, looking_down, looking_up, looking_away.
 
-⭐ FUNNY — play THE GAME from the brief (this is what makes it worth reading):
-- The driver keeps doubling down on the SAME everyday pressure; each of their lines is a slightly stronger,
-  more specific version, while the other reacts/condemns/tries to stop it. Don't resolve early.
-- BE SPECIFIC: a concrete everyday detail is memorable; a vague one is not. "the 3:15 meeting"
-  not "the meeting"; "two unread texts" not "some messages".
-- Keep the joke conversational. No one should announce that something is funny,
-  weird, ironic, or a lesson. The comedy should come from the mismatch between
-  what one person is trying to do and what the other person can see.
-- Do not let a joke become the topic. If the target sentence is about missed
-  information, the scene is about missed information; if it is about being busy,
-  the scene is about pressure on time. The character bit can color the scene,
-  but it cannot replace the real speaking situation.
-- The TARGET SENTENCE should land as the useful spoken move the character needs right now.
-  It can be direct, softened, or wrapped in a tiny conversational lead-in, depending on the
-  relationship and pressure.
-- After the TARGET SENTENCE, if the brief supports it, show one visible comic
-  consequence of the sentence's ordinary meaning. Do not force this, but prefer
-  it over explanatory dialogue. Examples of shape, not wording: a "quick"
-  question creates a too-large whiteboard setup; "a little more time" makes the
-  clock/line/message count visibly worse; "I didn't catch that" reveals the
-  missed name/order/time right in front of them.
-- END ON A CHARACTER BUTTON: the last beat is whatever this character's facet naturally does next:
-  a twist, deadpan topper, relapse, over-explanation, correction, dodge, reluctant softening, or
-  small unresolved residue. Warmth is the frame; the character engine decides the line.
-- A strong final bubble is short and slightly turns the scene. Examples of the
-  shape, not wording: "I already made a backup." / "That was my simple version."
-  / "I chose both." / "Please don't make a chart."
-- Comedy comes from heightening ONE thing, not stacking random jokes. No memes, no puns for
-  their own sake.
-
-Before returning the script, self-check:
-- Does the exact target sentence appear verbatim inside the marked beat, spoken by that beat's character?
-- Did every "[SILENT OBJECT]" beat stay silent (empty char/bubble/bubble_kr)?
-- Does each character's reaction (from "WHO'S IN IT") visibly shape their lines?
-- Can you explain every bubble through that character's want + defense + relationship pressure?
-- Would swapping speaker names make the scene worse? If not, revise until each speaker's
-  lines are recognizably tied to their character.
-
-⭐ KOREAN TRANSLATION ("bubble_kr"): write how a real Korean speaker would actually say it,
-NOT a word-for-word translation.
-- Natural spoken Korean (구어체) — the way a friend/coworker really talks, contractions and all.
-- Translate the MEANING and tone, not the grammar. Reorder, drop, or merge words freely so it
-  sounds native. A stiff literal rendering (e.g. "디럭스를 유지하면 더 많은 비용이 청구될 거야") is WRONG;
-  write it the way a person would say it (e.g. "그거 그냥 두면 돈 더 내야 돼").
+Korean translation:
+- bubble_kr should be natural spoken Korean, not literal translation.
+- Do not include "(internally)" or "(narration)" in bubble_kr.
 - {register_kr_rule(register)}
-  (Speech level is set by REGISTER, NOT by the setting — close coworkers at the office still speak casually.)
-- Keep it short and punchy — same length feel as the English bubble.
-{(tone_rule + chr(10)) if tone_rule else ""}
-=== CHARACTER BIBLE (behavior patterns) ===
+
+{_revision_block(feedback)}=== CHARACTER BIBLE ===
 {lore}
 
 {word_block}
-=== THE SCENE BRIEF (read for tone/character; follow its BEAT-BY-BEAT skeleton exactly) ===
+=== SCENE BRIEF ===
 {plan_json}
 
-Return ONLY this JSON. The panel count MUST match the brief's beat count exactly.
-For object/caption panels, set "char" to an empty string and keep "bubble"/"bubble_kr" empty:
-{{ "panels": [ {{"char": "name", "bubble": "natural everyday English", "bubble_kr": "natural spoken Korean (구어체 의역, NOT literal)"}} ] }}"""
+Return ONLY this JSON. The panel count MUST match the brief's beat count exactly:
+{{
+  "panels": [
+    {{
+      "char": "speaker name, or empty string for object/caption panels",
+      "bubble": "English bubble; empty for silent object/caption panels",
+      "bubble_kr": "natural Korean translation; empty for object/caption/narration panels",
+      "performance": {{
+        "expression_intent": "short visible emotion, e.g. deadpan, confused, calmly absurd, relieved",
+        "body_pose": "one allowed body_pose key",
+        "gesture": "one allowed gesture key",
+        "gaze": "one allowed gaze key",
+        "prop_use": "none, or one concrete easy-to-draw prop use",
+        "visual_read": "what the viewer should understand from the acting"
+      }}
+    }}
+  ]
+}}"""
+# Visual (SDXL) - Danbooru tags
+def build_acting_prompt(
+    situation,
+    script_panels_json,
+    planner_context="",
+) -> str:
+    return f"""You are the ACTING DIRECTOR for a character-driven webtoon.
+
+Your job is NOT to write dialogue and NOT to write Danbooru tags yet.
+For each panel, decide what the character is doing emotionally and physically
+so the image explains why the line is being said.
+
+Scene situation: {situation}
+
+=== PLANNER VISUAL CONTEXT ===
+{planner_context or "(none)"}
+
+Panels in order:
+{script_panels_json}
+
+Rules:
+- Keep the exact same number and order of panels.
+- For character panels, make the acting match the line's speech function:
+  asking, dodging, realizing, refusing, explaining, teasing, giving up, etc.
+- For object panels, use a concrete visible object/state.
+- Use props as story anchors. If the dialogue is about a notebook, receipt,
+  phone, door, table, menu, screen, bag, or document, at least one relevant
+  panel should visibly interact with that object.
+- Do not make glamour poses. Prefer readable sitcom acting:
+  reaching for an object, pointing at evidence, holding the prop, leaning in,
+  hesitating, bracing, checking, blocking, hiding, or visibly giving up.
+- Thought/inner beats should still have an external physical cue.
+- Keep descriptions short and drawable.
+
+Return ONLY this JSON:
+{{ "panels": [ {{
+  "acting_intent": "what this panel's performance communicates",
+  "emotional_state": "specific line emotion, not generic mood",
+  "visible_action": "drawable body action in plain English",
+  "prop_interaction": "specific object interaction or empty string",
+  "comic_function": "setup | pressure | target_sentence | button | object_proof"
+}} ] }}"""
 
 
-# ── ③ Visual (SDXL) — Danbooru 태그 ──────────────────────────────
 def build_visual_prompt(
     situation,
     script_panels_json,
@@ -614,17 +671,24 @@ def build_visual_prompt(
     pose_menu="",
     char_demeanor="",
     planner_context="",
+    acting_context="",
 ) -> str:
     # expression/body_pose/gesture are menu-key selections. The renderer still
     # receives a legacy combined action string for compatibility.
     return f"""You are the VISUAL DIRECTOR for a webtoon, generating Danbooru tags for an anime
-image model (Illustrious / NoobAI / Pony). For each panel, output image tags only — NO dialogue.
+image model (Illustrious / NoobAI / Pony). For each panel, output image tags only - NO dialogue.
 
 Scene situation: {situation}
 
 === PLANNER VISUAL CONTEXT ===
 Use this as the source of truth for set, room, visible learning moment, character conflict, and beats:
 {planner_context or "(none)"}
+
+=== SCRIPT PERFORMANCE DIRECTIONS ===
+Each script panel may include a performance object. Treat it as the source of truth
+for expression, body_pose, gesture, gaze, and prop_use. Do not add prop handling
+unless performance.prop_use asks for it.
+{acting_context or "(none)"}
 
 Danbooru tag rules (apply to action / expression / face_state / background):
 - Real Danbooru tags, lowercase, words separated by SPACES (e.g. "crossed arms", NOT "crossed_arms").
@@ -634,6 +698,9 @@ Danbooru tag rules (apply to action / expression / face_state / background):
   BAD: "incoming email response", "important issue", "confusion", "project delay"
   GOOD: "computer screen, email notification", "highlighted report", "map, red circle",
   "calendar deadline"
+- First translate the script performance into tags. The action should explain the
+  spoken line through posture, gesture, and gaze. A prop is optional; if
+  performance.prop_use is "none", keep prop_interaction empty.
 
 Per field:
 - For character panels, choose motion by menu keys first:
@@ -645,22 +712,26 @@ Per field:
   panels usually need one concrete gesture unless it would conflict with the body pose.
 - action: the character's BODY POSE / gesture as Danbooru tags ONLY (e.g. "crossed arms",
   "leaning forward, hands on table", "pointing", "head scratch", "hand on hip", "arm support").
-  Body/hands only — NO facial/emotional tags here. NO subject count (1girl), hair, eyes,
+  Body/hands only - NO facial/emotional tags here. NO subject count (1girl), hair, eyes,
   clothing. 1-3 tags. Character panel action must NEVER be "none".
   Do NOT put "smiling", "happy", "sad", "angry", "worried", "exaggerated expression",
   "confused", or any emotion/face word in action; those belong in expression.
   NEVER put breathing/air tags in action ("taking a deep breath", "breathing", "sigh",
-  "exhale", "steam", "fog", "puff") — they render as visible breath clouds. Use a plain body
+  "exhale", "steam", "fog", "puff") - they render as visible breath clouds. Use a plain body
   pose instead (e.g. "hand on chest", "shoulders relaxed").
 - expression: pick EXACTLY ONE key from the EXPRESSION MENU below. Output ONLY the key (e.g. "frown").
-  ⭐ HARD RULE: the value MUST be one of the menu keys verbatim. Do NOT invent keys
+  HARD RULE: the value MUST be one of the menu keys verbatim. Do NOT invent keys
   ("determined", "worried", "thoughtful", "shocked" are NOT valid). If the exact mood is not in
-  the menu, pick the CLOSEST existing key (e.g. resolve→serious, worried→frown or furrowed_brow,
-  determined→serious, shocked→fear_kubrick).
-  ⭐ It is DRIVEN BY THIS LINE'S EMOTION — read the panel's dialogue and choose the menu key that
+  the menu, pick the CLOSEST existing key (e.g. resolve -> serious, worried -> frown or furrowed_brow,
+  determined -> serious, shocked -> fear_kubrick).
+  It is DRIVEN BY THIS LINE'S EMOTION - read the panel's dialogue and choose the menu key that
   matches THAT moment. It should CHANGE from panel to panel as the mood shifts; do NOT repeat the
   same expression every panel, and do NOT default to the character's resting face.
-  The baseline demeanor below is only a CEILING (stay in character — don't give a shy person
+  If script performance.expression_intent is present, map it actively:
+  deadpan/resigned -> sigh; skeptical/confused -> furrowed_brow; annoyed -> annoyed;
+  awkward/hopeful -> awkward_smile; playful/carefree/amiable -> light_smile or happy;
+  calmly absurd/confident -> composed_smile. Do NOT default to serious unless the line is truly firm.
+  The baseline demeanor below is only a CEILING (stay in character - don't give a shy person
   "naughty"/"seductive_smile"); it is NOT the default. The line's emotion comes first.
 - face_state: gaze direction only (e.g. "looking at viewer", "looking away", "looking down", "looking up", "looking to the side"). Use a real Danbooru gaze tag.
 - background: use Planner "set" + "room" as the source of truth.
@@ -675,12 +746,20 @@ Per field:
 - visible_learning_moment must be visually encoded in the relevant panel's subject or action.
   If it involves a screen, report, map, receipt, box, notification, highlighted item, or
   before/after state, name that drawable object/state in subject or action.
+- prop_interaction: output short object/action tags only when script performance.prop_use
+  asks for a visible prop (e.g. "phone on table", "pointing at receipt").
+  If prop_use is "none", this MUST be empty.
 - If Planner gives visible_proof_panel, that exact panel MUST encode visible_learning_moment
   in subject and/or action as a concrete drawable object/state. It must not be a character panel.
-- Do NOT add camera-angle / framing tags anywhere (no "from above", "from below", "dutch angle",
-  "close-up", "wide shot") — framing is fixed to eye-level elsewhere.
+- framing: choose ONE simple composition key from this menu:
+  full_body | waist_shot | upper_body | close_up | object_close_up
+  Keep the camera angle eye-level. Do not use from above, from below, dutch angle,
+  dramatic lens, or wide shot. This is only for webtoon panel cropping:
+  use full_body for establishing/physical action, waist_shot or upper_body for normal
+  dialogue, close_up for a reaction or target-sentence beat, and object_close_up for
+  object panels.
 
-=== CHARACTER BASELINE (a CEILING for in-character range — NOT the default expression; the line's emotion drives each panel) ===
+=== CHARACTER BASELINE (a CEILING for in-character range - NOT the default expression; the line's emotion drives each panel) ===
 {char_demeanor or "(none)"}
 
 === EXPRESSION MENU (choose the "expression" value from these keys ONLY) ===
@@ -693,6 +772,12 @@ For object/caption panels (char is empty):
 - Do NOT invent a person. No character, no face, no body, no clothing.
 - Use "subject" to name the visible object/state/action clearly (e.g. "stack of receipts",
   "empty milk carton", "phone screen with unread message", "labeled boxes").
+- Add simple color anchors for the main object and the surface when helpful:
+  "black smartphone, white table", "white menu card, brown table",
+  "red folder, white desk". Use color to clarify the object, not to decorate
+  the whole scene.
+- For phone beats, prefer "black smartphone" or "black cellphone" over plain
+  "phone"; add "incoming call screen" when the phone is ringing.
 - action should describe object placement or state, not a body pose. It must be non-empty.
   NEVER use human-body verbs on an object panel ("nodding", "writing notes", "gesturing",
   "pointing", "leaning", "holding"); there is no person here. Use object-state words only
@@ -712,61 +797,63 @@ Before returning, self-check:
   drawable subject/action object state?
 - Are all action tags drawable body/object-state tags?
 - Are face/emotion tags only in expression, not action?
+- Is framing one of the allowed keys and useful for this panel's storytelling beat?
+- Does action + prop_interaction visibly explain why this exact line is said?
 
 Return ONLY this JSON (SAME number and order as the panels above).
 "subject" = object/state for object panels, empty for character panels.
 "body_pose" = ONE key from BODY_POSES for character panels, "none" for object panels.
 "gesture" = ONE key from GESTURES for character panels, "none" for object panels.
 "action" = Danbooru pose tags for character panels OR object-state tags for object panels.
+"prop_interaction" = concrete object/action tags from the ACTING PLAN, or empty string.
 "expression" = ONE key from the EXPRESSION MENU for character panels, "none" for object panels.
+"acting_intent" = copy the acting plan's intent in short plain English.
+"framing" = ONE key: full_body | waist_shot | upper_body | close_up | object_close_up.
 face_state/background = Danbooru tags:
-{{ "panels": [ {{"subject": "", "body_pose": "body_pose_key_or_none", "gesture": "gesture_key_or_none", "action": "pose or object-state tags", "expression": "menu_key_or_none", "face_state": "gaze tag or none", "background": "scene tags"}} ] }}"""
+{{ "panels": [ {{"subject": "", "body_pose": "body_pose_key_or_none", "gesture": "gesture_key_or_none", "action": "pose or object-state tags", "prop_interaction": "object interaction tags or empty", "expression": "menu_key_or_none", "face_state": "gaze tag or none", "acting_intent": "short intent", "framing": "upper_body", "background": "scene tags"}} ] }}"""
 
 
-# ── ④ Review Card (SDXL) — 표현별 단일 인출 단서 카드 ──────────────
+# Review Card (SDXL) - single retrieval cue image
 def build_review_card_prompt(
     word_block,
     collocation,
     expression_menu="",
     char_demeanor="",
 ) -> str:
-    """복습 카드 전용 비주얼 프롬프트.
+    """Build a visual prompt for a single review-card memory cue.
 
-    만화 패널을 재사용하지 않고, sentence unit의 말하기 상황을 보고 단일 인출 단서(키워드법) 이미지를
-    새로 설계한다. mode 를 GPT 가 고른다:
-      · "character" → 주인공 한요일(hanyoil) 혼자, 포즈·표정·소품으로 뉘앙스 표현.
-      · "object"    → 사람 없이 그 표현을 가장 잘 떠올리게 하는 사물/장면 1컷 (heavy traffic →
-                      꽉 막힌 도로 등). 사람이 흉내내기 어려운 장면·사물성 표현일 때.
-    둘 다 흰 배경. 만화 장면과의 연관 불필요.
+    This is not a comic panel. The model chooses either a character cue
+    using Han Yoil, or an object-only cue when an object/scene is more
+    memorable than a person acting the sentence out.
     """
     return f"""You are the VISUAL DIRECTOR designing a single REVIEW-CARD image for an
 ENGLISH-LEARNING webtoon. This card is a MEMORY RETRIEVAL CUE (keyword method) for ONE English
-sentence — a learner glances at it later and the speaking moment comes back. Output
-Danbooru tags only — NO dialogue, NO text in the image.
+sentence - a learner glances at it later and the speaking moment comes back. Output
+Danbooru tags only - NO dialogue, NO text in the image.
 
-⭐ THIS CARD IS NOT A COMIC PANEL. Do NOT reconstruct any scene. Design ONE fresh, iconic image,
+IMPORTANT: THIS CARD IS NOT A COMIC PANEL. Do NOT reconstruct any scene. Design ONE fresh, iconic image,
 from scratch, whose whole job is to evoke the target sentence's speaking situation as vividly as possible.
-The background is fixed to plain white elsewhere — do NOT output any background.
+The background is fixed to plain white elsewhere - do NOT output any background.
 
 {word_block}
 Target sentence: "{collocation}"
 
-⭐ FIRST, CHOOSE THE MODE that makes the STRONGEST retrieval cue for THIS expression:
+IMPORTANT: FIRST, CHOOSE THE MODE that makes the STRONGEST retrieval cue for THIS expression:
 - "character": the protagonist Han Yoil (tag: hanyoil), alone, performs the speaking situation with her body
   pose / face / an optional prop. Use this when the expression is something a PERSON does or
-  FEELS — an action, reaction, decision, or interpersonal moment (express gratitude, take up a
+  FEELS - an action, reaction, decision, or interpersonal moment (express gratitude, take up a
   challenge, weigh the pros and cons, express concern).
-- "object": NO person at all — a single iconic OBJECT or SCENE that IS the expression. Use this
+- "object": NO person at all - a single iconic OBJECT or SCENE that IS the expression. Use this
   when the concept is a thing/situation a person cannot embody by miming, and a learner would
-  recognize it faster from the scene itself (heavy traffic → a jam of cars bumper to bumper;
-  an empty wallet; a stack of overdue bills). Don't force Han Yoil to gesture at it — just show it.
+  recognize it faster from the scene itself (heavy traffic - a jam of cars bumper to bumper;
+  an empty wallet; a stack of overdue bills). Don't force Han Yoil to gesture at it - just show it.
 Pick whichever a learner would decode fastest. When in doubt for a body gesture or feeling, use
 character. When the expression is an abstract business/process idea (provide evidence, meet
 requirements, pave the way, make arrangements, foster innovation), prefer object or a very simple
 symbolic prop cue instead of a vague pose.
 
 Danbooru tag rules (lowercase, words separated by SPACES, comma-separate tags within a field;
-convert abstract ideas into concrete drawable objects — BAD: "rejection", "deadline";
+convert abstract ideas into concrete drawable objects - BAD: "rejection", "deadline";
 GOOD: "raised hand, paper", "calendar, red circle"):
 
 If mode = "character":
@@ -774,10 +861,10 @@ If mode = "character":
   "pushing away, both hands", "covering ears", "reaching out", "holding phone"). Body/hands only.
   NO facial/emotion words (those go in expression). NO subject count (1girl), hair, eyes,
   clothing, background. 1-3 tags, never "none". NEVER use breathing/air tags
-  ("sigh", "breath", "steam", "puff") — they render as visible clouds.
+  ("sigh", "breath", "steam", "puff") - they render as visible clouds.
 - expression: pick EXACTLY ONE key from the EXPRESSION MENU below, matching the speaking moment. Output
   ONLY the menu key verbatim. If the exact mood is absent, pick the CLOSEST key
-  (worried→frown or furrowed_brow, determined→serious, shocked→fear_kubrick).
+  (worried -> frown or furrowed_brow, determined -> serious, shocked -> fear_kubrick).
 - face_state: gaze direction only ("looking at viewer", "looking away", "looking down",
   "looking up", "looking to the side").
 - props: 0-1 drawable object that anchors the speaking moment (held/near her), comma-separated, or "".
@@ -787,7 +874,7 @@ If mode = "character":
   Avoid text-generating props: NO certificate, document, contract, report, form, resume, sign,
   label, poster, chart with labels, receipt, screen with text, book cover with text.
 - subject: leave "".
-- Stay in her character range (see baseline below) — don't make her act out of type.
+- Stay in her character range (see baseline below) - don't make her act out of type.
 
 If mode = "object":
 - subject: the iconic object/scene that IS the cue, as concrete drawable Danbooru tags
@@ -802,7 +889,7 @@ If mode = "object":
 
 Do NOT add camera-angle / framing tags (no "from above", "close-up", "wide shot").
 
-=== HAN YOIL BASELINE (character mode only — a CEILING for in-character range, not the default) ===
+=== HAN YOIL BASELINE (character mode only - a CEILING for in-character range, not the default) ===
 {char_demeanor or "(none)"}
 
 === EXPRESSION MENU (character mode: choose the "expression" value from these keys ONLY) ===

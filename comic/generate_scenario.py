@@ -44,7 +44,10 @@ if __package__:
     from .scenario_prompts import (
         CATEGORY_DEFAULT_SETTING,
         build_arc_prompt,
+        build_acting_prompt,
         build_planner_prompt,
+        build_free_planner_prompt,
+        build_planner_word_block,
         build_review_card_prompt,
         build_script_prompt,
         build_visual_prompt,
@@ -73,7 +76,10 @@ else:
     from notion_speaking.comic.scenario_prompts import (
         CATEGORY_DEFAULT_SETTING,
         build_arc_prompt,
+        build_acting_prompt,
         build_planner_prompt,
+        build_free_planner_prompt,
+        build_planner_word_block,
         build_review_card_prompt,
         build_script_prompt,
         build_visual_prompt,
@@ -202,6 +208,12 @@ VISUAL_CHECK_RETRIES = int(os.getenv("VISUAL_CHECK_RETRIES", "1"))
 # 기본 OFF — 자주 헛다리 잡고 비싼 재생성을 유발해서, 품질은 프롬프트 강화 + 결정적
 # sanitizer 로 앞단에서 보장한다. 되살리려면 VERIFY_ENABLED=1.
 VERIFY_ENABLED = os.getenv("VERIFY_ENABLED", "0") == "1"
+
+# 메타데이터 하드락(역할/관계/사전선택 페어 강제 매칭). 기본 OFF — facet 코미디를 평평하게
+# 만들고 같은 speech_act → 같은 장면으로 수렴시키는 주범이라 '힌트'로 강등한다.
+# 구조 검증(6비트/콜로케이션/도메인/장소/캐스트/타깃화자 등장)은 항상 유지된다.
+# 옛 강제 매칭으로 되돌리려면 STRICT_METADATA_LOCK=1.
+STRICT_METADATA_LOCK = os.getenv("STRICT_METADATA_LOCK", "0") == "1"
 
 _PHASE_LABEL = {1: "현상유지", 2: "균열/긴장", 3: "전환", 4: "가까워짐"}
 
@@ -627,22 +639,21 @@ def _plan_validation_issues(plan: dict, word: dict | None, selected_pair: str = 
     if primary and plan_domain != primary:
         issues.append(f"plan.domain={plan_domain or 'empty'} must equal primary_used_in={primary}")
 
-    expected = {
-        "target_sentence": (word or {}).get("collocation unit") or (word or {}).get("sentence_unit") or "",
-        "primary_used_in": primary,
-        "speaker_role": _metadata_value(word, "speaker_role", "speaker role"),
-        "listener_role": _metadata_value(word, "listener_role", "listener role"),
-        "relationship": _metadata_value(word, "relationship", "relationship context"),
-        "power_dynamic": _metadata_value(word, "power_dynamic", "power dynamic"),
-        "speech_act": _metadata_value(word, "speech_act", "speech act"),
-        "politeness": _metadata_value(word, "politeness"),
-        "story_function": _metadata_value(word, "story_function", "story function"),
-    }
-    for key, want in expected.items():
-        got = str(plan.get(key) or "").strip()
-        want = str(want or "").strip()
-        if want and got != want and not correction:
-            issues.append(f"plan.{key}='{got or 'empty'}' must match word metadata '{want}' or explain metadata_correction")
+    if STRICT_METADATA_LOCK:
+        expected = {
+            "speaker_role": _metadata_value(word, "speaker_role", "speaker role"),
+            "listener_role": _metadata_value(word, "listener_role", "listener role"),
+            "relationship": _metadata_value(word, "relationship", "relationship context"),
+            "power_dynamic": _metadata_value(word, "power_dynamic", "power dynamic"),
+            "speech_act": _metadata_value(word, "speech_act", "speech act"),
+            "politeness": _metadata_value(word, "politeness"),
+            "story_function": _metadata_value(word, "story_function", "story function"),
+        }
+        for key, want in expected.items():
+            got = str(plan.get(key) or "").strip()
+            want = str(want or "").strip()
+            if want and got != want and not correction:
+                issues.append(f"plan.{key}='{got or 'empty'}' must match word metadata '{want}' or explain metadata_correction")
 
     loc = str(plan.get("location") or "").strip()
     allowed_locations = set(load_location_domains().get(primary, []) or [])
@@ -655,41 +666,45 @@ def _plan_validation_issues(plan: dict, word: dict | None, selected_pair: str = 
     if bad_chars:
         issues.append(f"characters outside domain cast for {primary}: {', '.join(bad_chars)}")
 
-    pair = selected_pair or plan.get("selected_pair") or ""
-    if selected_pair and str(plan.get("selected_pair") or "").strip() != selected_pair:
-        issues.append(f"plan.selected_pair must match preselected pair '{selected_pair}'")
-    pair_names = _pair_names(pair)
-    if pair_names and not pair_names <= chars:
-        issues.append(f"selected_pair characters {sorted(pair_names)} not included in plan.characters {sorted(chars)}")
-
+    # 닻 페어/역할은 이제 '힌트'다 — 강제 매칭은 STRICT_METADATA_LOCK 일 때만.
+    # 구조적으로 필요한 것만 항상 검증: 타깃 화자가 실제 등장 인물이어야 한다.
     target_speaker = _canonical_known_char(plan.get("target_speaker"))
-    target_listener = _canonical_known_char(plan.get("target_listener"))
-    delivery_mode = str(plan.get("delivery_mode") or "").strip().lower()
-    if pair_names:
-        if target_speaker not in pair_names:
-            issues.append(f"target_speaker='{target_speaker or 'empty'}' must be one of selected_pair characters {sorted(pair_names)}")
-        if target_listener:
-            if target_listener not in pair_names:
-                issues.append(f"target_listener='{target_listener}' must be one of selected_pair characters {sorted(pair_names)}")
-            elif target_speaker and target_listener == target_speaker and delivery_mode not in {"action-led", "mixed"}:
-                issues.append("target_listener should be the other selected_pair character unless monologue/action-led")
+    if target_speaker and chars and target_speaker not in chars:
+        issues.append(f"target_speaker='{target_speaker}' must be one of plan.characters {sorted(chars)}")
 
-    relationship = _metadata_value(word, "relationship", "relationship context")
-    speaker_role = _metadata_value(word, "speaker_role", "speaker role")
-    listener_role = _metadata_value(word, "listener_role", "listener role")
-    if relationship == "staff_to_customer" and (speaker_role != "staff" or listener_role != "customer"):
-        issues.append("relationship=staff_to_customer requires speaker_role=staff and listener_role=customer")
-    if relationship == "customer_to_staff" and (speaker_role != "customer" or listener_role != "staff"):
-        issues.append("relationship=customer_to_staff requires speaker_role=customer and listener_role=staff")
-    if primary == "customer/service":
-        service_roles = resolve_service_roles(word, pair)
-        staff_char = service_roles.get("staff", "")
-        if relationship in {"staff_to_customer", "customer_to_staff"} and staff_char != "hyo-jeong":
-            issues.append("customer/service staff relationship must map hyo-jeong to the staff side")
-        if service_roles.get("target_speaker") and target_speaker != service_roles["target_speaker"]:
-            issues.append(f"target_speaker must be service {relationship} speaker '{service_roles['target_speaker']}'")
-        if service_roles.get("target_listener") and target_listener != service_roles["target_listener"]:
-            issues.append(f"target_listener must be service {relationship} listener '{service_roles['target_listener']}'")
+    if STRICT_METADATA_LOCK:
+        pair = selected_pair or plan.get("selected_pair") or ""
+        if selected_pair and str(plan.get("selected_pair") or "").strip() != selected_pair:
+            issues.append(f"plan.selected_pair must match preselected pair '{selected_pair}'")
+        pair_names = _pair_names(pair)
+        if pair_names and not pair_names <= chars:
+            issues.append(f"selected_pair characters {sorted(pair_names)} not included in plan.characters {sorted(chars)}")
+        target_listener = _canonical_known_char(plan.get("target_listener"))
+        delivery_mode = str(plan.get("delivery_mode") or "").strip().lower()
+        if pair_names:
+            if target_speaker not in pair_names:
+                issues.append(f"target_speaker='{target_speaker or 'empty'}' must be one of selected_pair characters {sorted(pair_names)}")
+            if target_listener:
+                if target_listener not in pair_names:
+                    issues.append(f"target_listener='{target_listener}' must be one of selected_pair characters {sorted(pair_names)}")
+                elif target_speaker and target_listener == target_speaker and delivery_mode not in {"action-led", "mixed"}:
+                    issues.append("target_listener should be the other selected_pair character unless monologue/action-led")
+        relationship = _metadata_value(word, "relationship", "relationship context")
+        speaker_role = _metadata_value(word, "speaker_role", "speaker role")
+        listener_role = _metadata_value(word, "listener_role", "listener role")
+        if relationship == "staff_to_customer" and (speaker_role != "staff" or listener_role != "customer"):
+            issues.append("relationship=staff_to_customer requires speaker_role=staff and listener_role=customer")
+        if relationship == "customer_to_staff" and (speaker_role != "customer" or listener_role != "staff"):
+            issues.append("relationship=customer_to_staff requires speaker_role=customer and listener_role=staff")
+        if primary == "customer/service":
+            service_roles = resolve_service_roles(word, pair)
+            staff_char = service_roles.get("staff", "")
+            if relationship in {"staff_to_customer", "customer_to_staff"} and staff_char != "hyo-jeong":
+                issues.append("customer/service staff relationship must map hyo-jeong to the staff side")
+            if service_roles.get("target_speaker") and target_speaker != service_roles["target_speaker"]:
+                issues.append(f"target_speaker must be service {relationship} speaker '{service_roles['target_speaker']}'")
+            if service_roles.get("target_listener") and target_listener != service_roles["target_listener"]:
+                issues.append(f"target_listener must be service {relationship} listener '{service_roles['target_listener']}'")
 
     targets = _target_beats(plan)
     beat_count = len(plan.get("beats") or [])
@@ -1765,9 +1780,17 @@ def _build_cast_directive(anchor: dict | None) -> str:
     lead = anchor.get("lead", "")
     lines = []
     if pair:
-        lines.append(f"- This episode MUST be anchored by the pair: {pair}.")
-    if lead:
-        lines.append(f"- {lead} drives the scene and leads most panels.")
+        if STRICT_METADATA_LOCK:
+            lines.append(f"- This episode MUST be anchored by the pair: {pair}.")
+            if lead:
+                lines.append(f"- {lead} drives the scene and leads most panels.")
+        else:
+            # 닻 페어는 제안일 뿐 — 더 웃긴 facet 충돌이면 다른 캐스트로 자유롭게 바꿔도 된다.
+            lines.append(
+                f"- SUGGESTED pairing: {pair}. You MAY pick a DIFFERENT cast pairing from the domain "
+                f"if it makes a funnier facet collision. Do NOT default to the 'logical' "
+                f"explainer→confused-listener or teacher→student pairing just because of the sentence."
+            )
     if anchor.get("side_episode"):
         lines.append(
             "- This is a SIDE EPISODE: hanyoil appears in AT MOST 1 panel, or not at all. "
@@ -1850,16 +1873,49 @@ def _repair_visible_proof_panel(plan: dict) -> dict:
     return plan
 
 
+def _stamp_plan_sentence_metadata(plan: dict, word: dict | None) -> dict:
+    """Let the planner invent story, then restore CSV metadata for validators."""
+    if not isinstance(plan, dict) or not word:
+        return plan
+    plan["target_sentence"] = (
+        word.get("collocation unit")
+        or word.get("sentence_unit")
+        or word.get("sentence unit")
+        or plan.get("target_sentence", "")
+    )
+    plan["primary_used_in"] = get_primary_domain(word)
+    for out_key, meta_key in [
+        ("speaker_role", "speaker_role"),
+        ("listener_role", "listener_role"),
+        ("relationship", "relationship"),
+        ("power_dynamic", "power_dynamic"),
+        ("speech_act", "speech_act"),
+        ("politeness", "politeness"),
+        ("story_function", "story_function"),
+    ]:
+        value = _metadata_value(word, meta_key, meta_key.replace("_", " "))
+        if value:
+            plan[out_key] = value
+    plan.setdefault("metadata_correction", "")
+    return plan
+
+
 def plan_episode(word, anchor, lore, arc_prompt, showrunner_notes, feedback="", avoid_situations="", cast_note="") -> dict:
-    wb = build_word_block(word) if word else ""
+    wb = build_planner_word_block(word) if word else ""
     wr = build_word_rule(word["collocation unit"]) if word else "- Weave one natural English sentence into the conversation"
-    cast = _build_cast_directive(anchor)
     required_domain = get_primary_domain(word).strip().lower()
     location_menu = build_location_menu(required_domain)
-    prompt = build_planner_prompt(lore, wb, wr, cast, arc_prompt, showrunner_notes, feedback,
-                                  avoid_situations, cast_note, required_domain, location_menu)
+    if STRICT_METADATA_LOCK:
+        cast = _build_cast_directive(anchor)
+        prompt = build_planner_prompt(lore, wb, wr, cast, arc_prompt, showrunner_notes, feedback,
+                                      avoid_situations, cast_note, required_domain, location_menu)
+    else:
+        # 자유 작가(D식): 세계관+도메인+타깃문장만, 코미디 우선·페어 자유·문장 슬롯 강제 없음.
+        # 후반부(대사→액팅→비주얼→정규화)는 그대로라 표정 sanitizer 등을 그대로 상속한다.
+        prompt = build_free_planner_prompt(lore, wb, wr, arc_prompt, feedback,
+                                           avoid_situations, required_domain, location_menu)
     plan = _gpt_json(prompt, "Plan the episode now. Output the JSON plan only.", model=MODEL_PLAN)
-    return _repair_visible_proof_panel(plan)
+    return _repair_visible_proof_panel(_stamp_plan_sentence_metadata(plan, word))
 
 
 def render_scene_brief(plan: dict, word: dict | None) -> str:
@@ -1913,8 +1969,9 @@ def render_scene_brief(plan: dict, word: dict | None) -> str:
         L += ["", "WHO'S IN IT (each reacts differently — they must NOT sound interchangeable):"]
         for c in cfc:
             L.append(f"  - {c.get('character')}: {c.get('facet','')} -> {c.get('collision','')}")
-    L += ["", "BEAT-BY-BEAT — write exactly one bubble per CHARACTER beat; OBJECT beats are silent "
-          "cutaways (no bubble). Keep this speaker order and the marked exact target-sentence beat:"]
+    L += ["", "BEAT-BY-BEAT — write exactly one bubble per CHARACTER beat. OBJECT beats are cutaways: "
+          "usually no bubble, or one short '(narration)' card only when the object would read as a blank pause. "
+          "Keep this speaker order and the marked exact target-sentence beat:"]
     for b in plan.get("beats", []):
         n, role = b.get("panel"), b.get("nuance_role", "")
         if (b.get("panel_type") == "object") or not b.get("speaker"):
@@ -1922,16 +1979,47 @@ def render_scene_brief(plan: dict, word: dict | None) -> str:
         else:
             star = "   <<< the target sentence lands HERE, spoken verbatim by this character" if b.get("has_collocation") else ""
             L.append(f"  Panel {n} — {b.get('speaker')} ({role}): {b.get('intent','')}{star}")
+    payload_lines = []
+    for b in plan.get("beats", []):
+        payload = b.get("story_payload", "")
+        policy = b.get("visual_policy", "")
+        if payload or policy:
+            payload_lines.append(
+                f"  Panel {b.get('panel')}: payload={payload or '(none)'} | visual_policy={policy or '(none)'}"
+            )
+    if payload_lines:
+        L += [
+            "",
+            "LOCKED PANEL PAYLOADS (script must follow these concrete details; do not replace them):",
+            *payload_lines,
+        ]
     return "\n".join(L)
 
 
 # ── ② Script — 대사 ──
 def write_script(plan, word, lore, register, feedback="") -> list[dict]:
+    if not STRICT_METADATA_LOCK:
+        # 자유 작가(build_free_planner_prompt)가 beats 에 대사를 이미 썼다 — 2차 GPT 콜 없이 추출.
+        # 플래너→대사 핸드오프(희석)를 제거하고, 대사를 작가가 쓴 그대로 보존한다.
+        out: list[dict] = []
+        for b in plan.get("beats") or []:
+            spk = str(b.get("speaker") or "").strip()
+            is_obj = (str(b.get("panel_type") or "").strip().lower() == "object") or not spk
+            panel = {
+                "char": "" if is_obj else spk,
+                "bubble": str(b.get("bubble") or ""),
+                "bubble_kr": str(b.get("bubble_kr") or ""),
+                "performance": b.get("performance") or {},
+            }
+            if is_obj and str(b.get("subject") or "").strip():
+                panel["subject"] = str(b.get("subject")).strip()
+            out.append(panel)
+        return out
     wb = build_word_block(word) if word else ""
     tr = tone_rule_for(register)
     brief = render_scene_brief(plan, word)
     prompt = build_script_prompt(lore, wb, brief, tr, feedback, register)
-    return _panels_from(_gpt_json(prompt, "Write the dialogue now. Output the JSON only.", model=MODEL_SCRIPT))
+    return _panels_from(_gpt_json(prompt, "Write the panel script now. Output the JSON only.", model=MODEL_SCRIPT))
 
 
 # Visual GPT 가 메뉴에 없는 expression 을 창작할 때(determined/worried 등) 안전 폴백.
@@ -1953,6 +2041,41 @@ def _safe_expression_key(key: str | None) -> str:
     if norm in _EXPR_SYNONYM:
         return _EXPR_SYNONYM[norm]
     return "serious"
+
+
+_VALID_FRAMINGS = {"full_body", "waist_shot", "upper_body", "close_up", "object_close_up"}
+_FRAMING_ALIASES = {
+    "full body": "full_body",
+    "fullbody": "full_body",
+    "cowboy shot": "waist_shot",
+    "cowboy_shot": "waist_shot",
+    "medium shot": "waist_shot",
+    "medium_shot": "waist_shot",
+    "upper body": "upper_body",
+    "upperbody": "upper_body",
+    "bust shot": "upper_body",
+    "bust_shot": "upper_body",
+    "close-up": "close_up",
+    "close up": "close_up",
+    "closeup": "close_up",
+    "object close-up": "object_close_up",
+    "object close up": "object_close_up",
+    "object closeup": "object_close_up",
+    "object": "object_close_up",
+}
+_FRAMING_FALLBACKS = ("full_body", "upper_body", "waist_shot", "close_up", "upper_body", "waist_shot")
+
+
+def _safe_framing_key(key: str | None, is_object_panel: bool, idx: int) -> str:
+    """Normalize visual framing keys while keeping the model's composition choice."""
+    if is_object_panel:
+        return "object_close_up"
+    raw = str(key or "").strip().lower()
+    raw = _FRAMING_ALIASES.get(raw, raw)
+    raw = raw.replace("-", "_").replace(" ", "_")
+    if raw in _VALID_FRAMINGS and raw != "object_close_up":
+        return raw
+    return _FRAMING_FALLBACKS[idx % len(_FRAMING_FALLBACKS)]
 
 
 # ── ③ Visual (SDXL) — 그림 태그 ──
@@ -2044,6 +2167,184 @@ def _fallback_visual_action(panel: dict, is_object_panel: bool) -> str:
     return "standing"
 
 
+_ACTING_PRESETS: dict[str, dict[str, str]] = {
+    "awkward_request": {
+        "expression": "awkward_smile",
+        "body_pose": "leaning_forward",
+        "gesture": "hands_clasped",
+        "face_state": "looking at viewer",
+        "framing": "upper_body",
+    },
+    "quirky_confident": {
+        "expression": "composed_smile",
+        "body_pose": "standing",
+        "gesture": "hands_on_hips",
+        "face_state": "looking at viewer",
+        "framing": "waist_shot",
+    },
+    "skeptical_reaction": {
+        "expression": "furrowed_brow",
+        "body_pose": "standing",
+        "gesture": "arms_crossed",
+        "face_state": "looking at viewer",
+        "framing": "upper_body",
+    },
+    "deadpan_target": {
+        "expression": "sigh",
+        "body_pose": "standing",
+        "gesture": "arms_crossed",
+        "face_state": "looking to the side",
+        "framing": "upper_body",
+    },
+    "soft_target": {
+        "expression": "composed_smile",
+        "body_pose": "standing",
+        "gesture": "none",
+        "face_state": "looking at viewer",
+        "framing": "upper_body",
+    },
+    "confused_target": {
+        "expression": "furrowed_brow",
+        "body_pose": "standing",
+        "gesture": "hand_on_chin",
+        "face_state": "looking at viewer",
+        "framing": "upper_body",
+    },
+    "cheerful_button": {
+        "expression": "light_smile",
+        "body_pose": "standing",
+        "gesture": "none",
+        "face_state": "looking at viewer",
+        "framing": "upper_body",
+    },
+}
+
+
+def _acting_preset_for_panel(
+    panel: dict,
+    script_panel: dict,
+    beat: dict,
+    target_sentence: str,
+    index: int,
+) -> str:
+    """Choose a small visual acting preset after the story is already written."""
+    char = _canonical_known_char(script_panel.get("char") or panel.get("char") or "")
+    bubble = str(script_panel.get("bubble") or "").strip()
+    role = str(beat.get("nuance_role") or "").strip().lower()
+    comic_function = str(panel.get("comic_function") or panel.get("acting_intent") or "").lower()
+    line = bubble.lower()
+
+    if target_sentence and _contains_exact_sentence(bubble, target_sentence):
+        if re.search(r"\b(repeat|again|didn't get|did not get|catch that|explain)\b", line):
+            return "confused_target"
+        if re.search(r"\bready|hold on|moment|second|later|more time|start\b", line):
+            return "deadpan_target"
+        return "soft_target"
+    if role in {"expression", "target", "target_sentence"} or "target" in comic_function:
+        return "deadpan_target"
+    if role in {"confirmation", "aftermath", "button"} or "button" in comic_function:
+        return "cheerful_button"
+    if char == "hyo-jeong" and role in {"pressure", "escalation", "twist"}:
+        return "quirky_confident"
+    if role in {"pressure", "escalation", "reaction"}:
+        return "skeptical_reaction"
+    if index == 0 or role in {"situation", "setup", "request"}:
+        return "awkward_request"
+    return ""
+
+
+def _apply_acting_presets(
+    visual_panels: list[dict],
+    script_panels: list[dict],
+    beats: list[dict],
+    target_sentence: str,
+) -> list[dict]:
+    out: list[dict] = []
+    for i, panel in enumerate(visual_panels):
+        p = dict(panel)
+        script_panel = script_panels[i] if i < len(script_panels) else {}
+        is_object_panel = not str(script_panel.get("char") or "").strip()
+        if not is_object_panel:
+            preset_key = _acting_preset_for_panel(
+                p,
+                script_panel,
+                beats[i] if i < len(beats) else {},
+                target_sentence,
+                i,
+            )
+            preset = _ACTING_PRESETS.get(preset_key)
+            if preset:
+                p.update(preset)
+                p["acting_preset"] = preset_key
+        out.append(p)
+    return out
+
+
+_PERFORMANCE_EXPR_RULES: tuple[tuple[tuple[str, ...], str], ...] = (
+    (("deadpan", "resigned", "patient", "patience", "giving in"), "sigh"),
+    (("skeptical", "confused", "bemused", "curious"), "furrowed_brow"),
+    (("annoyed", "irritated"), "annoyed"),
+    (("awkward", "hopeful"), "awkward_smile"),
+    (("playful", "carefree", "amiable", "reassuring", "cheerful", "casual", "friendly", "sincere"), "light_smile"),
+    (("amused", "enthusiastic", "happy", "relieved", "laugh"), "happy"),
+    (("absurd", "confident", "calm"), "composed_smile"),
+)
+
+_PERFORMANCE_GESTURE_ALIASES = {
+    "hands_on_chin": "hand_on_chin",
+    "finger_pointing": "pointing",
+    "hands_open": "hand_raised",
+    "thumbs_up": "hand_raised",
+    "hand_outstretched": "hand_raised",
+    "hand_on_hip": "hands_on_hips",
+}
+
+_PERFORMANCE_GAZE_TAGS = {
+    "looking_at_viewer": "looking at viewer",
+    "looking_to_side": "looking to the side",
+    "looking_down": "looking down",
+    "looking_up": "looking up",
+    "looking_away": "looking away",
+}
+
+
+def _expression_from_performance(performance: dict) -> str:
+    text = str((performance or {}).get("expression_intent") or "").lower()
+    for keys, expr in _PERFORMANCE_EXPR_RULES:
+        if any(key in text for key in keys):
+            return expr
+    return ""
+
+
+def _apply_script_performance(visual_panels: list[dict], script_panels: list[dict]) -> list[dict]:
+    out: list[dict] = []
+    for i, panel in enumerate(visual_panels):
+        p = dict(panel)
+        perf = script_panels[i].get("performance") if i < len(script_panels) else None
+        if isinstance(perf, dict) and perf:
+            body_pose = str(perf.get("body_pose") or "").strip()
+            gesture = str(perf.get("gesture") or "").strip()
+            gesture = _PERFORMANCE_GESTURE_ALIASES.get(gesture, gesture)
+            gaze = str(perf.get("gaze") or "").strip()
+            expr = _expression_from_performance(perf)
+            prop_use = str(perf.get("prop_use") or "").strip()
+            if body_pose:
+                p["body_pose"] = body_pose
+            if gesture:
+                p["gesture"] = gesture
+            if gaze:
+                p["face_state"] = _PERFORMANCE_GAZE_TAGS.get(gaze, gaze.replace("_", " "))
+            if expr:
+                p["expression"] = expr
+            if prop_use.lower() in {"", "none", "no", "null", "attitude_only", "show_prop"}:
+                p["prop_interaction"] = ""
+            else:
+                p["prop_interaction"] = prop_use
+            p["performance_visual_read"] = str(perf.get("visual_read") or "").strip()
+        out.append(p)
+    return out
+
+
 def _sanitize_visual_actions(visual_panels: list[dict], script_panels: list[dict]) -> list[dict]:
     """Remove face/emotion/abstract phrases from Visual GPT action tags."""
     cleaned: list[dict] = []
@@ -2052,11 +2353,14 @@ def _sanitize_visual_actions(visual_panels: list[dict], script_panels: list[dict
         is_object_panel = not ((script_panels[i].get("char") if i < len(script_panels) else "") or "").strip()
         action = (p.get("action") or "").strip()
         subject = (p.get("subject") or "").strip()
+        prop_interaction = _dedupe_action_tags(str(p.get("prop_interaction") or "").strip())
         if not is_object_panel:
             body_pose = (p.get("body_pose") or "").strip()
             gesture = (p.get("gesture") or "").strip()
             if body_pose:
                 action = resolve_motion(body_pose, gesture)
+        elif prop_interaction and not subject:
+            p["subject"] = prop_interaction
         for bad, good in _ACTION_REWRITE_MAP:
             if is_object_panel and re.search(r"\b" + re.escape(bad) + r"\b", subject, flags=re.I):
                 action = good
@@ -2086,13 +2390,17 @@ def _sanitize_visual_actions(visual_panels: list[dict], script_panels: list[dict
                 is_object_panel,
             )
         p["action"] = action
+        p["prop_interaction"] = prop_interaction
+        p["acting_intent"] = str(p.get("acting_intent") or "").strip()
+        p["emotional_state"] = str(p.get("emotional_state") or "").strip()
+        p["framing"] = _safe_framing_key(p.get("framing"), is_object_panel, i)
         cleaned.append(p)
     return cleaned
 
 
-def write_visuals(plan, script_panels) -> list[dict]:
+def _visual_planner_context(plan) -> str:
     beats = plan.get("beats") or []
-    planner_context = json.dumps(
+    return json.dumps(
         {
             "location": plan.get("location"),
             "visible_learning_moment": plan.get("visible_learning_moment"),
@@ -2102,7 +2410,11 @@ def write_visuals(plan, script_panels) -> list[dict]:
         },
         ensure_ascii=False, indent=2,
     )
-    sp = json.dumps(
+
+
+def _script_visual_context(plan, script_panels) -> str:
+    beats = plan.get("beats") or []
+    return json.dumps(
         [
             {
                 "char": p.get("char"),
@@ -2110,11 +2422,38 @@ def write_visuals(plan, script_panels) -> list[dict]:
                 "panel_type": (beats[i].get("panel_type") if i < len(beats) else None),
                 "nuance_role": (beats[i].get("nuance_role") if i < len(beats) else None),
                 "visual_focus": (beats[i].get("visual_focus") if i < len(beats) else None),
+                "performance": p.get("performance") or {},
             }
             for i, p in enumerate(script_panels)
         ],
         ensure_ascii=False, indent=2,
     )
+
+
+def write_acting_plan(plan, script_panels) -> list[dict]:
+    prompt = build_acting_prompt(
+        plan.get("situation", ""),
+        _script_visual_context(plan, script_panels),
+        planner_context=_visual_planner_context(plan),
+    )
+    acting_panels = _panels_from(_gpt_json(prompt, "Write the acting plan now. Output the JSON only.", model=MODEL_VISUAL))
+    out: list[dict] = []
+    for i, panel in enumerate(script_panels):
+        src = acting_panels[i] if i < len(acting_panels) else {}
+        out.append({
+            "acting_intent": str(src.get("acting_intent") or "").strip(),
+            "emotional_state": str(src.get("emotional_state") or "").strip(),
+            "visible_action": str(src.get("visible_action") or "").strip(),
+            "prop_interaction": str(src.get("prop_interaction") or "").strip(),
+            "comic_function": str(src.get("comic_function") or "").strip(),
+        })
+    return out
+
+
+def write_visuals(plan, script_panels, acting_panels=None) -> list[dict]:
+    planner_context = _visual_planner_context(plan)
+    sp = _script_visual_context(plan, script_panels)
+    acting_context = json.dumps(acting_panels or [], ensure_ascii=False, indent=2)
     # expression 은 expressions.yaml 메뉴에서 선택, action 은 GPT 가 danbooru 태그로 직접 출력.
     prompt = build_visual_prompt(
         plan.get("situation", ""), sp,
@@ -2122,8 +2461,17 @@ def write_visuals(plan, script_panels) -> list[dict]:
         pose_menu=build_motion_menu(),
         char_demeanor=_char_demeanor(script_panels),
         planner_context=planner_context,
+        acting_context=acting_context,
     )
     visual_panels = _panels_from(_gpt_json(prompt, "Write the visual tags now. Output the JSON only.", model=MODEL_VISUAL))
+    visual_panels = _apply_script_performance(visual_panels, script_panels)
+    if not any(p.get("performance") for p in script_panels):
+        visual_panels = _apply_acting_presets(
+            visual_panels,
+            script_panels,
+            plan.get("beats") or [],
+            str(plan.get("target_sentence") or ""),
+        )
     return _sanitize_visual_actions(visual_panels, script_panels)
 
 
@@ -2187,21 +2535,35 @@ def _generate_core(
             "candidate_pairs": list((sel.get("candidates") or {}).keys()),
         }
     if sel.get("pair"):
-        print(f"  🔗 관계 선택: {sel['pair']} (lead={sel.get('lead') or '—'})")
-        anchor = {**(anchor or {}), "pair": sel["pair"], "lead": sel.get("lead", "")}
+        tag = "관계 선택" if STRICT_METADATA_LOCK else "관계 제안(자유모드)"
+        print(f"  🔗 {tag}: {sel['pair']} (lead={sel.get('lead') or '—'})")
+        # 자유모드(기본): 페어를 앵커로 박지 않는다 — 플래너가 전체 캐스트에서 더 웃긴 충돌을 고른다.
+        if STRICT_METADATA_LOCK:
+            anchor = {**(anchor or {}), "pair": sel["pair"], "lead": sel.get("lead", "")}
 
-    # 린 lore: 공용(톤·작법) + 해당 도메인 세계관 + 선택된 인물 bible 만 (전체 lore 주입 X)
-    bible_names = list(_pair_names(sel["pair"])) if sel.get("pair") else list(_DOMAIN_CAST.get(domain, _KNOWN_CHARS))
+    # 린 lore: 공용(톤·작법) + 해당 도메인 세계관 + 도메인 캐스트 전체 bible.
+    # 페어를 슬라이스하지 않는다 — 플래너가 전체 캐스트 facet 중 더 웃긴 충돌을 자유롭게 고르게.
+    bible_names = list(_DOMAIN_CAST.get(domain, _KNOWN_CHARS))
     planner_lore = "\n\n---\n\n".join(x for x in [
         _shared_lore(), load_domain_world(domain), load_character_bible(bible_names),
     ] if x)
     arc_prompt = build_arc_prompt(sel.get("candidates") or domain_pairs(domain))
-    sel_note = (
-        f"\nRELATIONSHIP (pre-selected for THIS expression — anchor the episode here):\n"
-        f"- pair: {sel['pair']}\n- {sel.get('lead') or 'either'} should drive/initiate the scene.\n"
-        f"- why this fits the sentence: {sel.get('why', '')}\n"
-        if sel.get("pair") else "")
-    omnibus_note = _omnibus_memory_block(sel.get("pair", ""), bible_names)
+    if STRICT_METADATA_LOCK and sel.get("pair"):
+        sel_note = (
+            f"\nRELATIONSHIP (pre-selected for THIS expression — anchor the episode here):\n"
+            f"- pair: {sel['pair']}\n- {sel.get('lead') or 'either'} should drive/initiate the scene.\n"
+            f"- why this fits the sentence: {sel.get('why', '')}\n"
+        )
+    else:
+        # 자유모드: 특정 페어 이름을 주지 않는다 — 전체 캐스트에서 가장 웃긴 facet 충돌을 직접 고르게.
+        sel_note = (
+            "\nRELATIONSHIP — YOU choose the cast pairing that makes the FUNNIEST facet collision "
+            "for this scene. Do NOT default to the explainer→confused-listener or teacher→student "
+            "pairing just because of the sentence type. Pick a surprising pairing whose facets "
+            "clash over a concrete behavior or object.\n"
+        )
+    omnibus_pair = sel.get("pair", "") if STRICT_METADATA_LOCK else ""
+    omnibus_note = _omnibus_memory_block(omnibus_pair, bible_names)
     facet_note = _facet_block(bible_names)
 
     if __package__:
@@ -2218,7 +2580,8 @@ def _generate_core(
         plan = plan_episode(word, anchor, planner_lore, arc_prompt, showrunner_notes, plan_feedback,
                             _avoid_block(used_situations),
                             sel_note + omnibus_note + facet_note + _cast_balance_block(used_chars))
-        if sel.get("pair"):
+        # 닻 페어는 제안일 뿐 — 플래너가 자기 페어를 골랐으면 존중, 비었을 때만 채운다.
+        if sel.get("pair") and not str(plan.get("selected_pair") or "").strip():
             plan["selected_pair"] = sel["pair"]
         plan_issues = _plan_validation_issues(plan, word, sel.get("pair", ""))
         if not plan_issues:
@@ -2232,7 +2595,7 @@ def _generate_core(
         plan_feedback = f"{feedback}\n\n{_deterministic_feedback('plan', plan_issues)}".strip()
     if plan_issues:
         print(f"  ⚠️ plan deterministic check still failing — best effort: {plan_issues}")
-    if sel.get("pair"):
+    if sel.get("pair") and not str(plan.get("selected_pair") or "").strip():
         plan["selected_pair"] = sel["pair"]
     # 배치 다양성: 이번에 고른 상황을 누적 목록에 기록(같은 list 객체를 배치가 공유)
     if used_situations is not None and plan.get("situation_id"):
@@ -2300,7 +2663,7 @@ def _generate_core(
     vis_panels: list[dict] = []
     visual_issues: list[str] = []
     for attempt in range(VISUAL_CHECK_RETRIES + 1):
-        vis_panels = write_visuals(plan, script_panels)
+        vis_panels = write_visuals(plan, script_panels, acting_panels=None)
         visual_issues = _visual_validation_issues(vis_panels, script_panels, plan)
         if not visual_issues:
             break
@@ -2349,17 +2712,23 @@ def _generate_core(
             "outfit":     outfit,
             # action 은 GPT 가 danbooru 태그 직접 출력 → 그대로. expression 은 메뉴 key → tags 변환.
             "action":     (vp.get("action") or "standing").strip(),
+            "prop_interaction": (vp.get("prop_interaction") or "").strip(),
+            "acting_intent": (vp.get("acting_intent") or "").strip(),
+            "acting_preset": (vp.get("acting_preset") or "").strip(),
+            "emotional_state": (vp.get("emotional_state") or "").strip(),
             "body_pose":  (vp.get("body_pose") or ("none" if is_object_panel else "standing")).strip(),
             "gesture":    (vp.get("gesture") or "none").strip(),
             "subject":    (vp.get("subject") or "").strip(),
             "expression": "" if is_object_panel else resolve_expression(_safe_expression_key(vp.get("expression", "serious"))),
             "face_state": "" if is_object_panel else vp.get("face_state", "looking at viewer"),
+            "framing":    _safe_framing_key(vp.get("framing"), is_object_panel, i),
             "background": fixed_background,
             "location": plan.get("location", ""),
             "used_in": get_primary_domain(word),
             "target_sentence": (word or {}).get("collocation unit", ""),
             "bubble":     raw_bubble if (not is_object_panel or keep_object_bubble) else "",
             "bubble_kr":  "" if keep_object_bubble else ("" if is_object_panel else raw_bubble_kr),
+            "performance": sp.get("performance") or {},
             "seed_offset": SEED_OFFSETS[i] if i < len(SEED_OFFSETS) else i * 7,
         }
         if hair_ov:
@@ -2734,7 +3103,8 @@ def _diagnose_panels(word: dict, plan: dict, panels: list[dict]) -> dict:
         bubble_kr = str(panel.get("bubble_kr") or "").strip()
         beat = beats[i] if i < len(beats) else {}
         is_object = str(panel.get("panel_type") or beat.get("panel_type") or "").strip().lower() == "object" or not char
-        if is_object and (char or bubble or bubble_kr):
+        object_has_allowed_narration = is_object and not char and _is_narration_bubble(bubble) and not bubble_kr
+        if is_object and (char or bubble or bubble_kr) and not object_has_allowed_narration:
             object_panel_bubble_violations += 1
         if char:
             canon = _canonical_known_char(char)

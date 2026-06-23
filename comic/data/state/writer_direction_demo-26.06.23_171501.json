@@ -1,0 +1,276 @@
+[
+  {
+    "sentence": "I'll get back to you on that.",
+    "domain": "workplace",
+    "script": {
+      "situation": "hanyoil and ru-ha try to name an office plant",
+      "characters": [
+        "hanyoil",
+        "ru-ha"
+      ],
+      "comedic_game": {
+        "driver": "ru-ha's deadpan humor",
+        "premise": "hanyoil wants to find the perfect name, and ru-ha is unhelpfully honest",
+        "escalation": "hanyoil suggests overcomplicated names; ru-ha deflects with sarcasm",
+        "button": "hanyoil avoids committing and leaves it unresolved"
+      },
+      "panels": [
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "We need a great name for our plant.",
+          "bubble_kr": "우리 식물에 멋진 이름이 필요해.",
+          "beat": "situation",
+          "is_target": false
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "How about 'Survival Challenge'?",
+          "bubble_kr": "'생존 도전' 어때?",
+          "beat": "pressure",
+          "is_target": false
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Very funny. Maybe 'Emerald Majesty'?",
+          "bubble_kr": "재밌는 농담이네. '에메랄드 왕위'는 어때?",
+          "beat": "pressure",
+          "is_target": false
+        },
+        {
+          "char": "ru-ha",
+          "panel_type": "character",
+          "bubble": "It’s a plant, not a queen.",
+          "bubble_kr": "왕이 아니라 식물이잖아.",
+          "beat": "escalation",
+          "is_target": false
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "Okay, what about 'Bob'?",
+          "bubble_kr": "그럼 '밥'은 어때?",
+          "beat": "escalation",
+          "is_target": false
+        },
+        {
+          "char": "hanyoil",
+          "panel_type": "character",
+          "bubble": "I'll get back to you on that.",
+          "bubble_kr": "그건 다시 알려줄게.",
+          "beat": "confirmation",
+          "is_target": true
+        }
+      ]
+    },
+    "direction": {
+      "panels": [
+        {
+          "expression": "light_smile",
+          "body_pose": "standing",
+          "gesture": "none",
+          "gaze": "looking_to_the_side",
+          "framing": "full_body",
+          "prop_interaction": "holding_plant",
+          "subject": "",
+          "background": "office, plants",
+          "visual_note": "hanyoil considering the plant, smiling slightly, introducing the need for a name."
+        },
+        {
+          "expression": "smug",
+          "body_pose": "sitting",
+          "gesture": "arms_crossed",
+          "gaze": "looking_at_viewer",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "office, desk",
+          "visual_note": "ru-ha with a smug look suggesting a playful yet cynical name."
+        },
+        {
+          "expression": "awkward_smile",
+          "body_pose": "standing",
+          "gesture": "none",
+          "gaze": "looking_down",
+          "framing": "full_body",
+          "prop_interaction": "holding_plant",
+          "subject": "",
+          "background": "office, plants",
+          "visual_note": "hanyoil reacts with slight awkwardness, offering a more majestic name."
+        },
+        {
+          "expression": "serious",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking_to_the_side",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "office, desk",
+          "visual_note": "ru-ha dismissive, pointing out the plant's lack of royalty."
+        },
+        {
+          "expression": "light_smile",
+          "body_pose": "standing",
+          "gesture": "none",
+          "gaze": "looking_at_viewer",
+          "framing": "full_body",
+          "prop_interaction": "holding_plant",
+          "subject": "",
+          "background": "office, plants",
+          "visual_note": "hanyoil offers a simple name with an amused expression."
+        },
+        {
+          "expression": "composed_smile",
+          "body_pose": "standing",
+          "gesture": "none",
+          "gaze": "looking_away",
+          "framing": "full_body",
+          "prop_interaction": "holding_plant",
+          "subject": "",
+          "background": "office, plants",
+          "visual_note": "hanyoil concludes the naming discussion, maintaining composure."
+        }
+      ]
+    }
+  },
+  {
+    "sentence": "Can you say that again?",
+    "domain": "academic",
+    "script": {
+      "situation": "hyo-jeong is trying to impress so-ae with a magic trick.",
+      "characters": [
+        "hyo-jeong",
+        "so-ae"
+      ],
+      "comedic_game": {
+        "driver": "hyo-jeong",
+        "premise": "hyo-jeong confidently performs a magic trick with playing cards.",
+        "escalation": "hyo-jeong messes up the trick, but claims it's advanced magic.",
+        "button": "so-ae is unimpressed, and asks for a simpler explanation."
+      },
+      "panels": [
+        {
+          "char": "hyo-jeong",
+          "panel_type": "character",
+          "bubble": "Want to see a magic trick?",
+          "bubble_kr": "마술 보여줄까?",
+          "beat": "situation",
+          "is_target": false
+        },
+        {
+          "char": "so-ae",
+          "panel_type": "character",
+          "bubble": "Sure! I love magic.",
+          "bubble_kr": "좋아! 마술 좋아해.",
+          "beat": "situation",
+          "is_target": false
+        },
+        {
+          "char": "hyo-jeong",
+          "panel_type": "character",
+          "bubble": "Okay, watch closely. The card will disappear!",
+          "bubble_kr": "잘 봐. 카드가 사라질 거야!",
+          "beat": "pressure",
+          "is_target": false
+        },
+        {
+          "char": "hyo-jeong",
+          "panel_type": "character",
+          "bubble": "Oops... wait. This is advanced magic!",
+          "bubble_kr": "어… 잠깐만. 이건 고급 마술이야!",
+          "beat": "pressure",
+          "is_target": false
+        },
+        {
+          "char": "so-ae",
+          "panel_type": "character",
+          "bubble": "Can you say that again?",
+          "bubble_kr": "다시 말해줄 수 있어?",
+          "beat": "expression",
+          "is_target": true
+        },
+        {
+          "char": "hyo-jeong",
+          "panel_type": "character",
+          "bubble": "Sure, but the next trick is advanced too!",
+          "bubble_kr": "물론, 그런데 다음 마술도 고급이야!",
+          "beat": "confirmation",
+          "is_target": false
+        }
+      ]
+    },
+    "direction": {
+      "panels": [
+        {
+          "expression": "naughty",
+          "body_pose": "standing",
+          "gesture": "none",
+          "gaze": "looking_at_viewer",
+          "framing": "waist_shot",
+          "prop_interaction": "holding_card",
+          "subject": "",
+          "background": "living_room",
+          "visual_note": "Hyo-jeong is excited, ready to impress with a trick."
+        },
+        {
+          "expression": "happy",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking_at_viewer",
+          "framing": "upper_body",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "living_room",
+          "visual_note": "So-ae is genuinely interested and excited about the magic trick."
+        },
+        {
+          "expression": "wink_grin",
+          "body_pose": "standing",
+          "gesture": "pointing",
+          "gaze": "looking_at_viewer",
+          "framing": "upper_body",
+          "prop_interaction": "holding_card",
+          "subject": "",
+          "background": "living_room",
+          "visual_note": "Hyo-jeong is playful, creating anticipation for the trick."
+        },
+        {
+          "expression": "awkward_smile",
+          "body_pose": "standing",
+          "gesture": "none",
+          "gaze": "looking_away",
+          "framing": "upper_body",
+          "prop_interaction": "holding_card",
+          "subject": "",
+          "background": "living_room",
+          "visual_note": "Hyo-jeong tries to play off the mistake, staying confident."
+        },
+        {
+          "expression": "light_smile",
+          "body_pose": "sitting",
+          "gesture": "none",
+          "gaze": "looking_to_the_side",
+          "framing": "upper_body",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "living_room",
+          "visual_note": "So-ae is amused, asking Hyo-jeong to repeat."
+        },
+        {
+          "expression": "composed_smile",
+          "body_pose": "standing",
+          "gesture": "hands_on_hips",
+          "gaze": "looking_at_viewer",
+          "framing": "waist_shot",
+          "prop_interaction": "",
+          "subject": "",
+          "background": "living_room",
+          "visual_note": "Hyo-jeong regains composure, ready to move onto the next trick."
+        }
+      ]
+    }
+  }
+]

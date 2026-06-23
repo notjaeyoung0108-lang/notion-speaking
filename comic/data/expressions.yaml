@@ -31,6 +31,18 @@ expressions:
     tags: light smile face
     use_when: faint, subtle smile — barely there
 
+  blush:
+    tags: blush, light smile face
+    use_when: embarrassed, sheepish, caught off guard, trying to recover warmly
+
+  awkward_smile:
+    tags: blush, light smile face
+    use_when: awkward but friendly recovery, apologizing lightly, trying to move on without making it a joke
+
+  composed_smile:
+    tags: light smile face
+    use_when: regaining composure, politely resetting the conversation, calm recovery after a small mistake
+
   kind_smile:
     tags: kind smile face
     use_when: warm, caring, reassuring smile
@@ -46,10 +58,6 @@ expressions:
   happy:
     tags: happy face
     use_when: clearly happy, cheerful, upbeat
-
-  happy_tears:
-    tags: happy tears face
-    use_when: crying from joy or relief, deeply moved
 
   seductive_smile:
     tags: seductive smile face
